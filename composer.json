@@ -23,10 +23,9 @@
     },
     "autoload": {
 		"classmap": [
-			"src/Stevebauman/Location/filters.php"
     	],
         "psr-0": {
-            "Stevebauman\\Location": "src/"
+            "Stevebauman\\Location": ["src/", "filters.php"]
         }
     },
     "minimum-stability": "dev"
