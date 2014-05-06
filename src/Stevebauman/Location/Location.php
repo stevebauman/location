@@ -35,6 +35,30 @@ class Location {
 		$this->base_url = URL::to('/');
 	}
 	
+	
+	/**
+	 * Magic method for calling location attributes such as Location::get_country_code();
+	 *
+	 * @return NULL
+	 */
+	public function __call($method, $arguments){
+		$attributes = explode('_', $method);
+		if(in_array('get', $attributes)){
+			$field = '';
+			
+			foreach($attributes as $attribute){
+				if($attribute != 'get'){
+					if($attribute === end($attributes)){
+						$field .= $attribute;
+					} else{
+						$field .= $attribute.'_';
+					}
+				}
+			}
+			return $this->get($field);
+		}
+	}
+	
 	/**
 	 * Sets location array to driver's location response
 	 *
@@ -54,15 +78,26 @@ class Location {
 	/**
 	 * Returns location array
 	 *
-	 * @return array()
+	 * @return mixed (array() or string())
 	 */
-	public function get(){
-		return $this->location;
+	public function get($field = NULL){
+		if($field){
+			if(array_key_exists($field, $this->location)){
+				return $this->location[$field];
+			}
+		} else{
+			return $this->location;
+		}
 	}
 	
 	
-	public function getLocationCode(){
-		return strtolower($this->location['country_code']);
+	public function getCountryCode(){
+		if(array_key_exists('country_code', $this->location)){
+			
+			return strtolower($this->location['country_code']);
+		} else{
+			return false;
+		}
 	}
 	
 	/**

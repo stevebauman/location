@@ -289,12 +289,5 @@ return array(
 	'localhost_testing' => true,
 	// IP to check for localhost testing *default is Google Host*
 	'localhost_testing_ip' =>	'66.102.0.0',
-	
-	
-	/**
-		Default IP Address to Check
-	**/
-	'default_ip' => '127.0.0.1',
-	
-	
+
 );
