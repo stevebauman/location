@@ -25,11 +25,16 @@ class Location {
 	private $countries = array();
 	private $allowed_countries = array();
 	
+	private $allowed_attributes = array(
+		'get', 'prefix'
+	);
+	
 	private $base_url;
 	
 	public function __construct(Repository $config){
 		$this->config = $config;
 		$this->countries = $this->config->get('location::country_codes');
+		$this->allowed_countries = $this->config->get('location::allowed_countries');
 		$this->driver = $this->root_namespace.$this->driver_namespace.$this->config->get('location::selected_driver');
 		$this->setLocation();
 		$this->base_url = URL::to('/');
@@ -42,12 +47,11 @@ class Location {
 	 * @return NULL
 	 */
 	public function __call($method, $arguments){
-		$attributes = explode('_', $method);
-		if(in_array('get', $attributes)){
+		$attributes = explode('_', strtolower($method));
+		if(in_array($attributes[0], $this->allowed_attributes)){
 			$field = '';
-			
 			foreach($attributes as $attribute){
-				if($attribute != 'get'){
+				if(!in_array($attribute, $this->allowed_attributes)){
 					if($attribute === end($attributes)){
 						$field .= $attribute;
 					} else{
@@ -55,7 +59,7 @@ class Location {
 					}
 				}
 			}
-			return $this->get($field);
+			return call_user_func('self::'.$attributes[0], $field);
 		}
 	}
 	
@@ -66,40 +70,53 @@ class Location {
 	 */
 	private function setLocation(){
 		$driver = new $this->driver;
+		
 		$driver->set($this->getClientIP());
 		$driver_fields = $this->config->get('location::drivers.'.$this->config->get('location::selected_driver').'.fields');
-		$location = $driver->get();
+		$driver_location = $driver->get();
 		
 		foreach($driver_fields as $field=>$value){
-			$this->location[$field] = $location[$value];
+			$this->location[$field] = $driver_location[$value];
 		}
+		Session::put('location', $this->location);
 	}
 	
+	
 	/**
-	 * Returns location array
+	 * Returns location array or location attribute such as 'country_code', 'country_name'
 	 *
 	 * @return mixed (array() or string())
 	 */
 	public function get($field = NULL){
-		if($field){
-			if(array_key_exists($field, $this->location)){
-				return $this->location[$field];
+		if($this->location){
+			if($field){
+				if(array_key_exists($field, $this->location)){
+					return $this->location[$field];
+				}
+			} else{
+				return $this->location;
 			}
-		} else{
-			return $this->location;
-		}
-	}
-	
-	
-	public function getCountryCode(){
-		if(array_key_exists('country_code', $this->location)){
-			
-			return strtolower($this->location['country_code']);
 		} else{
 			return false;
 		}
 	}
 	
+	/**
+	 * Returns location field meant for a route such as:
+	 *
+	 * 'country_code' as 'US', would return 'us', or 'countr_name' as 'United States', would return 'united-states'
+	 *
+	 * @return mixed (array() or string())
+	 */
+	public function prefix($field = NULL){
+		if($field){
+			if(array_key_exists($field, $this->location)){
+				return strtolower(str_replace(' ', '-', $this->location[$field]));
+			}
+		} else{
+			return false;
+		}
+	}
 	/**
 	 * Get the client IP address.
 	 *

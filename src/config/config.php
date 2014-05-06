@@ -249,7 +249,7 @@ return array(
 		'ZW' => 'Zimbabwe',
 		),
 		
-	'allowed_country_codes' => array(
+	'allowed_countries' => array(
 		'CA',
 		'US'
 	),
