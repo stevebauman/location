@@ -25,7 +25,7 @@
 		"classmap": [
     	],
         "psr-0": {
-            "Stevebauman\\Location": ["src/", "filters.php"]
+            "Stevebauman\\Location": ["src/", "src/Location/filters.php"]
         }
     },
     "minimum-stability": "dev"
