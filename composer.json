@@ -23,7 +23,7 @@
     },
     "autoload": {
 		"classmap": [
-			"src/filters.php"
+			"src/Stevebauman/Location/filters.php"
     	],
         "psr-0": {
             "Stevebauman\\Location": "src/"
