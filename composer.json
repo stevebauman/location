@@ -1,7 +1,14 @@
 {
     "name": "stevebauman/location",
     "description": "Detect user Location by their IP Address",
-	"keywords" : ["laravel", "php", "location", "geoIP", "ip"],
+	"license" : "MIT",
+	"keywords" : [
+		"laravel", 
+		"php", 
+		"location", 
+		"geoIP", 
+		"ip"
+	],
 	"version" : "0.1",
     "authors": [
         {
@@ -22,5 +29,5 @@
             "Stevebauman\\Location": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
