@@ -8,8 +8,7 @@ class FreeGeoIp {
 	
 	public function __construct(){
 		
-	}
-	
+	}	
 	
 	/**
 	* Sets location array to

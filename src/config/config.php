@@ -259,10 +259,42 @@ return array(
 		GeoPlugin
 		FreeGeoIp
 	**/
-	'driver' => 'GeoPlugin',
+	'drivers' => array(
+		'FreeGeoIp' => array(
+			'fields' => array(
+				'country_code' 	=> 'country_code',
+				'country_name' 	=> 'country_name',
+				'region_code' 	=> 'region_code',
+				'city_name' 	=> 'city',
+			),
+		),
+		
+		'GeoPlugin' => array(
+			'fields' => array(
+				'country_code' 	=> 'geoplugin_countryCode',
+				'country_name' 	=> 'geoplugin_countryName',
+				'region_name' 	=> 'geoplugin_regionName',
+				'city_name' 	=> 'geoplugin_city',
+			)
+		),
+	),
+	
+	/**
+	**/
+	'selected_driver' => 'GeoPlugin',
+	
+	/**
+	* If your running your website locally and want to test different IP addresses to see location detection set to true
+	**/
+	'localhost_testing' => true,
+	// IP to check for localhost testing *default is Google Host*
+	'localhost_testing_ip' =>	'66.102.0.0',
+	
 	
 	/**
 		Default IP Address to Check
 	**/
 	'default_ip' => '127.0.0.1',
+	
+	
 );

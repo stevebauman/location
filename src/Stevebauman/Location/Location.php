@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 class Location {
 	
@@ -23,22 +25,44 @@ class Location {
 	private $countries = array();
 	private $allowed_countries = array();
 	
+	private $base_url;
+	
 	public function __construct(Repository $config){
 		$this->config = $config;
 		$this->countries = $this->config->get('location::country_codes');
-		$this->driver = $this->root_namespace.$this->driver_namespace.$this->config->get('location::driver');
+		$this->driver = $this->root_namespace.$this->driver_namespace.$this->config->get('location::selected_driver');
 		$this->setLocation();
+		$this->base_url = URL::to('/');
 	}
 	
+	/**
+	 * Sets location array to driver's location response
+	 *
+	 * @return NULL
+	 */
 	private function setLocation(){
 		$driver = new $this->driver;
-		
 		$driver->set($this->getClientIP());
-		$this->location = $driver->get();
+		$driver_fields = $this->config->get('location::drivers.'.$this->config->get('location::selected_driver').'.fields');
+		$location = $driver->get();
+		
+		foreach($driver_fields as $field=>$value){
+			$this->location[$field] = $location[$value];
+		}
 	}
 	
-	public function getLocation(){
+	/**
+	 * Returns location array
+	 *
+	 * @return array()
+	 */
+	public function get(){
 		return $this->location;
+	}
+	
+	
+	public function getLocationCode(){
+		return strtolower($this->location['country_code']);
 	}
 	
 	/**
@@ -49,33 +73,47 @@ class Location {
 	 */
 	private function getClientIP()
 	{
-		return '72.38.34.168';
-		if (getenv('HTTP_CLIENT_IP')) {
-			$ipaddress = getenv('HTTP_CLIENT_IP');
+		if($this->config->get('location::localhost_testing')){
+			return $this->config->get('location::localhost_testing_ip');
+		} else{
+			if (getenv('HTTP_CLIENT_IP')) {
+				$ipaddress = getenv('HTTP_CLIENT_IP');
+			}
+			else if(getenv('HTTP_X_FORWARDED_FOR')) {
+				$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+			}
+			else if(getenv('HTTP_X_FORWARDED')) {
+				$ipaddress = getenv('HTTP_X_FORWARDED');
+			}
+			else if(getenv('HTTP_FORWARDED_FOR')) {
+				$ipaddress = getenv('HTTP_FORWARDED_FOR');
+			}
+			else if(getenv('HTTP_FORWARDED')) {
+				$ipaddress = getenv('HTTP_FORWARDED');
+			}
+			else if(getenv('REMOTE_ADDR')) {
+				$ipaddress = getenv('REMOTE_ADDR');
+			}
+			else if( isset($_SERVER['REMOTE_ADDR']) ) {
+				$ipaddress = $_SERVER['REMOTE_ADDR'];
+			}
+			else {
+				$ipaddress = $this->config->get('Location::default_ip');
+			}
+	
+			return $ipaddress;
 		}
-		else if(getenv('HTTP_X_FORWARDED_FOR')) {
-			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-		}
-		else if(getenv('HTTP_X_FORWARDED')) {
-			$ipaddress = getenv('HTTP_X_FORWARDED');
-		}
-		else if(getenv('HTTP_FORWARDED_FOR')) {
-			$ipaddress = getenv('HTTP_FORWARDED_FOR');
-		}
-		else if(getenv('HTTP_FORWARDED')) {
-			$ipaddress = getenv('HTTP_FORWARDED');
-		}
-		else if(getenv('REMOTE_ADDR')) {
-			$ipaddress = getenv('REMOTE_ADDR');
-		}
-		else if( isset($_SERVER['REMOTE_ADDR']) ) {
-			$ipaddress = $_SERVER['REMOTE_ADDR'];
-		}
-		else {
-			$ipaddress = $this->config->get('Location::default_ip');
-		}
-
-		return $ipaddress;
 	}
+	
+	public function url(){
+		$url = parse_url(URL::current());
+		if(array_key_exists(strtoupper(Request::segment(1)), $this->countries)){
+			return $url['host'].$url['path'];
+		} else{
+			$url = parse_url(URL::current());
+			return $url['host'].'/ca'.$url['path'];
+		}
+	}
+	
 
 }
