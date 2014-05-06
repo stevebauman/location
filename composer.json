@@ -1,10 +1,12 @@
 {
     "name": "stevebauman/location",
     "description": "Detect user Location by their IP Address",
+	"keywords" : ["laravel", "php", "location", "geoIP", "ip"]
     "authors": [
         {
             "name": "Steve Bauman",
-            "email": "steven_bauman_7@hotmail.com"
+            "email": "steven_bauman_7@hotmail.com",
+			"role": "Developer"
         }
     ],
     "require": {
@@ -19,5 +21,5 @@
             "Stevebauman\\Location": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
