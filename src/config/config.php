@@ -1,6 +1,65 @@
 <?php
 
 return array(
+
+	/**
+	Available drivers (must be spelt exact):
+		GeoPlugin
+		FreeGeoIp
+	**/
+	'drivers' => array(
+		'FreeGeoIp' => array(
+			'fields' => array(
+				'country_code' 	=> 'country_code',
+				'country_name' 	=> 'country_name',
+				'region_code' 	=> 'region_code',
+				'city_name' 	=> 'city',
+			),
+		),
+		
+		'GeoPlugin' => array(
+			'fields' => array(
+				'country_code' 	=> 'geoplugin_countryCode',
+				'country_name' 	=> 'geoplugin_countryName',
+				'region_name' 	=> 'geoplugin_regionName',
+				'city_name' 	=> 'geoplugin_city',
+			)
+		),
+		'MaxMind' => array(
+			'fields' => array(
+				'country_code' 	=> 'isoCode',
+				'country_name'	=> 'country',
+				'city_name'		=> 'city',
+				'state_code'	=> 'state',
+				'latitude'		=> 'lat',
+				'longitude'		=> 'lon',
+			),
+			'configuration' => array(
+				'web_service' 	=> false,
+				'user_id' 		=> '',
+				'license_key'	=> ''
+			),
+		)
+	),
+	
+	/**
+	**/
+	'selected_driver' => 'FreeGeoIp',
+	
+	/**
+	* If your running your website locally and want to test different IP addresses to see location detection set to true
+	**/
+	'localhost_testing' => true,
+	// IP to check for localhost testing *default is Google Host*
+	'localhost_testing_ip' =>	'66.102.0.0',
+	
+	
+	//Not in use yet
+	'allowed_countries' => array(
+		'CA',
+		'US'
+	),
+
 	'country_codes' => array(
 		'AF' => 'Afghanistan',
 		'AX' => 'Aland Islands',
@@ -248,46 +307,4 @@ return array(
 		'ZM' => 'Zambia',
 		'ZW' => 'Zimbabwe',
 		),
-		
-	'allowed_countries' => array(
-		'CA',
-		'US'
-	),
-	
-	/**
-	Available drivers (must be spelt exact):
-		GeoPlugin
-		FreeGeoIp
-	**/
-	'drivers' => array(
-		'FreeGeoIp' => array(
-			'fields' => array(
-				'country_code' 	=> 'country_code',
-				'country_name' 	=> 'country_name',
-				'region_code' 	=> 'region_code',
-				'city_name' 	=> 'city',
-			),
-		),
-		
-		'GeoPlugin' => array(
-			'fields' => array(
-				'country_code' 	=> 'geoplugin_countryCode',
-				'country_name' 	=> 'geoplugin_countryName',
-				'region_name' 	=> 'geoplugin_regionName',
-				'city_name' 	=> 'geoplugin_city',
-			)
-		),
-	),
-	
-	/**
-	**/
-	'selected_driver' => 'GeoPlugin',
-	
-	/**
-	* If your running your website locally and want to test different IP addresses to see location detection set to true
-	**/
-	'localhost_testing' => true,
-	// IP to check for localhost testing *default is Google Host*
-	'localhost_testing_ip' =>	'66.102.0.0',
-
 );

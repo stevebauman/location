@@ -40,7 +40,6 @@ class Location {
 		$this->base_url = URL::to('/');
 	}
 	
-	
 	/**
 	 * Magic method for calling location attributes such as Location::get_country_code();
 	 *
