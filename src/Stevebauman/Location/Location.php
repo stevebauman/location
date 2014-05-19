@@ -26,7 +26,7 @@ class Location {
 	private $allowed_countries = array();
 	
 	private $allowed_attributes = array(
-		'get', 'prefix'
+		'get', 'prefix', 'dropdown'
 	);
 	
 	private $base_url;
@@ -58,7 +58,7 @@ class Location {
 					}
 				}
 			}
-			return call_user_func('self::'.$attributes[0], $field);
+			return call_user_func(array($this, $attributes[0]), $field);
 		}
 	}
 	
@@ -103,7 +103,7 @@ class Location {
 	/**
 	 * Returns location field meant for a route such as:
 	 *
-	 * 'country_code' as 'US', would return 'us', or 'countr_name' as 'United States', would return 'united-states'
+	 * 'country_code' as 'US', would return 'us', or 'country_name' as 'United States', would return 'united-states'
 	 *
 	 * @return mixed (array() or string())
 	 */
@@ -116,6 +116,33 @@ class Location {
 			return false;
 		}
 	}
+	
+	/**
+	 * Returns an array of countries meant for laravel dropdown boxes (Form::select())
+	 *
+	 * @return array
+	 *
+	 */
+	public function dropdown($value = NULL, $name = NULL){
+		$countries = array();
+		
+		//If no value or name set, grab the default dropdown config values
+		if(!$value && !$name){
+			$dropdown_value = $this->config->get('location::dropdown_config.value');
+			$dropdown_name = $this->config->get('location::dropdown_config.name');
+		} else{
+			$dropdown_value = $value;
+			$dropdown_name = $name;
+		}
+		
+		foreach($this->countries as $country_code=>$country_name){
+			//Double $ sign indicates that i'm grabbing a variable from a string: http://us2.php.net/language.variables.variable
+			$countries[$$dropdown_value] = $$dropdown_name;
+		}
+		return $countries;
+	}
+	
+	
 	/**
 	 * Get the client IP address.
 	 *
@@ -149,7 +176,7 @@ class Location {
 				$ipaddress = $_SERVER['REMOTE_ADDR'];
 			}
 			else {
-				$ipaddress = $this->config->get('Location::default_ip');
+				$ipaddress = $this->config->get('location::default_ip');
 			}
 	
 			return $ipaddress;

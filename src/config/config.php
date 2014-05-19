@@ -6,6 +6,7 @@ return array(
 	Available drivers (must be spelt exact):
 		GeoPlugin
 		FreeGeoIp
+		MaxMind
 	**/
 	'drivers' => array(
 		'FreeGeoIp' => array(
@@ -35,14 +36,15 @@ return array(
 				'longitude'		=> 'lon',
 			),
 			'configuration' => array(
-				'web_service' 	=> false,
+				'web_service' 	=> false, //If set to true, you must fill in your user ID and license key
 				'user_id' 		=> '',
 				'license_key'	=> ''
 			),
-		)
+		),
 	),
 	
-	/**
+	/** Selected Driver:
+	*		The driver you wish to use
 	**/
 	'selected_driver' => 'FreeGeoIp',
 	
@@ -54,12 +56,27 @@ return array(
 	'localhost_testing_ip' =>	'66.102.0.0',
 	
 	
-	//Not in use yet
+	//Allowed countries not in use yet
 	'allowed_countries' => array(
 		'CA',
 		'US'
 	),
-
+	
+	
+	/** Default Dropdown Configuration:
+	* 		Value is the value of the selected item in the dropdown
+	* 		Name is the appearance of the selected item
+	*	More options coming soon.
+	**/
+	'dropdown_config' => array(
+		// Only options at the moment are 'country_code', or 'country_name'
+		'value' => 'country_code', 
+		'name' 	=> 'country_name',
+	),
+	
+	/** Country Codes:
+	* 		Country codes are in use only for dropdown at the moment
+	**/
 	'country_codes' => array(
 		'AF' => 'Afghanistan',
 		'AX' => 'Aland Islands',
@@ -306,5 +323,5 @@ return array(
 		'YE' => 'Yemen',
 		'ZM' => 'Zambia',
 		'ZW' => 'Zimbabwe',
-		),
+	),
 );
