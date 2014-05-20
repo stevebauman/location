@@ -26,7 +26,7 @@ class Location {
 	private $allowed_countries = array();
 	
 	private $allowed_attributes = array(
-		'get', 'prefix', 'dropdown'
+		'get', 'prefix', 'dropdown', 'is'
 	);
 	
 	private $base_url;
@@ -84,7 +84,7 @@ class Location {
 	/**
 	 * Returns location array or location attribute such as 'country_code', 'country_name'
 	 *
-	 * @return mixed (array() or string())
+	 * @return mixed (array(), string() or boolean)
 	 */
 	public function get($field = NULL){
 		if($this->location){
@@ -105,7 +105,8 @@ class Location {
 	 *
 	 * 'country_code' as 'US', would return 'us', or 'country_name' as 'United States', would return 'united-states'
 	 *
-	 * @return mixed (array() or string())
+	 * @param $field (string)
+	 * @return mixed (string() or boolean)
 	 */
 	public function prefix($field = NULL){
 		if($field){
@@ -120,6 +121,8 @@ class Location {
 	/**
 	 * Returns an array of countries meant for laravel dropdown boxes (Form::select())
 	 *
+	 * @param $value (string)
+	 * @param $name (string)
 	 * @return array
 	 *
 	 */
@@ -140,6 +143,19 @@ class Location {
 			$countries[$$dropdown_value] = $$dropdown_name;
 		}
 		return $countries;
+	}
+	
+	
+	/**
+	* Returns true/false if the users current location is equal to the inputted country & city
+	**/
+	public function is($country){
+		foreach($this->get() as $field){
+			if(strcasecmp($country, $field) == 0){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

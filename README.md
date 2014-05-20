@@ -5,9 +5,9 @@ Add Location to your `composer.json` file.
 
 	"stevebauman/location": "dev-master"
 
-Then run "composer update" on your project source.
+Then run `composer update` on your project source.
 
-Add the service provider in "app/config/app.php"
+Add the service provider in `app/config/app.php`
 
 	'Stevebauman\Location\LocationServiceProvider',
 	
@@ -19,9 +19,31 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+## Version 0.3
+
+Added new function `is()`. This will return true/false if this user's location equals the country code/country name of the inputted country. For example (using country code):
+
+	if(Location::is_US()){
+		echo "You're located in the US!";
+	}
+	
+
+or you can input the country name directly into the function:
+
+	if(Location::is('Canada')){
+		echo "You're located in Canada!";
+	}
+
+This function is completely case insensitive so your able to use:
+
+	Location::is_us()
+	Location::is_Us()
+	Location::is('canada')
+	Location::is('united states')
+
 ##Version 0.2
 
-Added new function dropdown. This will populate a laravel select box with all countries in the config file:
+Added new function `dropdown()`. This will populate a laravel select box with all countries in the config file:
 
 	Location::dropdown()
 
@@ -37,7 +59,6 @@ You can automatically select the users default location as well:
 
 	Form::select('countries', Location::dropdown(), Location::get_country_code());
 
-Version 0.3 will allow fallback drivers incase a location service is unavailable.
 
 ##Version 0.1
 
@@ -78,7 +99,8 @@ Getting a user location field:
 
 	Location::get_country_code(); 
 	Location::get_country_name();
-
+	Location::get_city_name();
+	
 Getting entire user location array (will return fields above for depending on the driver):
 
 	Location::get();

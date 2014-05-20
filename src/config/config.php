@@ -52,7 +52,7 @@ return array(
 	* If your running your website locally and want to test different IP addresses to see location detection set to true
 	**/
 	'localhost_testing' => true,
-	// IP to check for localhost testing *default is Google Host*
+	// IP to check for localhost testing *default is Google Host in US*
 	'localhost_testing_ip' =>	'66.102.0.0',
 	
 	
