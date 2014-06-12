@@ -26,6 +26,7 @@ return array(
 				'city_name' 	=> 'geoplugin_city',
 			)
 		),
+		
 		'MaxMind' => array(
 			'fields' => array(
 				'country_code' 	=> 'isoCode',
@@ -47,6 +48,14 @@ return array(
 	*		The driver you wish to use
 	**/
 	'selected_driver' => 'FreeGeoIp',
+	
+	/** Selected Driver Fallbacks:
+	*		The drivers you want to use to grab location if the selected driver is unavailable (in order)
+	**/
+	'selected_driver_fallbacks' => array(
+		'GeoPlugin', 	//Used after 'selected_driver' fails
+		'MaxMind' 		//Used after above driver fails
+	),
 	
 	/**
 	* If your running your website locally and want to test different IP addresses to see location detection set to true

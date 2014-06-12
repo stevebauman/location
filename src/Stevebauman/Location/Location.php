@@ -16,6 +16,7 @@ class Location {
     protected $config;
 	
 	protected $driver;
+	protected $driver_fallbacks;
 	protected $driver_namespace = 'Drivers\\';
 	
 	protected $root_namespace = 'Stevebauman\\Location\\';
@@ -36,6 +37,16 @@ class Location {
 		$this->countries = $this->config->get('location::country_codes');
 		$this->allowed_countries = $this->config->get('location::allowed_countries');
 		$this->driver = $this->root_namespace.$this->driver_namespace.$this->config->get('location::selected_driver');
+		
+		//Backwards compatibility with previous versions
+		if($this->config->get('location::selected_driver_fallbacks')){
+			foreach($this->config->get('location::selected_driver_fallbacks') as $driver){
+				$this->driver_fallbacks[$driver] = $this->root_namespace.$this->driver_namespace.$driver;
+			}
+		} else{
+			$this->driver_fallbacks = false;
+		}
+		
 		$this->setLocation();
 		$this->base_url = URL::to('/');
 	}
@@ -74,9 +85,21 @@ class Location {
 		$driver_fields = $this->config->get('location::drivers.'.$this->config->get('location::selected_driver').'.fields');
 		$driver_location = $driver->get();
 		
+		//Check if a driver location was grabbed, and if driver fallbacks are enabled
+		if(!$driver_location && $this->driver_fallbacks){
+			foreach($this->driver_fallbacks as $config_key=>$fallback_driver){
+				$driver = new $fallback_driver;
+				$driver->set($this->getClientIP());
+				$driver_fields = $this->config->get('location::drivers.'.$config_key.'.fields');
+				$driver_location = $driver->get();
+				if($driver_location) break;
+			}
+		}
+		
 		foreach($driver_fields as $field=>$value){
 			$this->location[$field] = $driver_location[$value];
 		}
+		
 		Session::put('location', $this->location);
 	}
 	

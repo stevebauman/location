@@ -16,7 +16,11 @@ class FreeGeoIp {
 	* @param string $ip
    	*/
 	public function set($ip){
-		$this->location = json_decode(file_get_contents($this->url.$ip), true);
+		try{
+			$this->location = json_decode(file_get_contents($this->url.$ip), true);
+		} catch(\Exception $e){
+			$this->location = false;
+		}
 	}
 	
 	public function get(){

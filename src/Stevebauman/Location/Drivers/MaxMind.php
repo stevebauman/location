@@ -22,31 +22,35 @@ class MaxMind {
    	*/
 	public function set($ip){
 		$settings = $this->config->get('location::drivers.MaxMind.configuration');
-
-		if($settings['web_service']) {
-			$maxmind = new Client($settings['user_id'], $settings['license_key']);
-		}
-		else {
-			$maxmind = new Reader(app_path().'/database/maxmind/GeoLite2-City.mmdb');
-		}
 		
-		$record = $maxmind->city($ip);
-
-		$this->location = array(
-			"ip"			=> $ip,
-			"isoCode" 		=> $record->country->isoCode,
-			"country" 		=> $record->country->name,
-			"city" 			=> $record->city->name,
-			"state" 		=> $record->mostSpecificSubdivision->isoCode,
-			"postal_code" 	=> $record->postal->code,
-			"lat" 			=> $record->location->latitude,
-			"lon" 			=> $record->location->longitude,
-			"default"       => false
-		);
-
-		unset($record);
-
-		return $this->location;
+		try{
+			if($settings['web_service']) {
+				$maxmind = new Client($settings['user_id'], $settings['license_key']);
+			}
+			else {
+				$maxmind = new Reader(app_path().'/database/maxmind/GeoLite2-City.mmdb');
+			}
+			
+			$record = $maxmind->city($ip);
+			
+			$this->location = array(
+				"ip"			=> $ip,
+				"isoCode" 		=> $record->country->isoCode,
+				"country" 		=> $record->country->name,
+				"city" 			=> $record->city->name,
+				"state" 		=> $record->mostSpecificSubdivision->isoCode,
+				"postal_code" 	=> $record->postal->code,
+				"lat" 			=> $record->location->latitude,
+				"lon" 			=> $record->location->longitude,
+				"default"       => false
+			);
+	
+			unset($record);
+	
+			return $this->location;
+		} catch(\Exception $e){
+			$this->location = false;
+		}
 	}
 
 	

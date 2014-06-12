@@ -9,7 +9,7 @@
 		"geoIP", 
 		"ip"
 	],
-	"version" : "0.3",
+	"version" : "0.4",
     "authors": [
         {
             "name": "Steve Bauman",

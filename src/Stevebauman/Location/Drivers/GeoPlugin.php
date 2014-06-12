@@ -17,7 +17,11 @@ class GeoPlugin {
 	* @param string $ip
    	*/
 	public function set($ip){
-		$this->location = unserialize(file_get_contents($this->url.$ip));
+		try{
+			$this->location = unserialize(file_get_contents($this->url.$ip));
+		} catch(\Exception $e){
+			$this->location = false;
+		}
 	}
 	
 	public function get(){

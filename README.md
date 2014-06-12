@@ -1,5 +1,7 @@
 #Location
 
+![alt text](https://travis-ci.org/stevebauman/location.svg?branch=master)
+
 ##Installation
 Add Location to your `composer.json` file.
 
@@ -18,6 +20,20 @@ Add the alias
 Publish the config file:
 
 	php artisan config:publish stevebauman/location
+
+## Version 0.4
+
+Added ability to fallback to other drivers if querying a driver is not available.
+
+You'll need to either run `php artisan config:publish stevebauman/location` again to publish the new config changes, or paste in this into the config file:
+
+	/** Selected Driver Fallbacks:
+	*		The drivers you want to use to grab location if the selected driver is unavailable (in order)
+	**/
+	'selected_driver_fallbacks' => array(
+		'GeoPlugin', 	//Used after 'selected_driver' fails
+		'MaxMind' 		//Used after above driver fails
+	),
 
 ## Version 0.3
 
@@ -64,7 +80,9 @@ You can automatically select the users default location as well:
 
 Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address. This package is also able to use MaxMind services for retrieving location information.
 
-Your server must support `file_get_contents()` for drivers FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb`), or you can use their web services through the config file.
+Your server must support `file_get_contents()` for drivers FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
+
+Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. You can use `Session:get('location')` to retrieve their location from when it was first taken.
 
 ###Drivers
 
@@ -91,7 +109,6 @@ Fields available for MaxMind:
 	`country_name`,
 	`city_name`,
 	`state_code`,
-	`city_name`,
 	`latitude`,
 	`longitude`
 
