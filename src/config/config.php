@@ -1,45 +1,46 @@
 <?php
 
 return array(
-
+	
 	/**
-	Available drivers (must be spelt exact):
-		GeoPlugin
-		FreeGeoIp
-		MaxMind
-	**/
+	 * Available drivers
+	 */
 	'drivers' => array(
 		'FreeGeoIp' => array(
 			'fields' => array(
-				'country_code' 	=> 'country_code',
-				'country_name' 	=> 'country_name',
-				'region_code' 	=> 'region_code',
-				'city_name' 	=> 'city',
+				'country_code' => 'country_code',
+				'country_name' => 'country_name',
+				'region_code'  => 'region_code',
+				'region_name'  => 'region_name',
+				'city_name'    => 'city',
+				'zipcode'      => 'zipcode',
+				'latitude'     => 'latitude',
+				'longitude'    => 'longitude',
+				'metro_code'   => 'metro_code',
+				'area_code'    => 'area_code',
 			),
 		),
-		
 		'GeoPlugin' => array(
 			'fields' => array(
-				'country_code' 	=> 'geoplugin_countryCode',
-				'country_name' 	=> 'geoplugin_countryName',
-				'region_name' 	=> 'geoplugin_regionName',
-				'city_name' 	=> 'geoplugin_city',
+				'country_code' => 'geoplugin_countryCode',
+				'country_name' => 'geoplugin_countryName',
+				'region_name'  => 'geoplugin_regionName',
+				'city_name'    => 'geoplugin_city',
 			)
 		),
-		
 		'MaxMind' => array(
 			'fields' => array(
-				'country_code' 	=> 'isoCode',
-				'country_name'	=> 'country',
-				'city_name'		=> 'city',
-				'state_code'	=> 'state',
-				'latitude'		=> 'lat',
-				'longitude'		=> 'lon',
+				'country_code' => 'isoCode',
+				'country_name' => 'country',
+				'city_name'    => 'city',
+				'state_code'   => 'state',
+				'latitude'     => 'lat',
+				'longitude'    => 'lon',
 			),
 			'configuration' => array(
-				'web_service' 	=> false, //If set to true, you must fill in your user ID and license key
-				'user_id' 		=> '',
-				'license_key'	=> ''
+				'web_service' => false,
+				'user_id'     => '',
+				'license_key' => ''
 			),
 		),
 	),
