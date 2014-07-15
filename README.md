@@ -21,6 +21,16 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+## Version 0.5
+
+* Updated for Laravel 4.2 Support
+
+* `Location::get()` now returns in an Eloquent Collection so you can do handy things with the results such as:
+
+	Location::get()->toJson(); //Or even Location::get()->toArray()
+
+All fields are still accessible the same way as shown below, putting the result in an Eloquent Collection just allows for some nice transformation functions.
+
 ## Version 0.4
 
 Added ability to fallback to other drivers if querying a driver is not available.
