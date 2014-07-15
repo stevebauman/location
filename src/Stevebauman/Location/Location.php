@@ -134,9 +134,7 @@ class Location {
 	 */
 	public function prefix($field = NULL){
 		if($field){
-			if(array_key_exists($field, $this->location)){
-				return strtolower(str_replace(' ', '-', $this->location[$field]));
-			}
+			return strtolower(str_replace(' ', '-', $this->location->get($field)));
 		} else{
 			return false;
 		}
