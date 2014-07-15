@@ -9,7 +9,7 @@
 		"geoIP", 
 		"ip"
 	],
-	"version" : "0.4",
+	"version" : "0.5",
     "authors": [
         {
             "name": "Steve Bauman",
@@ -19,14 +19,14 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.1.*",
+        "illuminate/support": "4.*",
 		"geoip2/geoip2": "0.6.*"
     },
     "autoload": {
 		"classmap": [
     	],
         "psr-0": {
-            "Stevebauman\\Location": ["src/", "src/Location/filters.php"]
+            "Stevebauman\\Location": ["src/"]
         }
     },
     "minimum-stability": "dev"

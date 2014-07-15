@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Collection;
 
 class Location {
 	
@@ -100,6 +101,8 @@ class Location {
 			$this->location[$field] = $driver_location[$value];
 		}
 		
+		$this->location = new Collection($this->location);
+		
 		Session::put('location', $this->location);
 	}
 	
@@ -112,9 +115,7 @@ class Location {
 	public function get($field = NULL){
 		if($this->location){
 			if($field){
-				if(array_key_exists($field, $this->location)){
-					return $this->location[$field];
-				}
+				return $this->location->get($field);
 			} else{
 				return $this->location;
 			}
@@ -142,6 +143,7 @@ class Location {
 	}
 	
 	/**
+
 	 * Returns an array of countries meant for laravel dropdown boxes (Form::select())
 	 *
 	 * @param $value (string)
@@ -173,6 +175,7 @@ class Location {
 	* Returns true/false if the users current location is equal to the inputted country & city
 	**/
 	public function is($country){
+		$country = str_replace('_', ' ',$country);
 		foreach($this->get() as $field){
 			if(strcasecmp($country, $field) == 0){
 				return true;
@@ -221,16 +224,4 @@ class Location {
 			return $ipaddress;
 		}
 	}
-	
-	public function url(){
-		$url = parse_url(URL::current());
-		if(array_key_exists(strtoupper(Request::segment(1)), $this->countries)){
-			return $url['host'].$url['path'];
-		} else{
-			$url = parse_url(URL::current());
-			return $url['host'].'/ca'.$url['path'];
-		}
-	}
-	
-
 }

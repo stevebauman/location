@@ -20,8 +20,6 @@ class LocationServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('stevebauman/location');
-		
-		include __DIR__.'/filters.php';
 	}
 	/**
 	 * Register the service provider.
