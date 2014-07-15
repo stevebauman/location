@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.2.*",
+        "illuminate/support": ">=4.1.*",
 		"geoip2/geoip2": "0.6.*"
     },
     "autoload": {
