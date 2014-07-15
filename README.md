@@ -25,9 +25,9 @@ Publish the config file:
 
 * Updated for Laravel 4.2 Support
 
-* `Location::get()` now returns in an Eloquent Collection so you can do handy things with the results such as:
-
-	`Location::get()->toJson(); //Or even Location::get()->toArray()`
+* `Location::get()` now returns in an Eloquent Collection so you can do handy things with the results such as: `Location::get()->toJson(); //Or even Location::get()->toArray()`
+	
+* Removed trash, cleaned up a little
 
 All fields are still accessible the same way as shown below, putting the result in an Eloquent Collection just allows for some nice transformation functions.
 
