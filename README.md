@@ -66,6 +66,8 @@ This function is completely case insensitive so your able to use:
 	Location::is_Us()
 	Location::is('canada')
 	Location::is('united states')
+	Location::is_canada()
+	Location::is_united_states()
 
 ##Version 0.2
 
