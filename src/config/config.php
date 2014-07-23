@@ -11,10 +11,16 @@ return array(
 	'drivers' => array(
 		'FreeGeoIp' => array(
 			'fields' => array(
-				'country_code' 	=> 'country_code',
-				'country_name' 	=> 'country_name',
-				'region_code' 	=> 'region_code',
-				'city_name' 	=> 'city',
+				'country_code' => 'country_code',
+ +				'country_name' => 'country_name',
+ +				'region_code'  => 'region_code',
+ +				'region_name'  => 'region_name',
+ +				'city_name'    => 'city',
+ +				'zipcode'      => 'zipcode',
+ +				'latitude'     => 'latitude',
+ +				'longitude'    => 'longitude',
+ +				'metro_code'   => 'metro_code',
+ +				'area_code'    => 'area_code',
 			),
 		),
 		
