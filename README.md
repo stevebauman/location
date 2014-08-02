@@ -104,10 +104,16 @@ Available drivers at the moment are FreeGeoIp, GeoPlugin, MaxMind. Default selec
 Fields available for FreeGeoIp:
 
 	`country_code`,
-	`country_name`,
-	`region_code`,
-	`city_name`,
-
+ 	`country_name`,
+ 	`region_code`,
+ 	`region_name`,
+ 	`city_name`,
+ 	`zipcode`,
+	`latitude`,
+ 	`longitude`,
+ 	`metro_code`,
+ 	`area_code`,
+ 	
 Fields available for GeoPlugin:
 
 	`country_code`,
