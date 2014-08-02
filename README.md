@@ -33,7 +33,7 @@ All fields are still accessible the same way as shown below, putting the result 
 
 ## Version 0.4
 
-Added ability to fallback to other drivers if querying a driver is not available. This is handy if you run out of allowed daily requests for a single driver. Falling back on the MaxMind driver last is recommended so you always retrieve some informtion.
+Added ability to fallback to other drivers if querying a driver is not available. This is handy if you run out of allowed daily requests for a single driver. Falling back on the MaxMind driver last is recommended so you always retrieve some information.
 
 You'll need to either run `php artisan config:publish stevebauman/location` again to publish the new config changes, or paste in this into the config file:
 
