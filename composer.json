@@ -1,0 +1,29 @@
+{
+    "name": "stevebauman/location",
+    "description": "Detect user Location by their IP Address",
+    "authors": [
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman_7@hotmail.com"
+        }
+    ],
+    "license" : "MIT",
+    "keywords" : [
+        "laravel", 
+        "php", 
+        "location", 
+        "geoIP",
+        "geo-location",
+        "ip"
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.*|5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Stevebauman\\Location": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
