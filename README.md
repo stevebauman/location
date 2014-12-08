@@ -14,7 +14,7 @@ Unlike other location packages that require you installing database services, th
 
 Your server must support `file_get_contents()` for drivers FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
 
-Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. You can use `Session:get('location')` to retrieve their location from when it was first taken.
+Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. You can use `Session:get('location')` to retrieve the location object from when it was first taken.
 This can be turned off in the config file if you'd like to grab the location from a provider on every request (not recommended).
 
 ##Installation
