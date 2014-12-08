@@ -123,7 +123,7 @@ Fields available for MaxMind:
 
 To create your own location driver, change the driver namespace in the config file (the 'driver_namespace' key) to your own namespace.
 
-The class must implement the public method `get($ip)`. IP being the users IP address being inputted.
+The class must implement the public method `get($ip)`. `$ip` being the users IP address being inputted.
 
 You must then create a `Stevebauman\Location\Objects\Location` object, set it's location variables, and return the location. Here's an example:
     
