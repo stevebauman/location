@@ -1,6 +1,6 @@
 #Location
 
-![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)
+[![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)](https://travis-ci.org/stevebauman/location)
 [![Code Climate](https://codeclimate.com/github/stevebauman/location/badges/gpa.svg)](https://codeclimate.com/github/stevebauman/location)
 
 ##Beta Users
