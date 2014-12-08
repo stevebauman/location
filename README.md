@@ -152,4 +152,4 @@ Then in the config file:
 
     'selected_driver' => 'MyDriver',
 
-Keep in mind that this will prevent the pre-existing drivers from working. This will be changed in the upcoming releases
+Keep in mind that this will prevent the pre-existing drivers from working. This will be changed in the upcoming releases.
