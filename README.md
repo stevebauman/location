@@ -148,4 +148,6 @@ You must then create a `Stevebauman\Location\Objects\Location` object, set it's 
 
 Then in the config file:
 
-    'driver_namespace' => 'MyApp\Location\Drivers\\'
+    'driver_namespace' => 'MyApp\Location\Drivers\\',
+
+    'selected_driver' => 'MyDriver',
