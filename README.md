@@ -9,6 +9,14 @@ package while you switch your code around for the new one.
 
 New package was rebuilt from the ground up and config file has large changes.
 
+##Description
+Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address. This package is also able to use MaxMind services for retrieving location information.
+
+Your server must support `file_get_contents()` for drivers FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
+
+Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. You can use `Session:get('location')` to retrieve their location from when it was first taken.
+This can be turned off in the config file if you'd like to grab the location from a provider on every request (not recommended).
+
 ##Installation
 Add Location to your `composer.json` file.
 
@@ -65,15 +73,6 @@ one of the location fields equals the inputted string. For example:
     Form::select('countries', Location::get()->countryCode, Location::dropdown());
 
 This returns an array of all the countries inside the config file.
-
-
-##Description
-Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address. This package is also able to use MaxMind services for retrieving location information.
-
-Your server must support `file_get_contents()` for drivers FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
-
-Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. You can use `Session:get('location')` to retrieve their location from when it was first taken.
-This can be turned off in the config file if you'd like to grab the location from a provider on every request (not recommended).
 
 ##Drivers
 
