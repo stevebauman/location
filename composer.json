@@ -18,7 +18,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.*|5.*"
+        "illuminate/support": "4.*|5.*",
+        "geoip2/geoip2": "0.6.*"
     },
     "autoload": {
         "psr-0": {
