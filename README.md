@@ -151,3 +151,5 @@ Then in the config file:
     'driver_namespace' => 'MyApp\Location\Drivers\\',
 
     'selected_driver' => 'MyDriver',
+
+Keep in mind that this will prevent the pre-existing drivers from working. This will be changed in the upcoming releases
