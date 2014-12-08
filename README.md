@@ -74,6 +74,14 @@ one of the location fields equals the inputted string. For example:
 
 This returns an array of all the countries inside the config file.
 
+####Fallback drivers
+
+In the config file, you can specify as many fallback drivers as you wish. It's recommended to install
+the MaxMind database `.mmdb` file so your always retrieving some generic location information from the user.
+
+If an exception occurs trying to grab a driver (such as a 404 error if the providers API changes), it will automatically
+use the next driver in line.
+
 ##Drivers
 
 Available drivers at the moment are FreeGeoIp, GeoPlugin, MaxMind. Default selected driver is FreeGeoIp.
