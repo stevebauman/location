@@ -1,6 +1,8 @@
 #Location
 
-![alt text](https://travis-ci.org/stevebauman/location.svg?branch=master)
+![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)
+[![Code Climate](https://codeclimate.com/github/stevebauman/location/badges/gpa.svg)](https://codeclimate.com/github/stevebauman/location)
+
 ##Beta Users
 
 Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
