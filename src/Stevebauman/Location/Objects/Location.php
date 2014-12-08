@@ -2,9 +2,7 @@
 
 namespace Stevebauman\Location\Objects;
 
-use Illuminate\Support\Collection;
-
-class Location extends Collection {
+class Location {
     
     public $countryName = '';
     
