@@ -125,7 +125,7 @@ To create your own location driver, change the driver namespace in the config fi
 
 The class must implement the public method `get($ip)`. IP being the users IP address being inputted.
 
-You must then create a `Stevebauman\Location\Objects\Location` class, set it's location variables, and return the location. Here's an example:
+You must then create a `Stevebauman\Location\Objects\Location` object, set it's location variables, and return the location. Here's an example:
     
     use Stevebauman\Location\Objects\Location;
 
