@@ -256,9 +256,11 @@ class Location {
      */
     private function getClientIP()
     {
-        if($this->config->get('location::localhost_testing')){
+        if($this->config->get('location::localhost_testing')) {
+            
             return $this->config->get('location::localhost_testing_ip');
-        } else{
+            
+        } else {
             if (getenv('HTTP_CLIENT_IP')) {
                 $ipaddress = getenv('HTTP_CLIENT_IP');
             }
@@ -277,8 +279,8 @@ class Location {
             else if(getenv('REMOTE_ADDR')) {
                 $ipaddress = getenv('REMOTE_ADDR');
             }
-            else if( isset($_SERVER['REMOTE_ADDR']) ) {
-                $ipaddress = $_SERVER['REMOTE_ADDR'];
+            else if(filter_input('INPUT_SERVER', 'REMOTE_ADDR')) {
+                $ipaddress = filter_input('INPUT_SERVER', 'REMOTE_ADDR');
             }
             else {
                 $ipaddress = $this->config->get('location::default_ip');

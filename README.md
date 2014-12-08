@@ -1,7 +1,6 @@
 #Location
 
 ![alt text](https://travis-ci.org/stevebauman/location.svg?branch=master)
-
 ##Beta Users
 
 Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
