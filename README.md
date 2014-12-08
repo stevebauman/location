@@ -85,6 +85,8 @@ use the next driver in line.
 
 ##Drivers
 
+####Available Drivers
+
 Available drivers at the moment are FreeGeoIp, GeoPlugin, MaxMind. Default selected driver is FreeGeoIp.
 
 
@@ -116,3 +118,30 @@ Fields available for MaxMind:
 	`state_code`,
 	`latitude`,
 	`longitude`
+
+####Creating your own drivers
+
+To create your own location driver, change the driver namespace in the config file (the 'driver_namespace' key) to your own namespace.
+
+The class must implement the public method `get($ip)`. IP being the users IP address being inputted.
+
+You must then create a `Stevebauman\Location\Objects\Location` class, set it's location variables, and return the location. Here's an example:
+    
+    use Stevebauman\Location\Objects\Location;
+
+    class MyDriver {
+        
+        public function get($ip)
+        {
+            $location = new Location;
+
+            //Retrieve a location in some way
+            
+            $location->countryCode = 'Country Code';
+
+            $location->countryName = 'Country Name';
+            
+            return $location;
+        }
+
+    }
