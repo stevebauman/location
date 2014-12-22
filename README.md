@@ -96,37 +96,7 @@ use the next driver in line.
 
 ####Available Drivers
 
-Available drivers at the moment are FreeGeoIp, GeoPlugin, MaxMind. Default selected driver is FreeGeoIp.
-
-
-Fields available for FreeGeoIp:
-
-	`country_code`,
- 	`country_name`,
- 	`region_code`,
- 	`region_name`,
- 	`city_name`,
- 	`zipcode`,
-	`latitude`,
- 	`longitude`,
- 	`metro_code`,
- 	`area_code`,
- 	
-Fields available for GeoPlugin:
-
-	`country_code`,
-	`country_name`,
-	`region_name`,
-	`city_name`
-	
-Fields available for MaxMind:
-
-	`country_code`,
-	`country_name`,
-	`city_name`,
-	`state_code`,
-	`latitude`,
-	`longitude`
+Available drivers at the moment are [IpInfo](https://ipinfo.io/), [FreeGeoIp](https://freegeoip.net/), [GeoPlugin](http://www.geoplugin.com/), [MaxMind](https://www.maxmind.com/en/home). Default selected driver is IpInfo.
 
 ####Creating your own drivers
 
