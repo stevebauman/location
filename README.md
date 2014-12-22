@@ -1,3 +1,4 @@
+![Location Banner]
 (https://raw.githubusercontent.com/stevebauman/location/master/location-banner.jpg)
 
 [![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)](https://travis-ci.org/stevebauman/location)
