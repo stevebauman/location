@@ -36,7 +36,7 @@ class IpInfo implements DriverInterface {
             
             $location->cityName = $contents->city;
             
-            if(is_array($contents->loc)) {
+            if($contents->loc) {
             
                 $coords = explode(',', $contents->loc);
                 
