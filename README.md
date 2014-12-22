@@ -1,4 +1,4 @@
-[Location Image](https://raw.githubusercontent.com/stevebauman/location/master/location-banner.jpg)
+(https://raw.githubusercontent.com/stevebauman/location/master/location-banner.jpg)
 
 [![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)](https://travis-ci.org/stevebauman/location)
 [![Code Climate](https://codeclimate.com/github/stevebauman/location/badges/gpa.svg)](https://codeclimate.com/github/stevebauman/location)
