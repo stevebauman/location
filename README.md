@@ -42,6 +42,10 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+##Changelog
+    
+    December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
+
 ##Usage
 
 ####Getting a user location:

@@ -17,6 +17,10 @@ return array(
                     'url' => 'http://www.geoplugin.net/php.gp?ip=',
 		),
 		
+                'IpInfo' => array(
+                    'url' => 'http://ipinfo.io/',
+                ),
+            
 		'MaxMind' => array(
                     'configuration' => array(
                             'web_service' 	=> false, //If set to true, you must fill in your user ID and license key
@@ -34,12 +38,13 @@ return array(
 	/** Selected Driver:
 	*       The driver you wish to use
 	**/
-	'selected_driver' => 'FreeGeoIp',
+	'selected_driver' => 'IpInfo',
 	
 	/** Selected Driver Fallbacks:
 	*       The drivers you want to use to grab location if the selected driver is unavailable (in order)
 	**/
 	'selected_driver_fallbacks' => array(
+                'FreeGeoIp',
 		'GeoPlugin', 	//Used after 'selected_driver' fails
 		'MaxMind' 	//Used after above driver fails
 	),
