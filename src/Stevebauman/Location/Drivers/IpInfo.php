@@ -36,10 +36,17 @@ class IpInfo implements DriverInterface {
             
             $location->cityName = $contents->city;
             
-            $coords = explode(',', $contents->loc);
+            if(is_array($contents->loc)) {
             
-            $location->latitude = $coords[0];
-            $location->longitude = $coords[1];
+                $coords = explode(',', $contents->loc);
+                
+                if(array_key_exists(0, $coords)) {
+                    $location->latitude = $coords[0];
+                }
+                if(array_key_exists(1, $coords)) {
+                    $location->longitude = $coords[1];
+                }
+            }
             
         } catch(\Exception $e){
             $location->error = true;
