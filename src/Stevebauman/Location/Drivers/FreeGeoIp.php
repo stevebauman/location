@@ -22,7 +22,7 @@ class FreeGeoIp implements DriverInterface {
         $location = new Location;
 
         try {
-
+            
             $contents = json_decode(file_get_contents($this->url.$ip), true);
 
             $location->countryName = $contents['country_code'];
@@ -42,7 +42,9 @@ class FreeGeoIp implements DriverInterface {
             $location->metroCode = $contents['metro_code'];
 
             $location->areaCode = $contents['area_code'];
-
+            
+            $location->driver = get_class($this);
+            
         } catch(\Exception $e){
             $location->error = true;
         }

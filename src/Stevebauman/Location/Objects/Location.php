@@ -29,6 +29,11 @@ class Location {
     public $areaCode = '';
     
     /*
+     * Holds the drivers name the location was taken from
+     */
+    public $driver = '';
+    
+    /*
      * Indicates if there was an issue gathering the location from the driver.
      * This is used for driver fallbacks
      */

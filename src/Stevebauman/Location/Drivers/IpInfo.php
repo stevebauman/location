@@ -48,6 +48,8 @@ class IpInfo implements DriverInterface {
                 }
             }
             
+            $location->driver = get_class($this);
+            
         } catch(\Exception $e){
             $location->error = true;
         }

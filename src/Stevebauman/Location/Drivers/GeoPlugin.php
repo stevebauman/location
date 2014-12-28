@@ -33,6 +33,8 @@ class GeoPlugin implements DriverInterface {
             
             $location->cityName = $contents['geoplugin_city'];
             
+            $location->driver = get_class($this);
+            
         } catch(\Exception $e){
             $location->error = true;
         }

@@ -145,24 +145,10 @@ class Location {
      */
     private function setDriver()
     {
-        $namespace = $this->config->get('location::driver_namespace');
-        
-        $selectedDriver = $this->config->get('location::selected_driver');
-        
-        $driverStr = $namespace.$selectedDriver;
-        
-        if(class_exists($driverStr)) {
-            
-            $this->driver = new $driverStr($this->config);
-            
-        } else {
-            
-            $message = sprintf('The driver: %s, does not exist. Please check the docs and'
-                    . ' verify that it does.', $selectedDriver);
-            
-            throw new DriverDoesNotExistException($message);
-            
-        }
+        /*
+         * Retrive the current driver
+         */
+        $this->driver = $this->getDriver($this->config->get('location::selected_driver'));
         
         /*
          * Removes location from the session if config option is set
@@ -190,7 +176,8 @@ class Location {
             
             /*
              * Returned object variable 'error' will be true if an exception has
-             * occured trying to grab the location from the driver
+             * occured trying to grab the location from the driver. Let's
+             * try retrieving the location from one of our fallbacks
              */
             if($this->location->error) {
                 
@@ -206,19 +193,15 @@ class Location {
      * Returns a fallback driver location
      * 
      * @return \Stevebauman\Location\Objects\Location
-     * @throws NoDriverAvailableException
+     * @throws Stevebauman\Location\Exceptions\NoDriverAvailableException
      */
     private function getLocationFromFallback()
     {
-        $namespace = $this->config->get('location::driver_namespace');
-        
         $fallbacks = $this->config->get('location::selected_driver_fallbacks');
         
         foreach($fallbacks as $fallbackDriver) {
-
-            $driverStr = $namespace.$fallbackDriver;
             
-            $driver = new $driverStr($this->config);
+            $driver = $this->getDriver($fallbackDriver);
             
             $location = $driver->get($this->getClientIP());
             
@@ -288,6 +271,33 @@ class Location {
 
             return $ipaddress;
         }
+    }
+    
+    /**
+     * Returns the specified driver
+     * 
+     * @param string $driver
+     * @throws Stevebauman\Location\Exceptions\DriverDoesNotExistException
+     */
+    private function getDriver($driver)
+    {
+        $namespace = $this->config->get('location::driver_namespace');
+        
+        $driverStr = $namespace.$driver;
+        
+        if(class_exists($driverStr)) {
+
+            return new $driverStr($this->config);
+            
+        } else {
+            
+            $message = sprintf('The driver: %s, does not exist. Please check the docs and'
+                    . ' verify that it does.', $driver);
+            
+            throw new DriverDoesNotExistException($message);
+            
+        }
+        
     }
 
 }

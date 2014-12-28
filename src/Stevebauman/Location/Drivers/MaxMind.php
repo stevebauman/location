@@ -41,7 +41,9 @@ class MaxMind implements DriverInterface {
                 $location->postalCode = $record->postal->code;
                 
                 $location->latitude = $record->location->latitude;
-
+                
+                $location->driver = get_class($this);
+                
             } catch(\Exception $e){
                 $location->error = true;
             }
