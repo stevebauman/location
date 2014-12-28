@@ -46,6 +46,7 @@ Publish the config file:
 
 ##Changelog
     
+    December 28th, 2014 - Cleaned up Location class a bit and added more documentation
     December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
 
 ##Usage
