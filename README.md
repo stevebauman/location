@@ -8,6 +8,9 @@
 [![Latest Unstable Version](https://poser.pugx.org/stevebauman/location/v/unstable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![License](https://poser.pugx.org/stevebauman/location/license.svg)](https://packagist.org/packages/stevebauman/location)
 
+###Quick Update
+I'd suggest against using FreeGeoIp as their API is unreliable and intermittent at the moment. Exclude it from your selected driver and your fallbacks for the time being.
+
 ##Beta Users
 
 Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
@@ -44,8 +47,10 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+
 ##Changelog
     
+    December 29th, 2014 - Added new driver Teliz, re-publish config after update to use it
     December 28th, 2014 - Cleaned up Location class a bit and added more documentation
     December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
 
