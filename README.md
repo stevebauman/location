@@ -54,6 +54,7 @@ Publish the config file:
 
 ##Changelog
     
+    1.0.6 - January 5th, 2014 - Bug fixes, see release notes for more
     1.0.5 - January 4th, 2014 - Updated Location::get() functionality, see usage
     1.0.4 - December 29th, 2014 - Added new driver Telize, re-publish config after update to use it
     1.0.3 - December 28th, 2014 - Cleaned up Location class a bit and added more documentation
