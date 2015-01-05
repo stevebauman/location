@@ -2,7 +2,7 @@
 (https://raw.githubusercontent.com/stevebauman/location/master/location-banner.jpg)
 
 [![Travis CI](https://travis-ci.org/stevebauman/location.svg?branch=master)](https://travis-ci.org/stevebauman/location)
-[![Project Status](https://stillmaintained.com/stevebauman/location.svg)](https://stillmaintained.com/stevebauman/location)
+(https://stillmaintained.com/stevebauman/location.png)
 [![Code Climate](https://codeclimate.com/github/stevebauman/location/badges/gpa.svg)](https://codeclimate.com/github/stevebauman/location)
 [![Latest Stable Version](https://poser.pugx.org/stevebauman/location/v/stable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![Total Downloads](https://poser.pugx.org/stevebauman/location/downloads.svg)](https://packagist.org/packages/stevebauman/location) 
