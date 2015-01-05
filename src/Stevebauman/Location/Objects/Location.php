@@ -28,6 +28,8 @@ class Location {
     
     public $areaCode = '';
     
+    public $isp = '';
+    
     /*
      * Holds the IP address that was used to retrieve location information
      */

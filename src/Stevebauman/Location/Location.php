@@ -28,6 +28,11 @@ class Location {
      */
     private $location;
     
+    /*
+     * Holds the current IP of the user
+     */
+    private $ip;
+    
     public function __construct(Config $config, Session $session)
     {
         $this->config = $config;
@@ -109,7 +114,7 @@ class Location {
      * 
      * @param string $value
      * @param string $name
-     * @return type
+     * @return array
      */
     public function dropdown($value = '', $name = '')
     {
@@ -169,7 +174,7 @@ class Location {
         if($this->config->get('location::localhost_forget_location')) {
             $this->session->forget('location');
         }
-        
+
         /*
          * Check if the location has already been set in the current session
          */
@@ -183,14 +188,14 @@ class Location {
         } else {
             
             /*
-             * If an IP address is supplied, we'll send it right to the driver,
-             * if not, we'll get it from the client automatically
+             * Set the IP
              */
-            if($ip) {
-                $this->location = $this->driver->get($this->validateIp($ip));
-            } else {
-                $this->location = $this->driver->get($this->getClientIP()); 
-            }
+            $this->setIp($ip);
+            
+            /*
+             * Set the location
+             */
+            $this->location = $this->driver->get($this->ip);
             
             /*
              * The locations object property 'error' will be true if an exception has
@@ -204,6 +209,25 @@ class Location {
             }
             
             $this->session->set('location', $this->location);
+        }
+    }
+    
+    /**
+     * Sets the current IP property. If an IP address is supplied, it is validated
+     * before it's set, otherwise it is grabbed automatically from the client
+     * 
+     * @param string $ip
+     */
+    private function setIp($ip)
+    {
+        /*
+         * If an IP address is supplied, we'll validate it and set it,
+         * otherwise we'll grab it automatically from the client
+         */
+        if($ip) {
+            $this->ip = $this->validateIp($ip);
+        } else {
+            $this->ip = $this->getClientIP();
         }
     }
     
@@ -242,8 +266,8 @@ class Location {
         foreach($fallbacks as $fallbackDriver) {
             
             $driver = $this->getDriver($fallbackDriver);
-            
-            $location = $driver->get($this->getClientIP());
+
+            $location = $driver->get($this->ip);
             
             /*
              * If no error has occured, return the new location
