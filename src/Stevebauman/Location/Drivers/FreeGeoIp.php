@@ -24,7 +24,9 @@ class FreeGeoIp implements DriverInterface {
         try {
             
             $contents = json_decode(file_get_contents($this->url.$ip), true);
-
+            
+            $location->ip = $ip;
+            
             $location->countryName = $contents['country_code'];
 
             $location->regionCode = $contents['region_code'];

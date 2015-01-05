@@ -25,6 +25,8 @@ class GeoPlugin implements DriverInterface {
         try {
             $contents = unserialize(file_get_contents($this->url.$ip));
             
+            $location->ip = $ip;
+            
             $location->countryCode = $contents['geoplugin_countryCode'];
             
             $location->countryName = $contents['geoplugin_countryName'];

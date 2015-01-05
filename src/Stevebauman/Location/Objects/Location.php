@@ -29,6 +29,11 @@ class Location {
     public $areaCode = '';
     
     /*
+     * Holds the IP address that was used to retrieve location information
+     */
+    public $ip = '';
+    
+    /*
      * Holds the drivers name the location was taken from
      */
     public $driver = '';

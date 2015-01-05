@@ -32,6 +32,8 @@ class MaxMind implements DriverInterface {
                 
                 $record = $maxmind->city($ip);
                 
+                $location->ip = $ip;
+                
                 $location->isoCode = $record->country->isoCode;
                 
                 $location->countryName = $record->country->name;

@@ -3,10 +3,12 @@
 return array(
 
 	/**
-	Available drivers (must be spelt exact):
-            GeoPlugin
-            FreeGeoIp
-            MaxMind
+         * Available drivers (must be spelt exact):
+         * GeoPlugin
+         * FreeGeoIp
+         * IpInfo
+         * Telize (Recommended)
+         * MaxMind
 	**/
 	'drivers' => array(
 		'FreeGeoIp' => array(
@@ -68,7 +70,7 @@ return array(
 	/*
          *  IP to check for localhost testing *default is Google Host in US*
          */
-	'localhost_testing_ip' =>	'66.102.0.0',
+	'localhost_testing_ip' => '66.102.0.0',
 	
 	
 	/** Default Dropdown Configuration:

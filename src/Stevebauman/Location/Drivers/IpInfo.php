@@ -21,6 +21,8 @@ class IpInfo implements DriverInterface {
         try {
             $contents = json_decode(file_get_contents($this->url.$ip));
             
+            $location->ip = $ip;
+            
             $location->countryCode = $contents->country;
 
             $countries = $this->config->get('location::country_codes');

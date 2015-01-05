@@ -11,6 +11,10 @@
 ###Quick Update
 I'd suggest against using FreeGeoIp as their API is unreliable and intermittent at the moment. Exclude it from your selected driver and your fallbacks for the time being.
 
+##TODO
+
+- Tests
+
 ##Beta Users
 
 Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
@@ -50,17 +54,29 @@ Publish the config file:
 
 ##Changelog
     
-    December 29th, 2014 - Added new driver Teliz, re-publish config after update to use it
-    December 28th, 2014 - Cleaned up Location class a bit and added more documentation
-    December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
+    1.0.5 - January 4th, 2014 - Updated Location::get() functionality, see usage
+    1.0.4 - December 29th, 2014 - Added new driver Telize, re-publish config after update to use it
+    1.0.3 - December 28th, 2014 - Cleaned up Location class a bit and added more documentation
+    1.0.2 - December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
 
 ##Usage
 
-####Getting a user location:
+####Getting a user location (automatic IP detection):
 
     Location::get();
 
-This will return a Location object, where you can retrieve each field with:
+####Getting a user location with a specfied IP:
+
+    Location::get('192.168.1.1');
+    
+You can also retrieve a specific field with either
+    
+    //Using automatic IP detection
+    Location::get(NULL, 'countryCode');
+    
+    Location::get('192.168.1.1', 'countryCode');
+
+Using `Location::get()` will return a Location object, where you can retrieve each field with:
 
     Location::get()->countryCode;
 

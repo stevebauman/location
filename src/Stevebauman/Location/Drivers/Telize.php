@@ -22,6 +22,8 @@ class Telize implements DriverInterface {
         try {
             $contents = json_decode(file_get_contents($this->url.$ip));
 
+            $location->ip = $ip;
+            
             $location->countryName = $contents->country;
             
             $location->countryCode = $contents->country_code;

@@ -4,6 +4,7 @@ namespace Stevebauman\Location;
 
 use Illuminate\Session\SessionManager as Session;
 use Illuminate\Config\Repository as Config;
+use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 use Stevebauman\Location\Exceptions\NoDriverAvailableException;
@@ -39,12 +40,15 @@ class Location {
      * Returns the driver's location object. If a field is specified it will
      * return the matching location objects variable.
      * 
+     * @param string $ip
      * @param string $field
      * @throws Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException
      * @return mixed
      */
-    public function get($field = NULL)
+    public function get($ip = NULL, $field = NULL)
     {
+        $this->setLocation($ip);
+        
         if($field) {
             
             if(property_exists($this->location, $field)) {
@@ -141,7 +145,7 @@ class Location {
     }
     
     /**
-     * Creates the selected driver instance and retrieves the location
+     * Creates the selected driver instance and sets the driver property
      */
     private function setDriver()
     {
@@ -150,6 +154,15 @@ class Location {
          */
         $this->driver = $this->getDriver($this->config->get('location::selected_driver'));
         
+    }
+    
+    /**
+     * Sets the location property to the drivers returned location object
+     * 
+     * @param type $ip
+     */
+    private function setLocation($ip = NULL)
+    {   
         /*
          * Removes location from the session if config option is set
          */
@@ -170,12 +183,17 @@ class Location {
         } else {
             
             /*
-             * Session is new, grab the location and set the session
+             * If an IP address is supplied, we'll send it right to the driver,
+             * if not, we'll get it from the client automatically
              */
-            $this->location = $this->driver->get($this->getClientIP());
+            if($ip) {
+                $this->location = $this->driver->get($this->validateIp($ip));
+            } else {
+                $this->location = $this->driver->get($this->getClientIP()); 
+            }
             
             /*
-             * Returned object variable 'error' will be true if an exception has
+             * The locations object property 'error' will be true if an exception has
              * occured trying to grab the location from the driver. Let's
              * try retrieving the location from one of our fallbacks
              */
@@ -186,6 +204,28 @@ class Location {
             }
             
             $this->session->set('location', $this->location);
+        }
+    }
+    
+    /**
+     * Returns the IP address if it is valid, throws an exception if it's not
+     * 
+     * @param string $ip
+     * @throws \Stevebauman\Location\Exceptions\InvalidIpException
+     */
+    private function validateIp($ip)
+    {
+        $filteredIp = filter_var($ip, FILTER_VALIDATE_IP);
+        
+        if($filteredIp) {
+            
+            return $filteredIp;
+            
+        } else {
+            
+                $message = sprintf('The IP Address: %s is invalid', $ip);
+            
+            throw new InvalidIpException($message);
         }
     }
     
