@@ -414,7 +414,7 @@ class Location {
      */
     private function getDropdownName()
     {
-    return $this->config->get('location::dropdown_config.name');
+        return $this->config->get('location::dropdown_config.name');
     }
 
     /**
