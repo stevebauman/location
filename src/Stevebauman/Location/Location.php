@@ -60,7 +60,7 @@ class Location {
      * @throws \Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException
      * @return mixed
      */
-    public function get($ip = NULL, $field = NULL)
+    public function get($ip = '', $field = '')
     {
         $this->setLocation($ip);
 
