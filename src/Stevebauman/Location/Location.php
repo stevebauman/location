@@ -174,9 +174,9 @@ class Location {
     /**
      * Sets the location property to the drivers returned location object
      *
-     * @param type $ip
+     * @param string $ip
      */
-    private function setLocation($ip = NULL)
+    private function setLocation($ip = '')
     {
         /*
          * Removes location from the session if config option is set
