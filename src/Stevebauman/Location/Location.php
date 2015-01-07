@@ -29,6 +29,16 @@ class Location {
     private $location;
 
     /*
+     * Holds the config object
+     */
+    private $config;
+
+    /*
+     * Holds the session object
+     */
+    private $session;
+
+    /*
      * Holds the current IP of the user
      */
     private $ip;

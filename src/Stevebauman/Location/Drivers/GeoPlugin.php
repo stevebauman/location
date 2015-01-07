@@ -1,9 +1,21 @@
-<?php namespace Stevebauman\Location\Drivers;
+<?php
+
+namespace Stevebauman\Location\Drivers;
 
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Drivers\DriverInterface;
 
 class GeoPlugin implements DriverInterface {
+
+    /*
+     * Holds the config object
+     */
+    private $config;
+
+    /*
+     * Holds the drivers URL
+     */
+    private $url;
 
     public function __construct($config)
     {

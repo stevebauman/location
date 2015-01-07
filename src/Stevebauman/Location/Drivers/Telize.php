@@ -6,7 +6,17 @@ use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Drivers\DriverInterface;
 
 class Telize implements DriverInterface {
-    
+
+    /*
+     * Holds the config object
+     */
+    private $config;
+
+    /*
+     * Holds the drivers URL
+     */
+    private $url;
+
     public function __construct($config)
     {
         $this->config = $config;
