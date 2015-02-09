@@ -160,3 +160,44 @@ Then in the config file:
     'selected_driver' => 'MyDriver',
 
 Keep in mind that this will prevent the pre-existing drivers from working. This will be changed in the upcoming releases.
+
+##Configuration
+
+####Drivers
+
+The drivers array in the configuration file stores a list of the available drivers and their configuration.
+
+####Driver Namespace
+
+Stores the namespace which the drivers in the Drivers array above, are located.
+
+####Selected Driver
+
+The selected driver that exists in the drivers array
+
+####Selected Driver Fallbacks
+
+The drivers to fallback to in the drivers array if the select driver fails. These will be tried in succession. 
+It's recommended to use MaxMind as the last driver fallback so you're always retrieving some data.
+
+####Localhost Testing
+
+If you're running your web application locally, you may want to set this to true so you can set the `localhost_testing_ip`
+and try different IP addresses.
+
+####Localhost Forget Location
+
+Setting this to true removes the location key from the session so it is retrieved on every request for testing purposes.
+
+####Localhost Testing IP
+
+When `localhost_testing` is set to true, the location will be grabbed from this IP, even if you specify an IP inside the
+`Location::get($ip)` function.
+
+####Dropdown Config
+
+This allows you to set the keys and name of the dropdown HTML list that's generated from `Location::dropdown()` or `Location::lists()`
+
+####Country Codes
+
+This is used for the dropdown HTML list, as well as some drivers to convert the countries location code into the location name.
