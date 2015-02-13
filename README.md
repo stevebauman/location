@@ -73,7 +73,7 @@ Add the alias in your `config/app.php` file:
 
 Publish the config file:
 
-    `php artisan vendor:publish`
+    php artisan vendor:publish
 
 ##Changelog
     
