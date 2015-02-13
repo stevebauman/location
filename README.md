@@ -40,7 +40,7 @@ This can be turned off in the config file if you'd like to grab the location fro
 ##Installation (Laravel 4)
 Add Location to your `composer.json` file:
 
-	"stevebauman/location": "1.0.*"
+	"stevebauman/location": "1.1.*"
 
 Then run `composer update` on your project source.
 
@@ -59,7 +59,7 @@ Publish the config file:
 ##Installation (Laravel 5)
 Add Location to your `composer.json` file:
 
-	"stevebauman/location": "1.0.*"
+	"stevebauman/location": "1.1.*"
 
 Then run `composer update` on your project source.
 
