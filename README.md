@@ -146,7 +146,7 @@ use the next driver in line.
 
 ####Available Drivers
 
-Available drivers at the moment are [Telize](http://www.telize.com/), [IpInfo](https://ipinfo.io/), [FreeGeoIp](https://freegeoip.net/), [GeoPlugin](http://www.geoplugin.com/), [MaxMind](https://www.maxmind.com/en/home). Default selected driver is IpInfo.
+Available drivers at the moment are [Telize](http://www.telize.com/), [IpInfo](https://ipinfo.io/), [FreeGeoIp](https://freegeoip.net/), [GeoPlugin](http://www.geoplugin.com/), [MaxMind](https://www.maxmind.com/en/home). Default selected driver is Telize.
 
 ####Creating your own drivers
 
