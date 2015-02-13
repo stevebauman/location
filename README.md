@@ -10,9 +10,9 @@
 [![License](https://poser.pugx.org/stevebauman/location/license.svg)](https://packagist.org/packages/stevebauman/location)
 
 ###Quick Update
-FreeGeoIp's API is up and running again (as of Jan 20th 2015)
 
-<del>I'd suggest against using FreeGeoIp as their API is unreliable and intermittent at the moment. Exclude it from your selected driver and your fallbacks for the time being.</del>
+Laravel 5 Users: This package is currently unavailable due to the changes of the package system. This package will be updated
+for compatibility in the coming weeks.
 
 ##TODO
 
