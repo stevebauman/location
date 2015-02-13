@@ -11,8 +11,10 @@
 
 ###Quick Update
 
-Laravel 5 Users: This package is currently unavailable due to the changes of the package system. This package will be updated
-for compatibility in the coming weeks.
+<del>Laravel 5 Users: This package is currently unavailable due to the changes of the package system. This package will be updated
+for compatibility in the coming weeks.</del>
+
+Laravel 5 compatibility has been added. Feb 13th, 2015
 
 ##TODO
 
@@ -35,18 +37,18 @@ Also, by default, once a location is grabbed from the user, it is set into a ses
 use the session object once a location has been set so there will be minimal requests. You can use `Session:get('location')` to retrieve the location object manually from when it was first taken if you wish.
 This can be turned off in the config file if you'd like to grab the location from a provider on every request (not recommended).
 
-##Installation
-Add Location to your `composer.json` file.
+##Installation (Laravel 4)
+Add Location to your `composer.json` file:
 
 	"stevebauman/location": "1.0.*"
 
 Then run `composer update` on your project source.
 
-Add the service provider in `app/config/app.php`
+Add the service provider in `app/config/app.php` file:
 
 	'Stevebauman\Location\LocationServiceProvider',
 	
-Add the alias
+Add the alias in `app/config/app.php` file:
 
 	'Location' => 'Stevebauman\Location\Facades\Location',
 
@@ -54,9 +56,28 @@ Publish the config file:
 
 	php artisan config:publish stevebauman/location
 
+##Installation (Laravel 5)
+Add Location to your `composer.json` file:
+
+	"stevebauman/location": "1.0.*"
+
+Then run `composer update` on your project source.
+
+Add the service provider in `config/app.php`:
+
+	'Stevebauman\Location\LocationServiceProvider',
+
+Add the alias in your `config/app.php` file:
+
+	'Location' => 'Stevebauman\Location\Facades\Location',
+
+Publish the config file:
+
+    `php artisan vendor:publish`
 
 ##Changelog
     
+    1.1.0 - February 13th, 2015 - Added Laravel 5 compatibility
     1.0.7 - February 9th, 2015 - Documentation updates and some small tweaks
     1.0.6 - January 5th, 2015 - Bug fixes, see release notes for more
     1.0.5 - January 4th, 2015 - Updated Location::get() functionality, see usage
