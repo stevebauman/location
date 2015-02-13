@@ -18,12 +18,26 @@ class LocationServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-            $this->package('stevebauman/location');
-            
-            $this->app['location'] = $this->app->share(function($app)
-            {
-                return new Location($app['config'], $app['session']);
-            });
+		/*
+		 * If the package method exists, we're using Laravel 4, if not then we're
+		 * definitely on laravel 5
+		 */
+		if (method_exists($this, 'package')) {
+
+			$this->package('stevebauman/location');
+
+		} else {
+
+			$this->publishes([
+				__DIR__ . '/../../config/config.php' => config_path('location.php'),
+			], 'config');
+
+		}
+
+		$this->app['location'] = $this->app->share(function($app)
+		{
+			return new Location($app, $app['config'], $app['session']);
+		});
 	}
 
 	/**

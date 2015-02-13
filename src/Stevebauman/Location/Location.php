@@ -2,12 +2,13 @@
 
 namespace Stevebauman\Location;
 
-use Illuminate\Session\SessionManager as Session;
-use Illuminate\Config\Repository as Config;
 use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 use Stevebauman\Location\Exceptions\NoDriverAvailableException;
+use Illuminate\Session\SessionManager as Session;
+use Illuminate\Config\Repository as Config;
+use Illuminate\Foundation\Application as App;
 
 /**
  * Retrieves a users generic location based on their visiting IP address
@@ -21,33 +22,69 @@ class Location {
     /*
      * Holds the current driver object
      */
-    private $driver;
+    protected $driver;
 
     /*
      * Holds the current location object
+     *
+     * @var Location
      */
-    private $location;
+    protected $location;
 
-    /*
-     * Holds the config object
+    /**
+     * Holds the current application instance
+     *
+     * @var App
      */
-    private $config;
+    protected $app;
 
-    /*
-     * Holds the session object
+    /**
+     * Holds the configuration instance
+     *
+     * @var Config
      */
-    private $session;
+    protected $config;
+
+    /**
+     * Holds the session instance
+     *
+     * @var Session
+     */
+    protected $session;
 
     /*
      * Holds the current IP of the user
+     *
+     * @var string
      */
-    private $ip;
+    protected $ip;
 
-    public function __construct(Config $config, Session $session)
+    /**
+     * Holds the configuration separator for Laravel 5
+     * compatibility
+     *
+     * @var string
+     */
+    protected $configSeparator = '::';
+
+    /**
+     * @param Config $config
+     * @param Session $session
+     */
+    public function __construct(App $app, Config $config, Session $session)
     {
+        $this->app = $app;
         $this->config = $config;
         $this->session = $session;
 
+        /*
+         * Set the configuration separator for Laravel 5 compatibility
+         */
+        $this->setConfigSeparator();
+
+        /*
+         * Set the currently selected driver from the configuration
+         */
         $this->setDriver();
     }
 
@@ -82,6 +119,26 @@ class Location {
         }
 
         return $this->location;
+    }
+
+    /**
+     * Returns the current configuration instance
+     *
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Returns the configuration separator
+     *
+     * @return string
+     */
+    public function getConfigSeparator()
+    {
+        return $this->configSeparator;
     }
 
     /**
@@ -209,8 +266,8 @@ class Location {
 
             /*
              * The locations object property 'error' will be true if an exception has
-             * occured trying to grab the location from the driver. Let's
-             * try retrieving the location from one of our fallbacks
+             * occurred trying to grab the location from the driver. Let's
+             * try retrieving the location from one of our fall-backs
              */
             if($this->location->error) {
 
@@ -245,7 +302,8 @@ class Location {
      * Returns the IP address if it is valid, throws an exception if it's not
      *
      * @param string $ip
-     * @throws \Stevebauman\Location\Exceptions\InvalidIpException
+     * @return mixed
+     * @throws InvalidIpException
      */
     private function validateIp($ip)
     {
@@ -289,7 +347,7 @@ class Location {
             }
 
             /*
-             * Errors occured on trying to get each driver location,
+             * Errors occurred on trying to get each driver location,
              * throw no driver available exception
              */
             if($fallbackDriver === end($fallbacks)) {
@@ -308,7 +366,7 @@ class Location {
      * Returns the client IP address. Will return the set config IP if localhost
      * testing is set to true
      *
-     * Thanks to: https://github.com/Torann/laravel-4-geoip/blob/master/src/Torann/GeoIP/GeoIP.php
+     * @thanks https://github.com/Torann/laravel-4-geoip/blob/master/src/Torann/GeoIP/GeoIP.php
      * @return string
      */
     private function getClientIP()
@@ -336,11 +394,8 @@ class Location {
             else if(getenv('REMOTE_ADDR')) {
                 $ipaddress = getenv('REMOTE_ADDR');
             }
-            else if(filter_input('INPUT_SERVER', 'REMOTE_ADDR')) {
-                $ipaddress = filter_input('INPUT_SERVER', 'REMOTE_ADDR');
-            }
             else {
-                $ipaddress = $this->config->get('location::default_ip');
+                $ipaddress = filter_input('INPUT_SERVER', 'REMOTE_ADDR');
             }
 
             return $ipaddress;
@@ -354,7 +409,7 @@ class Location {
      */
     private function localHostTesting()
     {
-        return $this->config->get('location::localhost_testing');
+        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_testing');
     }
 
     /**
@@ -364,7 +419,7 @@ class Location {
      */
     private function localHostForgetLocation()
     {
-        return $this->config->get('location::localhost_forget_location');
+        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_forget_location');
     }
 
     /**
@@ -374,7 +429,7 @@ class Location {
      */
     private function getLocalHostTestingIp()
     {
-        return $this->config->get('location::localhost_testing_ip');
+        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_testing_ip');
     }
 
     /**
@@ -384,7 +439,7 @@ class Location {
      */
     private function getSelectedDriver()
     {
-        return $this->config->get('location::selected_driver');
+        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver');
     }
 
     /**
@@ -394,7 +449,7 @@ class Location {
      */
     private function getDriverFallbackList()
     {
-        return $this->config->get('location::selected_driver_fallbacks');
+        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks');
     }
 
     /**
@@ -404,7 +459,7 @@ class Location {
      */
     private function getCountryCodes()
     {
-        return $this->config->get('location::country_codes');
+        return $this->config->get('location'. $this->getConfigSeparator() .'country_codes');
     }
 
     /**
@@ -414,7 +469,7 @@ class Location {
      */
     private function getDropdownValue()
     {
-        return $this->config->get('location::dropdown_config.value');
+        return $this->config->get('location'. $this->getConfigSeparator() .'dropdown_config.value');
     }
 
     /**
@@ -424,7 +479,17 @@ class Location {
      */
     private function getDropdownName()
     {
-        return $this->config->get('location::dropdown_config.name');
+        return $this->config->get('location'. $this->getConfigSeparator() .'dropdown_config.name');
+    }
+
+    /**
+     * Retrieves the config option for the driver namespace
+     *
+     * @return mixed
+     */
+    private function getDriverNamespace()
+    {
+        return $this->config->get('location'. $this->getConfigSeparator() .'driver_namespace');
     }
 
     /**
@@ -435,13 +500,13 @@ class Location {
      */
     private function getDriver($driver)
     {
-        $namespace = $this->config->get('location::driver_namespace');
+        $namespace = $this->getDriverNamespace();
 
         $driverStr = $namespace.$driver;
 
         if(class_exists($driverStr)) {
 
-            return new $driverStr($this->config);
+            return new $driverStr($this);
 
         } else {
 
@@ -452,6 +517,28 @@ class Location {
 
         }
 
+    }
+
+    /**
+     * Sets the configuration separator for Laravel 5 compatibility
+     *
+     * @return void
+     */
+    private function setConfigSeparator()
+    {
+        /*
+         * Need to store app instance in new variable due to
+         * constants being inaccessible via $this->app::VERSION
+         */
+        $app = $this->app;
+
+        $appVersion = explode('.', $app::VERSION);
+
+        if($appVersion[0] == 5) {
+
+            $this->configSeparator = '.';
+
+        }
     }
 
 }
