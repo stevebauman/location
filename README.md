@@ -6,7 +6,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stevebauman/location/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/stevebauman/location/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/stevebauman/location/v/stable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![Total Downloads](https://poser.pugx.org/stevebauman/location/downloads.svg)](https://packagist.org/packages/stevebauman/location) 
-[![Latest Unstable Version](https://poser.pugx.org/stevebauman/location/v/unstable.svg)](https://packagist.org/packages/stevebauman/location) 
 [![License](https://poser.pugx.org/stevebauman/location/license.svg)](https://packagist.org/packages/stevebauman/location)
 
 ###Quick Update
