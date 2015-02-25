@@ -94,7 +94,7 @@ class Location {
      *
      * @param string $ip
      * @param string $field
-     * @throws \Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException
+     * @throws LocationFieldDoesNotExistException
      * @return mixed
      */
     public function get($ip = '', $field = '')
@@ -320,7 +320,7 @@ class Location {
      * Returns a fallback driver location
      *
      * @return \Stevebauman\Location\Objects\Location
-     * @throws \Stevebauman\Location\Exceptions\NoDriverAvailableException
+     * @throws NoDriverAvailableException
      */
     private function getLocationFromFallback()
     {
@@ -493,7 +493,7 @@ class Location {
      * Returns the specified driver
      *
      * @param string $driver
-     * @throws \Stevebauman\Location\Exceptions\DriverDoesNotExistException
+     * @throws DriverDoesNotExistException
      */
     private function getDriver($driver)
     {
