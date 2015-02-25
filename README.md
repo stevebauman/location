@@ -72,7 +72,7 @@ Publish the config file:
 
     Location::get();
 
-####Getting a user location with a specfied IP:
+####Getting a user location with a specific IP:
 
     Location::get('192.168.1.1');
     
