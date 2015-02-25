@@ -8,24 +8,6 @@
 [![Total Downloads](https://poser.pugx.org/stevebauman/location/downloads.svg)](https://packagist.org/packages/stevebauman/location) 
 [![License](https://poser.pugx.org/stevebauman/location/license.svg)](https://packagist.org/packages/stevebauman/location)
 
-###Quick Update
-
-<del>Laravel 5 Users: This package is currently unavailable due to the changes of the package system. This package will be updated
-for compatibility in the coming weeks.</del>
-
-Laravel 5 compatibility has been added. Feb 13th, 2015
-
-##TODO
-
-- Tests
-
-##Beta Users
-
-Switch `"location" : "dev-master"` to `"location" : "0.5"` to use previous
-package while you switch your code around for the new one.
-
-New package was rebuilt from the ground up and config file has large changes.
-
 ##Description
 Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address.
 This means you don't have to consistently update a local database to keep your results current. This package is also able to use MaxMind services for retrieving location information.
