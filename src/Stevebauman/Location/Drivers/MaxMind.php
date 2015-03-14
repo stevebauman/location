@@ -57,7 +57,7 @@ class MaxMind implements DriverInterface {
                 $maxmind = new Client($settings['user_id'], $settings['license_key']);
             }
             else {
-                $maxmind = new Reader(app_path().'/database/maxmind/GeoLite2-City.mmdb');
+                $maxmind = new Reader(base_path().'/database/maxmind/GeoLite2-City.mmdb');
             }
 
             $record = $maxmind->city($ip);
