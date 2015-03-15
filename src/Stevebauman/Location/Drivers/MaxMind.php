@@ -13,8 +13,8 @@ use Stevebauman\Location\Location as LocationInstance;
  * Class MaxMind
  * @package Stevebauman\Location\Drivers
  */
-class MaxMind implements DriverInterface {
-
+class MaxMind implements DriverInterface
+{
     /**
      * Holds the current Location class instance
      *
@@ -45,19 +45,31 @@ class MaxMind implements DriverInterface {
      * @param string $ip
      * @return Location
      */
-    public function get($ip){
-
+    public function get($ip)
+    {
         $location = new Location;
 
         $settings = $this->config->get('location'. $this->instance->getConfigSeparator() .'drivers.MaxMind.configuration');
 
-        try {
-
-            if($settings['web_service']) {
+        try
+        {
+            if($settings['web_service'])
+            {
                 $maxmind = new Client($settings['user_id'], $settings['license_key']);
             }
-            else {
-                $maxmind = new Reader(app_path().'/database/maxmind/GeoLite2-City.mmdb');
+            else
+            {
+                $path = app_path('database/maxmind/GeoLite2-City.mmdb');
+
+                /*
+                 * Laravel 5 compatibility
+                 */
+                if($this->instance->getConfigSeparator() === '.')
+                {
+                    $path = base_path('database/maxmind/GeoLite2-City.mmdb');
+                }
+
+                $maxmind = new Reader($path);
             }
 
             $record = $maxmind->city($ip);
@@ -76,7 +88,8 @@ class MaxMind implements DriverInterface {
 
             $location->driver = get_class($this);
 
-        } catch(\Exception $e){
+        } catch(\Exception $e)
+        {
             $location->error = true;
         }
 
