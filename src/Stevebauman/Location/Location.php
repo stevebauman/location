@@ -232,10 +232,7 @@ class Location
         /*
          * Removes location from the session if config option is set
          */
-        if($this->localHostForgetLocation())
-        {
-            $this->session->forget('location');
-        }
+        if($this->localHostForgetLocation()) $this->session->forget('location');
 
         /*
          * Check if the location has already been set in the current session
@@ -264,10 +261,7 @@ class Location
              * occurred trying to grab the location from the driver. Let's
              * try retrieving the location from one of our fall-backs
              */
-            if($this->location->error)
-            {
-                $this->location = $this->getLocationFromFallback();
-            }
+            if($this->location->error) $this->location = $this->getLocationFromFallback();
 
             $this->session->set('location', $this->location);
         }
@@ -305,15 +299,11 @@ class Location
     {
         $filteredIp = filter_var($ip, FILTER_VALIDATE_IP);
 
-        if($filteredIp)
-        {
-            return $filteredIp;
-        } else
-        {
-            $message = sprintf('The IP Address: %s is invalid', $ip);
+        if($filteredIp) return $filteredIp;
 
-            throw new InvalidIpException($message);
-        }
+        $message = sprintf('The IP Address: %s is invalid', $ip);
+
+        throw new InvalidIpException($message);
     }
 
     /**
@@ -446,7 +436,7 @@ class Location
      */
     private function getDriverFallbackList()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks');
+        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks', array());
     }
 
     /**
