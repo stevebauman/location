@@ -11,8 +11,8 @@ use Stevebauman\Location\Location as LocationInstance;
  * Class Telize
  * @package Stevebauman\Location\Drivers
  */
-class Telize implements DriverInterface {
-
+class Telize implements DriverInterface
+{
     /**
      * Holds the current Location class instance
      *

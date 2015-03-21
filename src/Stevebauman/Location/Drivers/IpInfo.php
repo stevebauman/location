@@ -11,8 +11,8 @@ use Stevebauman\Location\Location as LocationInstance;
  * Class IpInfo
  * @package Stevebauman\Location\Drivers
  */
-class IpInfo implements DriverInterface {
-
+class IpInfo implements DriverInterface
+{
     /**
      * Holds the current Location class instance
      *
@@ -53,9 +53,9 @@ class IpInfo implements DriverInterface {
     public function get($ip)
     {
         $location = new Location;
-        
-        try {
 
+        try
+        {
             $contents = json_decode(file_get_contents($this->url.$ip));
 
             $location->ip = $ip;
@@ -68,17 +68,13 @@ class IpInfo implements DriverInterface {
 
             if(property_exists($contents, 'city')) $location->cityName = $contents->city;
 
-            if(property_exists($contents, 'loc')) {
-
+            if(property_exists($contents, 'loc'))
+            {
                 $coords = explode(',', $contents->loc);
 
-                if(array_key_exists(0, $coords)) {
-                    $location->latitude = $coords[0];
-                }
+                if(array_key_exists(0, $coords)) $location->latitude = $coords[0];
 
-                if(array_key_exists(1, $coords)) {
-                    $location->longitude = $coords[1];
-                }
+                if(array_key_exists(1, $coords)) $location->longitude = $coords[1];
             }
 
             $countries = $this->config->get('location'. $this->instance->getConfigSeparator() .'country_codes');
@@ -86,14 +82,15 @@ class IpInfo implements DriverInterface {
             /*
              * See if we can convert the country code to the country name
              */
-            if (array_key_exists($location->countryCode, $countries))
+            if (is_array($countries) && array_key_exists($location->countryCode, $countries))
             {
                 $location->countryName = $countries[$location->countryCode];
             }
 
             $location->driver = get_class($this);
             
-        } catch(\Exception $e) {
+        } catch(\Exception $e)
+        {
             $location->error = true;
         }
 

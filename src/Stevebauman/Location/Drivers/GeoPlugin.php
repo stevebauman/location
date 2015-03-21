@@ -11,8 +11,8 @@ use Stevebauman\Location\Location as LocationInstance;
  * Class GeoPlugin
  * @package Stevebauman\Location\Drivers
  */
-class GeoPlugin implements DriverInterface {
-
+class GeoPlugin implements DriverInterface
+{
     /**
      * Holds the current Location class instance
      *
@@ -52,11 +52,10 @@ class GeoPlugin implements DriverInterface {
      */
     public function get($ip)
     {
-        
         $location = new Location;
         
-        try {
-
+        try
+        {
             $contents = unserialize(file_get_contents($this->url.$ip));
 
             $location->ip = $ip;
@@ -81,7 +80,8 @@ class GeoPlugin implements DriverInterface {
 
             $location->driver = get_class($this);
             
-        } catch(\Exception $e) {
+        } catch(\Exception $e)
+        {
             $location->error = true;
         }
 

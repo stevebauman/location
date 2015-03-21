@@ -17,8 +17,8 @@ use Illuminate\Foundation\Application as App;
  * @package Stevebauman\Location
  * @license MIT
  */
-class Location {
-
+class Location
+{
     /*
      * Holds the current driver object
      */
@@ -277,9 +277,9 @@ class Location {
      * Sets the current IP property. If an IP address is supplied, it is validated
      * before it's set, otherwise it is grabbed automatically from the client
      *
-     * @param string $ip
+     * @param null $ip
      */
-    private function setIp($ip)
+    private function setIp($ip = null)
     {
         /*
          * If an IP address is supplied, we'll validate it and set it,
@@ -507,7 +507,7 @@ class Location {
         } else
         {
             $message = sprintf('The driver: %s, does not exist. Please check the docs and'
-                . ' verify that it does.', $driver);
+                . ' verify that it does.', $namespace.$driver);
 
             throw new DriverDoesNotExistException($message);
         }

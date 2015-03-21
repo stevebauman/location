@@ -1,6 +1,6 @@
 {
     "name": "stevebauman/location",
-    "description": "Detect user Location by their IP Address",
+    "description": "Retrieve a users location by their IP Address using Laravel 4 / 5",
     "authors": [
         {
             "name": "Steve Bauman",
@@ -10,8 +10,9 @@
     "license" : "MIT",
     "keywords" : [
         "laravel", 
-        "php", 
-        "location", 
+        "php",
+        "location",
+        "geo",
         "geoIP",
         "geo-location",
         "ip"
@@ -20,6 +21,9 @@
         "php": ">=5.4.0",
         "illuminate/support": "4.*|5.*",
         "geoip2/geoip2": "2.1.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*"
     },
     "autoload": {
         "psr-0": {
