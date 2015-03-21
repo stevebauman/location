@@ -520,15 +520,18 @@ class Location
      */
     private function setConfigSeparator()
     {
-        /*
-         * Need to store app instance in new variable due to
-         * constants being inaccessible via $this->app::VERSION
-         */
-        $app = $this->app;
+        if(defined(get_class($this->app).'::VERSION'))
+        {
+            /*
+             * Need to store app instance in new variable due to
+             * constants being inaccessible via $this->app::VERSION
+             */
+            $app = $this->app;
 
-        $appVersion = explode('.', $app::VERSION);
+            $appVersion = explode('.', $app::VERSION);
 
-        if($appVersion[0] == 5) $this->configSeparator = '.';
+            if($appVersion[0] == 5) $this->configSeparator = '.';
+        }
     }
 
 }

@@ -58,6 +58,7 @@ Publish the config file:
 
 ##Changelog
     
+    1.1.1 - March 15th, 2015 - Fixed MaxMind local database path for Laravel 5
     1.1.0 - February 13th, 2015 - Added Laravel 5 compatibility
     1.0.7 - February 9th, 2015 - Documentation updates and some small tweaks
     1.0.6 - January 5th, 2015 - Bug fixes, see release notes for more
