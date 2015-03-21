@@ -52,12 +52,13 @@ Add the alias in your `config/app.php` file:
 
 	'Location' => 'Stevebauman\Location\Facades\Location',
 
-Publish the config file:
+Publish the config file (mandatory):
 
     php artisan vendor:publish
 
 ##Changelog
     
+    1.1.2 - March 21st, 2015 - Added tests
     1.1.1 - March 15th, 2015 - Fixed MaxMind local database path for Laravel 5
     1.1.0 - February 13th, 2015 - Added Laravel 5 compatibility
     1.0.7 - February 9th, 2015 - Documentation updates and some small tweaks
@@ -71,7 +72,7 @@ Publish the config file:
 
 ####Getting a user location (automatic IP detection):
 
-    Location::get();
+    $location = Location::get();
 
 ####Getting a user location with a specific IP:
 
