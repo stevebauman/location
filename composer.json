@@ -25,6 +25,9 @@
     "require-dev": {
         "mockery/mockery": "0.9.*"
     },
+    "archive": {
+      "exclude": ["/tests"]
+    },
     "autoload": {
         "psr-4": {
             "Stevebauman\\Location\\": "src/"
