@@ -28,12 +28,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
     public function testLocationDriverFreeGeoIp()
     {
-        $this->config->shouldReceive('get')->andReturnValues(array(
+        $this->config->shouldReceive('get')->andReturnValues([
             'FreeGeoIp',
             'Stevebauman\Location\Drivers\\',
             'http://freegeoip.net/json/',
             '66.102.0.0'
-        ));
+        ]);
 
         $this->location = new Location($this->app, $this->config, $this->session);
 
@@ -51,12 +51,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
     public function testLocationDriverGeoPlugin()
     {
-        $this->config->shouldReceive('get')->andReturnValues(array(
+        $this->config->shouldReceive('get')->andReturnValues([
             'GeoPlugin',
             'Stevebauman\Location\Drivers\\',
             'http://www.geoplugin.net/php.gp?ip=',
             '66.102.0.0'
-        ));
+        ]);
 
         $this->location = new Location($this->app, $this->config, $this->session);
 
@@ -74,12 +74,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
     public function testLocationDriverIpInfo()
     {
-        $this->config->shouldReceive('get')->andReturnValues(array(
+        $this->config->shouldReceive('get')->andReturnValues([
             'IpInfo',
             'Stevebauman\Location\Drivers\\',
             'http://ipinfo.io/',
             '66.102.0.0'
-        ));
+        ]);
 
         $this->location = new Location($this->app, $this->config, $this->session);
 
@@ -97,12 +97,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
     public function testLocationDriverTelize()
     {
-        $this->config->shouldReceive('get')->andReturnValues(array(
+        $this->config->shouldReceive('get')->andReturnValues([
             'Telize',
             'Stevebauman\Location\Drivers\\',
             'http://www.telize.com/geoip/',
             '66.102.0.0'
-        ));
+        ]);
 
         $this->location = new Location($this->app, $this->config, $this->session);
 
@@ -120,10 +120,10 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
     public function testLocationDriverNotFoundException()
     {
-        $this->config->shouldReceive('get')->andReturnValues(array(
+        $this->config->shouldReceive('get')->andReturnValues([
             'test',
             'test',
-        ));
+        ]);
 
         $this->setExpectedException('Stevebauman\Location\Exceptions\DriverDoesNotExistException');
 

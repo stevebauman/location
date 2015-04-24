@@ -45,6 +45,6 @@ class LocationServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return array('location');
+		return ['location'];
 	}
 }

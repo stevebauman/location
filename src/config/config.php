@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     
     /*
      * Available drivers (must be spelt exact):
@@ -10,31 +10,31 @@ return array(
      * Telize (Recommended)
      * MaxMind
      */
-    'drivers' => array(
-        'FreeGeoIp' => array(
+    'drivers' => [
+        'FreeGeoIp' => [
             'url' => 'http://freegeoip.net/json/',
-        ),
+        ],
 
-        'GeoPlugin' => array(
+        'GeoPlugin' => [
             'url' => 'http://www.geoplugin.net/php.gp?ip=',
-        ),
+        ],
 
-        'IpInfo' => array(
+        'IpInfo' => [
             'url' => 'http://ipinfo.io/',
-        ),
+        ],
 
-        'Telize' => array(
+        'Telize' => [
             'url' => 'http://www.telize.com/geoip/',
-        ),
+        ],
 
-        'MaxMind' => array(
-            'configuration' => array(
+        'MaxMind' => [
+            'configuration' => [
                     'web_service' 	=> false, //If set to true, you must fill in your user ID and license key
                     'user_id' 		=> '',
                     'license_key'	=> ''
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 	
     /*
      * Override if you want to provide your own drivers
@@ -51,11 +51,11 @@ return array(
      * Selected Driver Fallbacks:
      * The drivers you want to use to grab location if the selected driver is unavailable (in order)
      */
-    'selected_driver_fallbacks' => array(
+    'selected_driver_fallbacks' => [
             'IpInfo',
             'GeoPlugin',
             'MaxMind',
-    ),
+    ],
 	
     /*
      * If your running your website locally and want to test different 
@@ -79,18 +79,18 @@ return array(
      * Value is the value of the selected item in the dropdown
      * Name is the appearance of the selected item
      */
-    'dropdown_config' => array(
+    'dropdown_config' => [
         /*
          *  Only options at the moment are 'country_code', or 'country_name'
          */
         'value' => 'country_code', 
         'name' 	=> 'country_name',
-    ),
+    ],
 
     /** Country Codes:
     *       Country codes are in use only for dropdown at the moment
     **/
-    'country_codes' => array(
+    'country_codes' => [
             'AF' => 'Afghanistan',
             'AX' => 'Aland Islands',
             'AL' => 'Albania',
@@ -336,5 +336,5 @@ return array(
             'YE' => 'Yemen',
             'ZM' => 'Zambia',
             'ZW' => 'Zimbabwe',
-    ),
-);
+    ],
+];

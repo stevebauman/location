@@ -150,7 +150,7 @@ class Location
     {
         $countries = $this->getCountryCodes();
 
-        $list = array();
+        $list = [];
 
         /*
          * If no value or name set, grab the default dropdown config values
@@ -436,7 +436,7 @@ class Location
      */
     private function getDriverFallbackList()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks', array());
+        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks', []);
     }
 
     /**
