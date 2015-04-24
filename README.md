@@ -67,6 +67,8 @@ Publish the config file (mandatory):
     1.0.4 - December 29th, 2014 - Added new driver Telize, re-publish config after update to use it
     1.0.3 - December 28th, 2014 - Cleaned up Location class a bit and added more documentation
     1.0.2 - December 22nd, 2014 - Added New Driver IpInfo, re-publish config after update if you'd like to use it
+    1.0.1 - December 8th, 2014 - Added MaxMind GeoIP dependency
+    1.0.0 - December 8th, 2014 - Revamped entire package
 
 ##Usage
 
