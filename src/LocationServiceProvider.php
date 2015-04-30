@@ -1,4 +1,6 @@
-<?php namespace Stevebauman\Location;
+<?php
+
+namespace Stevebauman\Location;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,18 +24,15 @@ class LocationServiceProvider extends ServiceProvider
 		 * If the package method exists, we're using Laravel 4, if not then we're
 		 * definitely on laravel 5
 		 */
-		if (method_exists($this, 'package'))
-        {
+		if (method_exists($this, 'package')) {
 			$this->package('stevebauman/location');
-		} else
-        {
+		} else {
 			$this->publishes([
 				__DIR__ . '/config/config.php' => config_path('location.php'),
 			], 'config');
 		}
 
-		$this->app['location'] = $this->app->share(function($app)
-		{
+		$this->app['location'] = $this->app->share(function($app) {
 			return new Location($app, $app['config'], $app['session']);
 		});
 	}

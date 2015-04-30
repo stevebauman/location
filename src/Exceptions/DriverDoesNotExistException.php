@@ -2,4 +2,6 @@
 
 namespace Stevebauman\Location\Exceptions;
 
-class DriverDoesNotExistException extends \Exception {}
+class DriverDoesNotExistException extends LocationException
+{
+}

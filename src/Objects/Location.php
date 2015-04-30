@@ -6,8 +6,8 @@ namespace Stevebauman\Location\Objects;
  * Class Location
  * @package Stevebauman\Location\Objects
  */
-class Location {
-
+class Location
+{
     /**
      * Holds the country name
      *
@@ -120,5 +120,4 @@ class Location {
      * @var bool
      */
     public $error = false;
-    
 }

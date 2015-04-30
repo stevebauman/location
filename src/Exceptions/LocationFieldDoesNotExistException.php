@@ -2,4 +2,6 @@
 
 namespace Stevebauman\Location\Exceptions;
 
-class LocationFieldDoesNotExistException extends \Exception {}
+class LocationFieldDoesNotExistException extends LocationException
+{
+}

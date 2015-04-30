@@ -2,6 +2,6 @@
 
 namespace Stevebauman\Location\Exceptions;
 
-class NoDriverAvailableException extends \Exception {
-    
+class NoDriverAvailableException extends LocationException
+{
 }

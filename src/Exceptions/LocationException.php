@@ -2,6 +2,6 @@
 
 namespace Stevebauman\Location\Exceptions;
 
-class InvalidIpException extends LocationException
+class LocationException extends \Exception
 {
 }
