@@ -333,8 +333,8 @@ class Location
          * Errors occurred on trying to get a location from each driver, or no
          * fallback drivers exist. Throw no driver available exception
          */
-        $message = sprintf('No Location drivers are available. Last driver tried was: %s.'
-            . ' Did you forget to set up your MaxMind GeoLite2-City.mmdb?', get_class($driver));
+        $message = sprintf('No Location drivers are available.'
+            . ' Did you forget to set up your MaxMind GeoLite2-City.mmdb?');
 
         throw new NoDriverAvailableException($message);
     }
