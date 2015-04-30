@@ -313,16 +313,19 @@ class Location
     {
         $fallbacks = $this->getDriverFallbackList();
 
-        foreach($fallbacks as $fallbackDriver) {
-            $driver = $this->getDriver($fallbackDriver);
+        if(is_array($fallbacks) && count($fallbacks) > 0)
+        {
+            foreach($fallbacks as $fallbackDriver) {
+                $driver = $this->getDriver($fallbackDriver);
 
-            $location = $driver->get($this->ip);
+                $location = $driver->get($this->ip);
 
-            /*
-             * If no error has occurred, return the new location
-             */
-            if(! $location->error) {
-                return $location;
+                /*
+                 * If no error has occurred, return the new location
+                 */
+                if(! $location->error) {
+                    return $location;
+                }
             }
         }
 
