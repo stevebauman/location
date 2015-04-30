@@ -55,7 +55,6 @@ class FreeGeoIp implements DriverInterface {
         $location = new Location;
 
         try {
-            
             $contents = json_decode(file_get_contents($this->url.$ip), true);
 
             $location->ip = $ip;
@@ -82,7 +81,7 @@ class FreeGeoIp implements DriverInterface {
             
             $location->driver = get_class($this);
             
-        } catch(\Exception $e){
+        } catch(\Exception $e) {
             $location->error = true;
         }
 
