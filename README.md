@@ -57,6 +57,7 @@ Publish the config file (mandatory):
 
 ##Changelog
     
+    1.1.4 - April 30th, 2015 - Updated configuration path for PSR changes
     1.1.3 - April 24th, 2015 - PSR compatibility update, more updates to come
     1.1.2 - March 21st, 2015 - Added tests
     1.1.1 - March 15th, 2015 - Fixed MaxMind local database path for Laravel 5
