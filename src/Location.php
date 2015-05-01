@@ -21,13 +21,15 @@ class Location
 {
     /*
      * Holds the current driver object
+     *
+     * @var \Stevebauman\Location\Drivers\DriverInterface
      */
     protected $driver;
 
     /*
      * Holds the current location object
      *
-     * @var Location
+     * @var \Stevebauman\Location\Objects\Location
      */
     protected $location;
 
@@ -268,7 +270,7 @@ class Location
      * Sets the current IP property. If an IP address is supplied, it is validated
      * before it's set, otherwise it is grabbed automatically from the client
      *
-     * @param null $ip
+     * @param string $ip
      */
     private function setIp($ip = null)
     {
