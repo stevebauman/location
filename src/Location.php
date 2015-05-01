@@ -97,8 +97,10 @@ class Location
      *
      * @param string $ip
      * @param string $field
+     *
+     * @return \Stevebauman\Location\Objects\Location|array|string
+     *
      * @throws LocationFieldDoesNotExistException
-     * @return mixed
      */
     public function get($ip = '', $field = '')
     {
@@ -144,6 +146,7 @@ class Location
      *
      * @param string $value
      * @param string $name
+     *
      * @return array
      */
     public function lists($value = '', $name = '')
@@ -175,6 +178,7 @@ class Location
      *
      * @param string $value
      * @param string $name
+     *
      * @return array
      */
     public function dropdown($value = '', $name = '')
@@ -187,6 +191,7 @@ class Location
      * equals the specified field
      *
      * @param string $field
+     *
      * @return boolean
      */
     public function is($field)
@@ -289,7 +294,9 @@ class Location
      * Returns the IP address if it is valid, throws an exception if it's not
      *
      * @param string $ip
+     *
      * @return mixed
+     *
      * @throws InvalidIpException
      */
     private function validateIp($ip)
@@ -309,6 +316,7 @@ class Location
      * Returns a fallback driver location
      *
      * @return \Stevebauman\Location\Objects\Location
+     *
      * @throws NoDriverAvailableException
      */
     private function getLocationFromFallback()
@@ -346,6 +354,7 @@ class Location
      * testing is set to true
      *
      * @thanks https://github.com/Torann/laravel-4-geoip/blob/master/src/Torann/GeoIP/GeoIP.php
+     *
      * @return string
      */
     private function getClientIP()
@@ -476,6 +485,9 @@ class Location
      * Returns the specified driver
      *
      * @param string $driver
+     *
+     * @return \Stevebauman\Location\Drivers\DriverInterface
+     *
      * @throws DriverDoesNotExistException
      */
     private function getDriver($driver)
