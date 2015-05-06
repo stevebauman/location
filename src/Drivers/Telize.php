@@ -43,7 +43,7 @@ class Telize implements DriverInterface
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'. $this->instance->getConfigSeparator() .'drivers.Telize.url');
+        $this->url = $this->config->get('location' . $this->instance->getConfigSeparator() . 'drivers.Telize.url');
     }
 
     /**
@@ -55,39 +55,39 @@ class Telize implements DriverInterface
     public function get($ip)
     {
         $location = new Location;
-        
+
         try {
-            $contents = json_decode(file_get_contents($this->url.$ip));
-            
+            $contents = json_decode(file_get_contents($this->url . $ip));
+
             $location->ip = $ip;
-            
-            if(property_exists($contents, 'country')) $location->countryName = $contents->country;
-            
-            if(property_exists($contents, 'country_code')) $location->countryCode = $contents->country_code;
-            
-            if(property_exists($contents, 'region')) $location->regionName = $contents->region;
-            
-            if(property_exists($contents, 'region_code')) $location->regionCode = $contents->region_code;
-            
-            if(property_exists($contents, 'city')) $location->cityName = $contents->city;
-            
-            if(property_exists($contents, 'postal_code')) $location->postalCode = $contents->postal_code;
-            
-            if(property_exists($contents, 'longitude')) $location->longitude = $contents->longitude;
-            
-            if(property_exists($contents, 'latitude')) $location->latitude = $contents->latitude;
-            
-            if(property_exists($contents, 'isp')) $location->isp = $contents->isp;
-            
+
+            if (property_exists($contents, 'country')) $location->countryName = $contents->country;
+
+            if (property_exists($contents, 'country_code')) $location->countryCode = $contents->country_code;
+
+            if (property_exists($contents, 'region')) $location->regionName = $contents->region;
+
+            if (property_exists($contents, 'region_code')) $location->regionCode = $contents->region_code;
+
+            if (property_exists($contents, 'city')) $location->cityName = $contents->city;
+
+            if (property_exists($contents, 'postal_code')) $location->postalCode = $contents->postal_code;
+
+            if (property_exists($contents, 'longitude')) $location->longitude = $contents->longitude;
+
+            if (property_exists($contents, 'latitude')) $location->latitude = $contents->latitude;
+
+            if (property_exists($contents, 'isp')) $location->isp = $contents->isp;
+
             $location->driver = get_class($this);
-            
+
         } catch (\Exception $e) {
 
             $location->error = true;
-            
+
         }
-        
+
         return $location;
     }
-    
+
 }

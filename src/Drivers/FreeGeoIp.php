@@ -11,7 +11,8 @@ use Stevebauman\Location\Location as LocationInstance;
  * Class FreeGeoIp
  * @package Stevebauman\Location\Drivers
  */
-class FreeGeoIp implements DriverInterface {
+class FreeGeoIp implements DriverInterface
+{
 
     /**
      * Holds the current Location class instance
@@ -41,7 +42,7 @@ class FreeGeoIp implements DriverInterface {
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'. $this->instance->getConfigSeparator() .'drivers.FreeGeoIp.url');
+        $this->url = $this->config->get('location' . $this->instance->getConfigSeparator() . 'drivers.FreeGeoIp.url');
     }
 
     /**
@@ -55,33 +56,33 @@ class FreeGeoIp implements DriverInterface {
         $location = new Location;
 
         try {
-            $contents = json_decode(file_get_contents($this->url.$ip), true);
+            $contents = json_decode(file_get_contents($this->url . $ip), true);
 
             $location->ip = $ip;
 
-            if(array_key_exists('country_code', $contents)) $location->countryCode = $contents['country_code'];
+            if (array_key_exists('country_code', $contents)) $location->countryCode = $contents['country_code'];
 
-            if(array_key_exists('country_name', $contents)) $location->countryName = $contents['country_name'];
+            if (array_key_exists('country_name', $contents)) $location->countryName = $contents['country_name'];
 
-            if(array_key_exists('region_code', $contents)) $location->regionCode = $contents['region_code'];
+            if (array_key_exists('region_code', $contents)) $location->regionCode = $contents['region_code'];
 
-            if(array_key_exists('region_name', $contents)) $location->regionName = $contents['region_name'];
+            if (array_key_exists('region_name', $contents)) $location->regionName = $contents['region_name'];
 
-            if(array_key_exists('city', $contents)) $location->cityName = $contents['city'];
+            if (array_key_exists('city', $contents)) $location->cityName = $contents['city'];
 
-            if(array_key_exists('zip_code', $contents)) $location->zipCode = $contents['zip_code'];
+            if (array_key_exists('zip_code', $contents)) $location->zipCode = $contents['zip_code'];
 
-            if(array_key_exists('latitude', $contents)) $location->latitude = $contents['latitude'];
+            if (array_key_exists('latitude', $contents)) $location->latitude = $contents['latitude'];
 
-            if(array_key_exists('longitude', $contents)) $location->longitude = $contents['longitude'];
+            if (array_key_exists('longitude', $contents)) $location->longitude = $contents['longitude'];
 
-            if(array_key_exists('metro_code', $contents)) $location->metroCode = $contents['metro_code'];
+            if (array_key_exists('metro_code', $contents)) $location->metroCode = $contents['metro_code'];
 
-            if(array_key_exists('area_code', $contents)) $location->areaCode = $contents['area_code'];
-            
+            if (array_key_exists('area_code', $contents)) $location->areaCode = $contents['area_code'];
+
             $location->driver = get_class($this);
-            
-        } catch(\Exception $e) {
+
+        } catch (\Exception $e) {
             $location->error = true;
         }
 

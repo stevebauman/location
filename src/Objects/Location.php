@@ -98,21 +98,21 @@ class Location
      * @var string
      */
     public $isp = '';
-    
+
     /*
      * Holds the IP address that was used to retrieve location information
      *
      * @var string
      */
     public $ip = '';
-    
+
     /*
      * Holds the drivers name the location was taken from
      *
      * @var string
      */
     public $driver = '';
-    
+
     /*
      * Indicates if there was an issue gathering the location from the driver.
      * This is used for driver fallbacks

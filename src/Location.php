@@ -106,8 +106,8 @@ class Location
     {
         $this->setLocation($ip);
 
-        if($field) {
-            if(property_exists($this->location, $field)) {
+        if ($field) {
+            if (property_exists($this->location, $field)) {
                 return $this->location->{$field};
             } else {
                 $message = sprintf('Location field: %s does not exist. Please check the docs'
@@ -158,7 +158,7 @@ class Location
         /*
          * If no value or name set, grab the default dropdown config values
          */
-        if(empty($value) && empty($name)) {
+        if (empty($value) && empty($name)) {
             $dropdown_value = $this->getDropdownValue();
             $dropdown_name = $this->getDropdownName();
         } else {
@@ -166,7 +166,7 @@ class Location
             $dropdown_name = $name;
         }
 
-        foreach($countries as $country_code => $country_name) {
+        foreach ($countries as $country_code => $country_name) {
             $list[$$dropdown_value] = $$dropdown_name;
         }
 
@@ -204,8 +204,8 @@ class Location
         /*
          * Check each property and compare them to the inputted field
          */
-        foreach($properties as $property) {
-            if(strcasecmp($field, $property) === 0) {
+        foreach ($properties as $property) {
+            if (strcasecmp($field, $property) === 0) {
                 return true;
             }
         }
@@ -234,14 +234,14 @@ class Location
         /*
          * Removes location from the session if config option is set
          */
-        if($this->localHostForgetLocation()) {
+        if ($this->localHostForgetLocation()) {
             $this->session->forget('location');
         }
 
         /*
          * Check if the location has already been set in the current session
          */
-        if($this->session->has('location')) {
+        if ($this->session->has('location')) {
             /*
              * Set the current driver to the current session location
              */
@@ -263,7 +263,7 @@ class Location
              * occurred trying to grab the location from the driver. Let's
              * try retrieving the location from one of our fall-backs
              */
-            if($this->location->error) {
+            if ($this->location->error) {
                 $this->location = $this->getLocationFromFallback();
             }
 
@@ -283,7 +283,7 @@ class Location
          * If an IP address is supplied, we'll validate it and set it,
          * otherwise we'll grab it automatically from the client
          */
-        if($ip) {
+        if ($ip) {
             $this->ip = $this->validateIp($ip);
         } else {
             $this->ip = $this->getClientIP();
@@ -303,7 +303,7 @@ class Location
     {
         $filteredIp = filter_var($ip, FILTER_VALIDATE_IP);
 
-        if($filteredIp) {
+        if ($filteredIp) {
             return $filteredIp;
         }
 
@@ -323,9 +323,8 @@ class Location
     {
         $fallbacks = $this->getDriverFallbackList();
 
-        if(is_array($fallbacks) && count($fallbacks) > 0)
-        {
-            foreach($fallbacks as $fallbackDriver) {
+        if (is_array($fallbacks) && count($fallbacks) > 0) {
+            foreach ($fallbacks as $fallbackDriver) {
                 $driver = $this->getDriver($fallbackDriver);
 
                 $location = $driver->get($this->ip);
@@ -333,7 +332,7 @@ class Location
                 /*
                  * If no error has occurred, return the new location
                  */
-                if(! $location->error) {
+                if (! $location->error) {
                     return $location;
                 }
             }
@@ -359,31 +358,22 @@ class Location
      */
     private function getClientIP()
     {
-        if($this->localHostTesting())
-        {
+        if ($this->localHostTesting()) {
             return $this->getLocalHostTestingIp();
-        } else
-        {
+        } else {
             if (getenv('HTTP_CLIENT_IP')) {
                 $ipaddress = getenv('HTTP_CLIENT_IP');
-            }
-            else if(getenv('HTTP_X_FORWARDED_FOR')) {
+            } else if (getenv('HTTP_X_FORWARDED_FOR')) {
                 $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-            }
-            else if(getenv('HTTP_X_FORWARDED')) {
+            } else if (getenv('HTTP_X_FORWARDED')) {
                 $ipaddress = getenv('HTTP_X_FORWARDED');
-            }
-            else if(getenv('HTTP_FORWARDED_FOR'))
-            {
+            } else if (getenv('HTTP_FORWARDED_FOR')) {
                 $ipaddress = getenv('HTTP_FORWARDED_FOR');
-            }
-            else if(getenv('HTTP_FORWARDED')) {
+            } else if (getenv('HTTP_FORWARDED')) {
                 $ipaddress = getenv('HTTP_FORWARDED');
-            }
-            else if(getenv('REMOTE_ADDR')) {
+            } else if (getenv('REMOTE_ADDR')) {
                 $ipaddress = getenv('REMOTE_ADDR');
-            }
-            else {
+            } else {
                 $ipaddress = filter_input('INPUT_SERVER', 'REMOTE_ADDR');
             }
 
@@ -398,7 +388,7 @@ class Location
      */
     private function localHostTesting()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_testing');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'localhost_testing');
     }
 
     /**
@@ -408,7 +398,7 @@ class Location
      */
     private function localHostForgetLocation()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_forget_location');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'localhost_forget_location');
     }
 
     /**
@@ -418,7 +408,7 @@ class Location
      */
     private function getLocalHostTestingIp()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'localhost_testing_ip');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'localhost_testing_ip');
     }
 
     /**
@@ -428,7 +418,7 @@ class Location
      */
     private function getSelectedDriver()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'selected_driver');
     }
 
     /**
@@ -438,7 +428,7 @@ class Location
      */
     private function getDriverFallbackList()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'selected_driver_fallbacks', []);
+        return $this->config->get('location' . $this->getConfigSeparator() . 'selected_driver_fallbacks', []);
     }
 
     /**
@@ -448,7 +438,7 @@ class Location
      */
     private function getCountryCodes()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'country_codes');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'country_codes');
     }
 
     /**
@@ -458,7 +448,7 @@ class Location
      */
     private function getDropdownValue()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'dropdown_config.value');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'dropdown_config.value');
     }
 
     /**
@@ -468,7 +458,7 @@ class Location
      */
     private function getDropdownName()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'dropdown_config.name');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'dropdown_config.name');
     }
 
     /**
@@ -478,7 +468,7 @@ class Location
      */
     private function getDriverNamespace()
     {
-        return $this->config->get('location'. $this->getConfigSeparator() .'driver_namespace');
+        return $this->config->get('location' . $this->getConfigSeparator() . 'driver_namespace');
     }
 
     /**
@@ -494,13 +484,13 @@ class Location
     {
         $namespace = $this->getDriverNamespace();
 
-        $driverStr = $namespace.$driver;
+        $driverStr = $namespace . $driver;
 
-        if(class_exists($driverStr)) {
+        if (class_exists($driverStr)) {
             return new $driverStr($this);
         } else {
             $message = sprintf('The driver: %s, does not exist. Please check the docs and'
-                . ' verify that it does.', $namespace.$driver);
+                . ' verify that it does.', $namespace . $driver);
 
             throw new DriverDoesNotExistException($message);
         }
@@ -513,7 +503,7 @@ class Location
      */
     private function setConfigSeparator()
     {
-        if(defined(get_class($this->app).'::VERSION')) {
+        if (defined(get_class($this->app) . '::VERSION')) {
             /*
              * Need to store app instance in new variable due to
              * constants being inaccessible via $this->app::VERSION
@@ -522,7 +512,7 @@ class Location
 
             $appVersion = explode('.', $app::VERSION);
 
-            if($appVersion[0] == 5) {
+            if ($appVersion[0] == 5) {
                 $this->configSeparator = '.';
             }
         }
