@@ -21,8 +21,8 @@ class LocationServiceProvider extends ServiceProvider
     public function register()
     {
         /*
-         * If the package method exists, we're using Laravel 4, if not then we're
-         * definitely on laravel 5
+         * If the package method exists, we're using Laravel 4,
+         * if not then we're definitely on laravel 5
          */
         if (method_exists($this, 'package')) {
             $this->package('stevebauman/location');
