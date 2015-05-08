@@ -28,7 +28,7 @@ class LocationServiceProvider extends ServiceProvider
             $this->package('stevebauman/location');
         } else {
             $this->publishes([
-                __DIR__ . '/config/config.php' => config_path('location.php'),
+                __DIR__ . '../../../config/config.php' => config_path('location.php'),
             ], 'config');
         }
 
