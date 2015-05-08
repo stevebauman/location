@@ -9,6 +9,7 @@ interface DriverInterface
      * using the current driver.
      *
      * @param string $ip
+     *
      * @return \Stevebauman\Location\Objects\Location
      */
     public function get($ip);

@@ -8,22 +8,21 @@ use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
 /**
- * The MaxMind driver
+ * The MaxMind driver.
  *
  * Class MaxMind
- * @package Stevebauman\Location\Drivers
  */
 class MaxMind implements DriverInterface
 {
     /**
-     * Holds the current Location class instance
+     * Holds the current Location class instance.
      *
      * @var LocationInstance
      */
     private $instance;
 
     /**
-     * Holds the configuration instance
+     * Holds the configuration instance.
      *
      * @var \Illuminate\Config\Repository
      */
@@ -40,16 +39,17 @@ class MaxMind implements DriverInterface
     }
 
     /**
-     * Retrieves the location from the driver MaxMind and returns a location object
+     * Retrieves the location from the driver MaxMind and returns a location object.
      *
      * @param string $ip
+     *
      * @return Location
      */
     public function get($ip)
     {
-        $location = new Location;
+        $location = new Location();
 
-        $settings = $this->config->get('location' . $this->instance->getConfigSeparator() . 'drivers.MaxMind.configuration');
+        $settings = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.MaxMind.configuration');
 
         try {
             if ($settings['web_service']) {
@@ -82,7 +82,6 @@ class MaxMind implements DriverInterface
             $location->latitude = $record->location->latitude;
 
             $location->driver = get_class($this);
-
         } catch (\Exception $e) {
             $location->error = true;
         }

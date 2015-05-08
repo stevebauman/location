@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     /*
      * Available drivers (must be spelt exact):
      * GeoPlugin
@@ -29,24 +29,24 @@ return [
 
         'MaxMind' => [
             'configuration' => [
-                    'web_service' 	=> false, //If set to true, you must fill in your user ID and license key
-                    'user_id' 		=> '',
-                    'license_key'	=> ''
+                    'web_service' => false, //If set to true, you must fill in your user ID and license key
+                    'user_id' => '',
+                    'license_key' => '',
             ],
         ],
     ],
-	
+
     /*
      * Override if you want to provide your own drivers
      */
     'driver_namespace' => 'Stevebauman\Location\Drivers\\',
-        
+
     /*
      * Selected Driver:
      * The driver you wish to use
      */
     'selected_driver' => 'Telize',
-	
+
     /*
      * Selected Driver Fallbacks:
      * The drivers you want to use to grab location if the selected driver is unavailable (in order)
@@ -56,9 +56,9 @@ return [
             'GeoPlugin',
             'MaxMind',
     ],
-	
+
     /*
-     * If your running your website locally and want to test different 
+     * If your running your website locally and want to test different
      * IP addresses to see location detection set to true
      */
     'localhost_testing' => true,
@@ -68,7 +68,7 @@ return [
      * request for testing purposes
      */
      'localhost_forget_location' => false,
-    
+
     /*
      *  IP to check for localhost testing *default is Google Host in US*
      */
@@ -83,11 +83,11 @@ return [
         /*
          *  Only options at the moment are 'country_code', or 'country_name'
          */
-        'value' => 'country_code', 
-        'name' 	=> 'country_name',
+        'value' => 'country_code',
+        'name' => 'country_name',
     ],
 
-    /** Country Codes:
+    /* Country Codes:
     *       Country codes are in use only for dropdown at the moment
     **/
     'country_codes' => [
