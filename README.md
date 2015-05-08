@@ -57,6 +57,7 @@ Publish the config file (mandatory):
 
 ##Changelog
     
+    1.1.8 - May 8th, 2015 - Rolled back layout change, PHP-CS fixed all files
     1.1.7 - May 6th, 2015 - Code reformatting tweaks
     1.1.6 - April 30th, 2015 - Small exception fix
     1.1.5 - April 30th, 2015 - Code formatting and doc tweaks
