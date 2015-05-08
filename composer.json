@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Stevebauman\\Location\\": "src/"
+            "Stevebauman\\Location\\": "src/Stevebauman/Location/"
         }
     },
     "autoload-dev": {
