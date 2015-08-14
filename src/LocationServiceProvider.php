@@ -27,7 +27,7 @@ class LocationServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->app->bind('location', function($app) {
-            return new Location($app['config'], $app['session']);
+            return new Location();
         });
     }
 

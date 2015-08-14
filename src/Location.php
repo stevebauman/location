@@ -7,8 +7,6 @@ use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 use Stevebauman\Location\Exceptions\NoDriverAvailableException;
-use Illuminate\Session\SessionManager;
-use Illuminate\Contracts\Config\Repository as ConfigContract;
 
 class Location
 {
@@ -29,14 +27,14 @@ class Location
     /**
      * Holds the configuration instance.
      *
-     * @var ConfigContract
+     * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 
     /**
      * Holds the session instance.
      *
-     * @var SessionManager
+     * @var \Illuminate\Session\SessionManager
      */
     protected $session;
 
@@ -50,19 +48,16 @@ class Location
     /**
      * Constructor.
      *
-     * @param ConfigContract  $config
-     * @param SessionManager $session
-     *
      * @throws DriverDoesNotExistException
      */
-    public function __construct(ConfigContract $config, SessionManager $session)
+    public function __construct()
     {
-        $this->config = $config;
-        $this->session = $session;
+        $this->config = app('config');
+        $this->session = app('session');
 
-        $key = $config->get('location.selected_driver');
+        $key = $this->config->get('location.selected_driver');
 
-        $driver = $config->get("location.drivers.$key.class");
+        $driver = $this->config->get("location.drivers.$key.class");
 
         if(class_exists($driver)) {
             // Set the currently selected driver from the configuration
