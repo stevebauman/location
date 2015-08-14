@@ -38,7 +38,7 @@ return [
         'Telize' => [
 
             'class' => Stevebauman\Location\Drivers\Telize::class,
-            'url' => 'http://www.telize.com/geoip/',
+            'url' => 'https://www.telize.com/geoip/',
 
         ],
 
@@ -78,6 +78,7 @@ return [
 
     'selected_driver_fallbacks' => [
 
+        'FreeGeoIp',
         'IpInfo',
         'GeoPlugin',
         'MaxMind',
@@ -106,7 +107,7 @@ return [
     |
     */
 
-    'localhost_forget_location' => false,
+    'localhost_forget_location' => true,
 
     /*
     |--------------------------------------------------------------------------
