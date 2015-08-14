@@ -17,7 +17,7 @@ return [
         'FreeGeoIp' => [
 
             'class' => Stevebauman\Location\Drivers\FreeGeoIp::class,
-            'url' => 'http://freegeoip.net/json/',
+            'url' => 'http://freegeoip.lwan.ws/json/',
 
         ],
 
