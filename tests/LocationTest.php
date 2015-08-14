@@ -27,7 +27,7 @@ class LocationTest extends \PHPUnit_Framework_TestCase
         $this->config->shouldReceive('get')->andReturnValues([
             'FreeGeoIp',
             'Stevebauman\Location\Drivers\FreeGeoIp',
-            'http://freegeoip.net/json/',
+            'http://freegeoip.lwan.ws/json/',
             '66.102.0.0'
         ]);
 
