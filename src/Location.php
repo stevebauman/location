@@ -2,20 +2,14 @@
 
 namespace Stevebauman\Location;
 
+use Stevebauman\Location\Drivers\DriverInterface;
 use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 use Stevebauman\Location\Exceptions\NoDriverAvailableException;
-use Illuminate\Session\SessionManager as Session;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Foundation\Application as App;
+use Symfony\Component\HttpFoundation\Session\SessionInterface as SessionContract;
+use Illuminate\Contracts\Config\Repository as ConfigContract;
 
-/**
- * Retrieves a users generic location based on their visiting IP address.
- *
- * @author Steve Bauman <steven_bauman_7@hotmail.com>
- * @license MIT
- */
 class Location
 {
     /*
@@ -33,23 +27,16 @@ class Location
     protected $location;
 
     /**
-     * Holds the current application instance.
-     *
-     * @var App
-     */
-    protected $app;
-
-    /**
      * Holds the configuration instance.
      *
-     * @var Config
+     * @var ConfigContract
      */
     protected $config;
 
     /**
      * Holds the session instance.
      *
-     * @var Session
+     * @var SessionContract
      */
     protected $session;
 
@@ -61,33 +48,30 @@ class Location
     protected $ip;
 
     /**
-     * Holds the configuration separator for Laravel 5
-     * compatibility.
+     * Constructor.
      *
-     * @var string
+     * @param ConfigContract  $config
+     * @param SessionContract $session
+     *
+     * @throws DriverDoesNotExistException
      */
-    protected $configSeparator = '::';
-
-    /**
-     * @param App     $app
-     * @param Config  $config
-     * @param Session $session
-     */
-    public function __construct(App $app, Config $config, Session $session)
+    public function __construct(ConfigContract $config, SessionContract $session)
     {
-        $this->app = $app;
         $this->config = $config;
         $this->session = $session;
 
-        /*
-         * Set the configuration separator for Laravel 5 compatibility
-         */
-        $this->setConfigSeparator();
+        $key = 'location.selected_driver';
 
-        /*
-         * Set the currently selected driver from the configuration
-         */
-        $this->setDriver();
+        $driver = $config->get($key);
+
+        if(class_exists($driver)) {
+            // Set the currently selected driver from the configuration
+            $this->setDriver(new $driver);
+        } else {
+            $message = "Driver: $driver, does not exist.";
+
+            throw new DriverDoesNotExistException($message);
+        }
     }
 
     /**
@@ -122,21 +106,11 @@ class Location
     /**
      * Returns the current configuration instance.
      *
-     * @return Config
+     * @return ConfigContract
      */
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Returns the configuration separator.
-     *
-     * @return string
-     */
-    public function getConfigSeparator()
-    {
-        return $this->configSeparator;
     }
 
     /**
@@ -153,19 +127,18 @@ class Location
 
         $list = [];
 
-        /*
-         * If no value or name set, grab the default dropdown config values
-         */
+        // If no value or name set, grab the
+        // default dropdown config values
         if (empty($value) && empty($name)) {
-            $dropdown_value = $this->getDropdownValue();
-            $dropdown_name = $this->getDropdownName();
+            $dropdownValue = $this->getDropdownValue();
+            $dropdownName = $this->getDropdownName();
         } else {
-            $dropdown_value = $value;
-            $dropdown_name = $name;
+            $dropdownValue = $value;
+            $dropdownName = $name;
         }
 
         foreach ($countries as $country_code => $country_name) {
-            $list[$$dropdown_value] = $$dropdown_name;
+            $list[$$dropdownValue] = $$dropdownName;
         }
 
         return $list;
@@ -194,14 +167,11 @@ class Location
      */
     public function is($field)
     {
-        /*
-         * Get all the location properties
-         */
+        // Get all the location properties
         $properties = get_object_vars($this->location);
 
-        /*
-         * Check each property and compare them to the inputted field
-         */
+        // Check each property and compare
+        // them to the inputted field
         foreach ($properties as $property) {
             if (strcasecmp($field, $property) === 0) {
                 return true;
@@ -213,13 +183,13 @@ class Location
 
     /**
      * Creates the selected driver instance and sets the driver property.
+     *
+     * @param DriverInterface $driver
      */
-    private function setDriver()
+    private function setDriver(DriverInterface $driver)
     {
-        /*
-         * Retrieve the current driver
-         */
-        $this->driver = $this->getDriver($this->getSelectedDriver());
+        // Retrieve the current driver
+        $this->driver = $driver;
     }
 
     /**
@@ -229,37 +199,24 @@ class Location
      */
     private function setLocation($ip = '')
     {
-        /*
-         * Removes location from the session if config option is set
-         */
+        // Removes location from the session if config option is set
         if ($this->localHostForgetLocation()) {
             $this->session->forget('location');
         }
 
-        /*
-         * Check if the location has already been set in the current session
-         */
+        // Check if the location has already been set in the current session
         if ($this->session->has('location')) {
-            /*
-             * Set the current driver to the current session location
-             */
+            // Set the current driver to the current session location
             $this->location = $this->session->get('location');
         } else {
-            /*
-             * Set the IP
-             */
             $this->setIp($ip);
 
-            /*
-             * Set the location
-             */
             $this->location = $this->driver->get($this->ip);
 
-            /*
-             * The locations object property 'error' will be true if an exception has
-             * occurred trying to grab the location from the driver. Let's
-             * try retrieving the location from one of our fall-backs
-             */
+            // The locations object property 'error' will be true if an
+            // exception has occurred trying to grab the location
+            // from the driver. Let's try retrieving the
+            // location from one of our fall-backs
             if ($this->location->error) {
                 $this->location = $this->getLocationFromFallback();
             }
@@ -276,10 +233,9 @@ class Location
      */
     private function setIp($ip = null)
     {
-        /*
-         * If an IP address is supplied, we'll validate it and set it,
-         * otherwise we'll grab it automatically from the client
-         */
+        // If an IP address is supplied, we'll validate it and
+        // set it, otherwise we'll grab it automatically
+        // from the client
         if ($ip) {
             $this->ip = $this->validateIp($ip);
         } else {
@@ -326,19 +282,16 @@ class Location
 
                 $location = $driver->get($this->ip);
 
-                /*
-                 * If no error has occurred, return the new location
-                 */
+                // If no error has occurred, return the new location
                 if (!$location->error) {
                     return $location;
                 }
             }
         }
 
-        /*
-         * Errors occurred on trying to get a location from each driver, or no
-         * fallback drivers exist. Throw no driver available exception
-         */
+        // Errors occurred on trying to get a location from
+        // each driver, or no fallback drivers exist.
+        // Throw no driver available exception
         $message = sprintf('No Location drivers are available.'
             .' Did you forget to set up your MaxMind GeoLite2-City.mmdb?');
 
@@ -385,7 +338,7 @@ class Location
      */
     private function localHostTesting()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'localhost_testing');
+        return $this->config->get('location.localhost_testing');
     }
 
     /**
@@ -395,7 +348,7 @@ class Location
      */
     private function localHostForgetLocation()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'localhost_forget_location');
+        return $this->config->get('location.localhost_forget_location');
     }
 
     /**
@@ -405,17 +358,7 @@ class Location
      */
     private function getLocalHostTestingIp()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'localhost_testing_ip');
-    }
-
-    /**
-     * Retrieves the config option for the current selected driver.
-     *
-     * @return string
-     */
-    private function getSelectedDriver()
-    {
-        return $this->config->get('location'.$this->getConfigSeparator().'selected_driver');
+        return $this->config->get('location.localhost_testing_ip');
     }
 
     /**
@@ -425,7 +368,7 @@ class Location
      */
     private function getDriverFallbackList()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'selected_driver_fallbacks', []);
+        return $this->config->get('location.selected_driver_fallbacks', []);
     }
 
     /**
@@ -435,7 +378,7 @@ class Location
      */
     private function getCountryCodes()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'country_codes');
+        return $this->config->get('location.country_codes');
     }
 
     /**
@@ -445,7 +388,7 @@ class Location
      */
     private function getDropdownValue()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'dropdown_config.value');
+        return $this->config->get('location.dropdown_config.value');
     }
 
     /**
@@ -455,7 +398,7 @@ class Location
      */
     private function getDropdownName()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'dropdown_config.name');
+        return $this->config->get('location.dropdown_config.name');
     }
 
     /**
@@ -465,7 +408,7 @@ class Location
      */
     private function getDriverNamespace()
     {
-        return $this->config->get('location'.$this->getConfigSeparator().'driver_namespace');
+        return $this->config->get('location.driver_namespace');
     }
 
     /**
@@ -490,26 +433,6 @@ class Location
                 .' verify that it does.', $namespace.$driver);
 
             throw new DriverDoesNotExistException($message);
-        }
-    }
-
-    /**
-     * Sets the configuration separator for Laravel 5 compatibility.
-     */
-    private function setConfigSeparator()
-    {
-        if (defined(get_class($this->app).'::VERSION')) {
-            /*
-             * Need to store app instance in new variable due to
-             * constants being inaccessible via $this->app::VERSION
-             */
-            $app = $this->app;
-
-            $appVersion = explode('.', $app::VERSION);
-
-            if ($appVersion[0] == 5) {
-                $this->configSeparator = '.';
-            }
         }
     }
 }

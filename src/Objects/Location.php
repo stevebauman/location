@@ -2,9 +2,6 @@
 
 namespace Stevebauman\Location\Objects;
 
-/**
- * Class Location.
- */
 class Location
 {
     /**

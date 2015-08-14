@@ -4,13 +4,13 @@ namespace Stevebauman\Location\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * The Location facade.
- *
- * Class Location
- */
 class Location extends Facade
 {
+    /**
+     * The IoC key accessor.
+     *
+     * @return string
+     */
     protected static function getFacadeAccessor()
     {
         return 'location';
