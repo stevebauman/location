@@ -17,6 +17,7 @@ return [
         'FreeGeoIp' => [
 
             'class' => Stevebauman\Location\Drivers\FreeGeoIp::class,
+
             'url' => 'http://freegeoip.lwan.ws/json/',
 
         ],
@@ -24,6 +25,7 @@ return [
         'GeoPlugin' => [
 
             'class' => Stevebauman\Location\Drivers\GeoPlugin::class,
+
             'url' => 'http://www.geoplugin.net/php.gp?ip=',
 
         ],
@@ -31,6 +33,7 @@ return [
         'IpInfo' => [
 
             'class' => Stevebauman\Location\Drivers\IpInfo::class,
+
             'url' => 'http://ipinfo.io/',
 
         ],
@@ -38,6 +41,7 @@ return [
         'Telize' => [
 
             'class' => Stevebauman\Location\Drivers\Telize::class,
+
             'url' => 'https://www.telize.com/geoip/',
 
         ],
@@ -45,10 +49,13 @@ return [
         'MaxMind' => [
 
             'class' => Stevebauman\Location\Drivers\MaxMind::class,
+
             'configuration' => [
+
                 'web_service' => false, //If set to true, you must fill in your user ID and license key
                 'user_id' => '',
                 'license_key' => '',
+
             ],
 
         ],
