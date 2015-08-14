@@ -7,11 +7,6 @@ use GeoIp2\WebService\Client;
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
-/**
- * The MaxMind driver.
- *
- * Class MaxMind
- */
 class MaxMind implements DriverInterface
 {
     /**

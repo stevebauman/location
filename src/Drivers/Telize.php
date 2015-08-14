@@ -5,11 +5,6 @@ namespace Stevebauman\Location\Drivers;
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
-/**
- * The Telize driver.
- *
- * Class Telize
- */
 class Telize implements DriverInterface
 {
     /**
@@ -42,7 +37,7 @@ class Telize implements DriverInterface
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.Telize.url');
+        $this->url = $this->config->get('location.drivers.Telize.url');
     }
 
     /**
