@@ -7,8 +7,6 @@ use Stevebauman\Location\Location;
 
 class LocationTest extends \PHPUnit_Framework_TestCase
 {
-    protected $app;
-
     protected $config;
 
     protected $session;
@@ -19,23 +17,21 @@ class LocationTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->app = m::mock('Illuminate\Foundation\Application');
+        $this->config = m::mock('Illuminate\Contracts\Config\Repository');
 
-        $this->config = m::mock('Illuminate\Config\Repository');
-
-        $this->session = m::mock('Illuminate\Session\SessionManager');
+        $this->session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
     }
 
     public function testLocationDriverFreeGeoIp()
     {
         $this->config->shouldReceive('get')->andReturnValues([
             'FreeGeoIp',
-            'Stevebauman\Location\Drivers\\',
+            'Stevebauman\Location\Drivers\FreeGeoIp',
             'http://freegeoip.net/json/',
             '66.102.0.0'
         ]);
 
-        $this->location = new Location($this->app, $this->config, $this->session);
+        $this->location = new Location($this->config, $this->session);
 
         $this->session
             ->shouldReceive('forget')->once()->andReturn(true)
@@ -53,12 +49,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->shouldReceive('get')->andReturnValues([
             'GeoPlugin',
-            'Stevebauman\Location\Drivers\\',
+            'Stevebauman\Location\Drivers\GeoPlugin',
             'http://www.geoplugin.net/php.gp?ip=',
             '66.102.0.0'
         ]);
 
-        $this->location = new Location($this->app, $this->config, $this->session);
+        $this->location = new Location($this->config, $this->session);
 
         $this->session
             ->shouldReceive('forget')->once()->andReturn(true)
@@ -76,12 +72,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->shouldReceive('get')->andReturnValues([
             'IpInfo',
-            'Stevebauman\Location\Drivers\\',
+            'Stevebauman\Location\Drivers\IpInfo',
             'http://ipinfo.io/',
             '66.102.0.0'
         ]);
 
-        $this->location = new Location($this->app, $this->config, $this->session);
+        $this->location = new Location($this->config, $this->session);
 
         $this->session
             ->shouldReceive('forget')->once()->andReturn(true)
@@ -99,12 +95,12 @@ class LocationTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->shouldReceive('get')->andReturnValues([
             'Telize',
-            'Stevebauman\Location\Drivers\\',
+            'Stevebauman\Location\Drivers\Telize',
             'http://www.telize.com/geoip/',
             '66.102.0.0'
         ]);
 
-        $this->location = new Location($this->app, $this->config, $this->session);
+        $this->location = new Location($this->config, $this->session);
 
         $this->session
             ->shouldReceive('forget')->once()->andReturn(true)
@@ -127,7 +123,7 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('Stevebauman\Location\Exceptions\DriverDoesNotExistException');
 
-        $this->location = new Location($this->app, $this->config, $this->session);
+        $this->location = new Location($this->config, $this->session);
     }
 
 }

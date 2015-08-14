@@ -60,13 +60,13 @@ class Location
         $this->config = $config;
         $this->session = $session;
 
-        $key = 'location.selected_driver';
+        $key = $config->get('location.selected_driver');
 
-        $driver = $config->get($key);
+        $driver = $config->get("location.drivers.$key.class");
 
         if(class_exists($driver)) {
             // Set the currently selected driver from the configuration
-            $this->setDriver(new $driver);
+            $this->setDriver(new $driver($this));
         } else {
             $message = "Driver: $driver, does not exist.";
 
