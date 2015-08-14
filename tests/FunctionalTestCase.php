@@ -8,12 +8,12 @@ use Stevebauman\Location\LocationServiceProvider;
 
 class FunctionalTestCase extends TestCase
 {
-    public function getPackageProviders()
+    public function getPackageProviders($app)
     {
         return [LocationServiceProvider::class];
     }
 
-    public function getPackageAliases()
+    public function getPackageAliases($app)
     {
         return ['Location' => Location::class];
     }
