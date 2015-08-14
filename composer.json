@@ -18,7 +18,7 @@
         "ip"
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "illuminate/support": "5.*",
         "geoip2/geoip2": "2.1.*"
     },
