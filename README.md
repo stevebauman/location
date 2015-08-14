@@ -11,7 +11,8 @@
 Unlike other location packages that require you installing database services, this package allows you to use external web servers to grab the users current location based on their IP address.
 This means you don't have to consistently update a local database to keep your results current. This package is also able to use MaxMind services for retrieving location information.
 
-Your server must support `file_get_contents()` for drivers Telize, IpInfo, FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing location through local database (by downloading <a href="http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads">GeoLite2 City</a> and placing it in your project source: `app/database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
+Your server must support `file_get_contents()` for drivers Telize, IpInfo, FreeGeoIp and GeoPlugin. You can use the MaxMind driver for grabbing 
+location through local database (by downloading [GeoLite2 City](http://dev.maxmind.com/geoip/geoip2/geolite2/#Downloads) and placing it in your project source: `database/maxmind/GeoLite2-City.mmdb` - you will have to create the maxmind directory), or you can use their web services through the config file.
 
 Also, by default, once a location is grabbed from the user, it is set into a session key named 'location'. The package will automatically
 use the session object once a location has been set so there will be minimal requests. You can use `Session:get('location')` to retrieve the location object manually from when it was first taken if you wish.
@@ -39,7 +40,7 @@ Publish the config file:
 ##Installation (Laravel 5)
 Add Location to your `composer.json` file:
 
-	"stevebauman/location": "1.1.*"
+	"stevebauman/location": "1.2.*"
 
 Then run `composer update` on your project source.
 
@@ -57,6 +58,7 @@ Publish the config file (mandatory):
 
 ##Changelog
     
+    1.2.0 - August 14th, 2015 - Laravel 5 only update, tweaks and fixes
     1.1.8 - May 8th, 2015 - Rolled back layout change, PHP-CS fixed all files
     1.1.7 - May 6th, 2015 - Code reformatting tweaks
     1.1.6 - April 30th, 2015 - Small exception fix
