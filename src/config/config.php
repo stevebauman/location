@@ -14,22 +14,27 @@ return [
 
     'drivers' => [
         'FreeGeoIp' => [
+            'class' => Stevebauman\Location\Drivers\FreeGeoIp::class,
             'url' => 'http://freegeoip.net/json/',
         ],
 
         'GeoPlugin' => [
+            'class' => Stevebauman\Location\Drivers\GeoPlugin::class,
             'url' => 'http://www.geoplugin.net/php.gp?ip=',
         ],
 
         'IpInfo' => [
+            'class' => Stevebauman\Location\Drivers\IpInfo::class,
             'url' => 'http://ipinfo.io/',
         ],
 
         'Telize' => [
+            'class' => Stevebauman\Location\Drivers\Telize::class,
             'url' => 'http://www.telize.com/geoip/',
         ],
 
         'MaxMind' => [
+            'class' => Stevebauman\Location\Drivers\MaxMind::class,
             'configuration' => [
                     'web_service' => false, //If set to true, you must fill in your user ID and license key
                     'user_id' => '',
@@ -37,18 +42,6 @@ return [
             ],
         ],
     ],
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Driver Namespace
-    |--------------------------------------------------------------------------
-    |
-    | The namespace for drivers. Modify this for custom drivers.
-    |
-    */
-
-    'driver_namespace' => 'Stevebauman\Location\Drivers\\',
 
     /*
     |--------------------------------------------------------------------------
