@@ -19,7 +19,7 @@ class LocationTest extends \PHPUnit_Framework_TestCase
 
         $this->config = m::mock('Illuminate\Contracts\Config\Repository');
 
-        $this->session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface');
+        $this->session = m::mock('Illuminate\Session\SessionManager');
     }
 
     public function testLocationDriverFreeGeoIp()
