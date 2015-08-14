@@ -3,13 +3,15 @@
 return [
 
     /*
-     * Available drivers (must be spelt exact):
-     * GeoPlugin
-     * FreeGeoIp
-     * IpInfo
-     * Telize (Recommended)
-     * MaxMind
-     */
+    |--------------------------------------------------------------------------
+    | Drivers
+    |--------------------------------------------------------------------------
+    |
+    | The available drivers for location retrieval. Customize their options
+    | individually to your liking, however the name must not be changed.
+    |
+    */
+
     'drivers' => [
         'FreeGeoIp' => [
             'url' => 'http://freegeoip.net/json/',
@@ -36,21 +38,39 @@ return [
         ],
     ],
 
+
     /*
-     * Override if you want to provide your own drivers
-     */
+    |--------------------------------------------------------------------------
+    | Driver Namespace
+    |--------------------------------------------------------------------------
+    |
+    | The namespace for drivers. Modify this for custom drivers.
+    |
+    */
+
     'driver_namespace' => 'Stevebauman\Location\Drivers\\',
 
     /*
-     * Selected Driver:
-     * The driver you wish to use
-     */
+    |--------------------------------------------------------------------------
+    | Select Driver
+    |--------------------------------------------------------------------------
+    |
+    | The first driver you would like to use for location retrieval.
+    |
+    */
+
     'selected_driver' => 'Telize',
 
     /*
-     * Selected Driver Fallbacks:
-     * The drivers you want to use to grab location if the selected driver is unavailable (in order)
-     */
+    |--------------------------------------------------------------------------
+    | Select Driver Fallbacks
+    |--------------------------------------------------------------------------
+    |
+    | The drivers you want to use to grab location if the selected driver
+    | is unavailable (in order).
+    |
+    */
+
     'selected_driver_fallbacks' => [
             'IpInfo',
             'GeoPlugin',
@@ -58,38 +78,68 @@ return [
     ],
 
     /*
-     * If your running your website locally and want to test different
-     * IP addresses to see location detection set to true
-     */
+    |--------------------------------------------------------------------------
+    | Localhost Testing
+    |--------------------------------------------------------------------------
+    |
+    | If your running your website locally and want to test different
+    | IP addresses to see location detection set to true.
+    |
+    */
+
     'localhost_testing' => true,
 
     /*
-     * Removes the location key from the session so it is retrieved on every
-     * request for testing purposes
-     */
+    |--------------------------------------------------------------------------
+    | Localhost Forget Location
+    |--------------------------------------------------------------------------
+    |
+    | Removes the location key from the session so it is retrieved
+    | on every request for testing purposes.
+    |
+    */
+
      'localhost_forget_location' => false,
 
     /*
-     *  IP to check for localhost testing *default is Google Host in US*
-     */
+    |--------------------------------------------------------------------------
+    | Localhost Testing IP Address
+    |--------------------------------------------------------------------------
+    |
+    | The IP address to use for localhost testing.
+    |
+    | The default IP is a Google Host in US.
+    |
+    */
+
     'localhost_testing_ip' => '66.102.0.0',
 
     /*
-     * Default Dropdown Configuration:
-     * Value is the value of the selected item in the dropdown
-     * Name is the appearance of the selected item
-     */
+    |--------------------------------------------------------------------------
+    | Dropdown Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Value is the value of the selected item in the dropdown.
+    | Name is the appearance of the selected item.
+    |
+    */
+
     'dropdown_config' => [
-        /*
-         *  Only options at the moment are 'country_code', or 'country_name'
-         */
+
         'value' => 'country_code',
         'name' => 'country_name',
+
     ],
 
-    /* Country Codes:
-    *       Country codes are in use only for dropdown at the moment
-    **/
+    /*
+    |--------------------------------------------------------------------------
+    | Country Codes
+    |--------------------------------------------------------------------------
+    |
+    | The country codes to use for the dropdown method.
+    |
+    */
+
     'country_codes' => [
             'AF' => 'Afghanistan',
             'AX' => 'Aland Islands',
