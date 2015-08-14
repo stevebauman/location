@@ -18,7 +18,7 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $config = __DIR__.'Config/config.php';
+        $config = __DIR__.'/Config/config.php';
 
         $this->mergeConfigFrom($config, 'location');
 
