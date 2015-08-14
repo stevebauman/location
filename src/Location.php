@@ -7,7 +7,7 @@ use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 use Stevebauman\Location\Exceptions\NoDriverAvailableException;
-use Symfony\Component\HttpFoundation\Session\SessionInterface as SessionContract;
+use Illuminate\Session\SessionManager;
 use Illuminate\Contracts\Config\Repository as ConfigContract;
 
 class Location
@@ -36,7 +36,7 @@ class Location
     /**
      * Holds the session instance.
      *
-     * @var SessionContract
+     * @var SessionManager
      */
     protected $session;
 
@@ -51,11 +51,11 @@ class Location
      * Constructor.
      *
      * @param ConfigContract  $config
-     * @param SessionContract $session
+     * @param SessionManager $session
      *
      * @throws DriverDoesNotExistException
      */
-    public function __construct(ConfigContract $config, SessionContract $session)
+    public function __construct(ConfigContract $config, SessionManager $session)
     {
         $this->config = $config;
         $this->session = $session;
