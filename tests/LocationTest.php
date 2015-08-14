@@ -2,128 +2,51 @@
 
 namespace Stevebauman\Location\Tests;
 
-use Mockery as m;
-use Stevebauman\Location\Location;
+use Stevebauman\Location\Facades\Location;
 
-class LocationTest extends \PHPUnit_Framework_TestCase
+class LocationTest extends FunctionalTestCase
 {
-    protected $config;
-
-    protected $session;
-
-    protected $location;
-
-    protected function setUp()
+    public function testLocationDriverTelize()
     {
-        parent::setUp();
+        app('config')->set('location.selected_driver', 'Telize');
 
-        $this->config = m::mock('Illuminate\Contracts\Config\Repository');
+        $location = Location::get();
 
-        $this->session = m::mock('Illuminate\Session\SessionManager');
+        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
+        $this->assertEquals('Stevebauman\Location\Drivers\Telize', $location->driver);
+        $this->assertFalse($location->error);
     }
 
     public function testLocationDriverFreeGeoIp()
     {
-        $this->config->shouldReceive('get')->andReturnValues([
-            'FreeGeoIp',
-            'Stevebauman\Location\Drivers\FreeGeoIp',
-            'http://freegeoip.lwan.ws/json/',
-            '66.102.0.0'
-        ]);
+        app('config')->set('location.selected_driver', 'FreeGeoIp');
 
-        $this->location = new Location($this->config, $this->session);
+        $location = Location::get();
 
-        $this->session
-            ->shouldReceive('forget')->once()->andReturn(true)
-            ->shouldReceive('has')->once()->andReturn(false)
-            ->shouldReceive('set')->once()->andReturn(true);
-
-        $location = $this->location->get();
-
-        $this->assertFalse($location->error);
-        $this->assertEquals('66.102.0.0', $location->ip);
+        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
         $this->assertEquals('Stevebauman\Location\Drivers\FreeGeoIp', $location->driver);
-    }
-
-    public function testLocationDriverGeoPlugin()
-    {
-        $this->config->shouldReceive('get')->andReturnValues([
-            'GeoPlugin',
-            'Stevebauman\Location\Drivers\GeoPlugin',
-            'http://www.geoplugin.net/php.gp?ip=',
-            '66.102.0.0'
-        ]);
-
-        $this->location = new Location($this->config, $this->session);
-
-        $this->session
-            ->shouldReceive('forget')->once()->andReturn(true)
-            ->shouldReceive('has')->once()->andReturn(false)
-            ->shouldReceive('set')->once()->andReturn(true);
-
-        $location = $this->location->get();
-
         $this->assertFalse($location->error);
-        $this->assertEquals('66.102.0.0', $location->ip);
-        $this->assertEquals('Stevebauman\Location\Drivers\GeoPlugin', $location->driver);
     }
 
     public function testLocationDriverIpInfo()
     {
-        $this->config->shouldReceive('get')->andReturnValues([
-            'IpInfo',
-            'Stevebauman\Location\Drivers\IpInfo',
-            'http://ipinfo.io/',
-            '66.102.0.0'
-        ]);
+        app('config')->set('location.selected_driver', 'IpInfo');
 
-        $this->location = new Location($this->config, $this->session);
+        $location = Location::get();
 
-        $this->session
-            ->shouldReceive('forget')->once()->andReturn(true)
-            ->shouldReceive('has')->once()->andReturn(false)
-            ->shouldReceive('set')->once()->andReturn(true);
-
-        $location = $this->location->get();
-
-        $this->assertFalse($location->error);
-        $this->assertEquals('66.102.0.0', $location->ip);
+        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
         $this->assertEquals('Stevebauman\Location\Drivers\IpInfo', $location->driver);
-    }
-
-    public function testLocationDriverTelize()
-    {
-        $this->config->shouldReceive('get')->andReturnValues([
-            'Telize',
-            'Stevebauman\Location\Drivers\Telize',
-            'http://www.telize.com/geoip/',
-            '66.102.0.0'
-        ]);
-
-        $this->location = new Location($this->config, $this->session);
-
-        $this->session
-            ->shouldReceive('forget')->once()->andReturn(true)
-            ->shouldReceive('has')->once()->andReturn(false)
-            ->shouldReceive('set')->once()->andReturn(true);
-
-        $location = $this->location->get();
-
         $this->assertFalse($location->error);
-        $this->assertEquals('66.102.0.0', $location->ip);
-        $this->assertEquals('Stevebauman\Location\Drivers\Telize', $location->driver);
     }
 
-    public function testLocationDriverNotFoundException()
+    public function testLocationDriverGeoPlugin()
     {
-        $this->config->shouldReceive('get')->andReturnValues([
-            'test',
-            'test',
-        ]);
+        app('config')->set('location.selected_driver', 'GeoPlugin');
 
-        $this->setExpectedException('Stevebauman\Location\Exceptions\DriverDoesNotExistException');
+        $location = Location::get();
 
-        $this->location = new Location($this->config, $this->session);
+        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
+        $this->assertEquals('Stevebauman\Location\Drivers\GeoPlugin', $location->driver);
+        $this->assertFalse($location->error);
     }
-
 }

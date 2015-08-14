@@ -27,6 +27,8 @@ class GeoPlugin implements DriverInterface
     private $url;
 
     /**
+     * Constructor.
+     *
      * @param LocationInstance $instance
      */
     public function __construct(LocationInstance $instance)

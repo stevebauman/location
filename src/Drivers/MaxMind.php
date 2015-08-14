@@ -24,6 +24,8 @@ class MaxMind implements DriverInterface
     private $config;
 
     /**
+     * Constructor.
+     *
      * @param LocationInstance $instance
      */
     public function __construct(LocationInstance $instance)
