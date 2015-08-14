@@ -5,11 +5,6 @@ namespace Stevebauman\Location\Drivers;
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
-/**
- * The IpInfo driver.
- *
- * Class IpInfo
- */
 class IpInfo implements DriverInterface
 {
     /**
@@ -40,7 +35,7 @@ class IpInfo implements DriverInterface
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.IpInfo.url');
+        $this->url = $this->config->get('location.drivers.IpInfo.url');
     }
 
     /**
@@ -87,7 +82,7 @@ class IpInfo implements DriverInterface
                 }
             }
 
-            $countries = $this->config->get('location'.$this->instance->getConfigSeparator().'country_codes');
+            $countries = $this->config->get('location.country_codes');
 
             /*
              * See if we can convert the country code to the country name

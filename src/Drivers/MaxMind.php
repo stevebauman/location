@@ -49,20 +49,13 @@ class MaxMind implements DriverInterface
     {
         $location = new Location();
 
-        $settings = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.MaxMind.configuration');
+        $settings = $this->config->get('location.drivers.MaxMind.configuration');
 
         try {
             if ($settings['web_service']) {
                 $maxmind = new Client($settings['user_id'], $settings['license_key']);
             } else {
-                $path = app_path('database/maxmind/GeoLite2-City.mmdb');
-
-                /*
-                 * Laravel 5 compatibility
-                 */
-                if ($this->instance->getConfigSeparator() === '.') {
-                    $path = base_path('database/maxmind/GeoLite2-City.mmdb');
-                }
+                $path = database_path('maxmind/GeoLite2-City.mmdb');
 
                 $maxmind = new Reader($path);
             }

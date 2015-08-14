@@ -5,11 +5,6 @@ namespace Stevebauman\Location\Drivers;
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
-/**
- * The GeoPlugin driver.
- *
- * Class GeoPlugin
- */
 class GeoPlugin implements DriverInterface
 {
     /**
@@ -40,7 +35,7 @@ class GeoPlugin implements DriverInterface
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.GeoPlugin.url');
+        $this->url = $this->config->get('location.drivers.GeoPlugin.url');
     }
 
     /**

@@ -5,11 +5,6 @@ namespace Stevebauman\Location\Drivers;
 use Stevebauman\Location\Objects\Location;
 use Stevebauman\Location\Location as LocationInstance;
 
-/**
- * The FreeGeoIp driver.
- *
- * Class FreeGeoIp
- */
 class FreeGeoIp implements DriverInterface
 {
     /**
@@ -40,7 +35,7 @@ class FreeGeoIp implements DriverInterface
 
         $this->config = $this->instance->getConfig();
 
-        $this->url = $this->config->get('location'.$this->instance->getConfigSeparator().'drivers.FreeGeoIp.url');
+        $this->url = $this->config->get('location.drivers.FreeGeoIp.url');
     }
 
     /**
