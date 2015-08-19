@@ -403,7 +403,7 @@ class Location
      */
     private function getDriverNamespace()
     {
-        return $this->config->get('location.driver_namespace');
+        return $this->config->get('location.driver_namespace', __NAMESPACE__.'\\');
     }
 
     /**
