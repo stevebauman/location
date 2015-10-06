@@ -101,7 +101,7 @@ class Location
     /**
      * Returns the current configuration instance.
      *
-     * @return ConfigContract
+     * @return \Illuminate\Contracts\Config\Repository
      */
     public function getConfig()
     {
