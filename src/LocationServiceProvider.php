@@ -14,6 +14,16 @@ class LocationServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * Run boot operations.
+     */
+    public function boot()
+    {
+        $this->app->bind('location', function() {
+            return new Location();
+        });
+    }
+
+    /**
      * Register the service provider.
      */
     public function register()
@@ -25,10 +35,6 @@ class LocationServiceProvider extends ServiceProvider
         $this->publishes([
             $config => config_path('location.php'),
         ], 'config');
-
-        $this->app->bind('location', function($app) {
-            return new Location();
-        });
     }
 
     /**
