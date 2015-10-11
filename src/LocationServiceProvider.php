@@ -30,11 +30,13 @@ class LocationServiceProvider extends ServiceProvider
     {
         $config = __DIR__.'/Config/config.php';
 
-        $this->mergeConfigFrom($config, 'location');
+        if (class_exists('Illuminate\Foundation\Application', false)) {
+            $this->publishes([
+                $config => config_path('location.php'),
+            ], 'config');
+        }
 
-        $this->publishes([
-            $config => config_path('location.php'),
-        ], 'config');
+        $this->mergeConfigFrom($config, 'location');
     }
 
     /**
