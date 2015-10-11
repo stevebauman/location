@@ -32,9 +32,11 @@ class LocationServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($config, 'location');
 
-        $this->publishes([
-            $config => config_path('location.php'),
-        ], 'config');
+        if(function_exists('config_path')) {
+            $this->publishes([
+                $config => config_path('location.php'),
+            ], 'config');
+        }
     }
 
     /**
