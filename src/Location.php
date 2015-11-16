@@ -199,15 +199,18 @@ class Location
      */
     private function setLocation($ip = '')
     {
+        // The location session key.
+        $key = 'location';
+
         // Removes location from the session if config option is set
         if ($this->localHostForgetLocation()) {
-            $this->session->forget('location');
+            $this->session->forget($key);
         }
 
         // Check if the location has already been set in the current session
-        if ($this->session->has('location')) {
+        if ($this->session->has($key)) {
             // Set the current driver to the current session location
-            $this->location = $this->session->get('location');
+            $this->location = $this->session->get($key);
         } else {
             $this->setIp($ip);
 
@@ -221,7 +224,7 @@ class Location
                 $this->location = $this->getLocationFromFallback();
             }
 
-            $this->session->set('location', $this->location);
+            $this->session->set($key, $this->location);
         }
     }
 
@@ -337,7 +340,7 @@ class Location
      */
     private function localHostTesting()
     {
-        return $this->config->get('location.localhost_testing');
+        return $this->config->get('location.localhost_testing', true);
     }
 
     /**
@@ -347,7 +350,7 @@ class Location
      */
     private function localHostForgetLocation()
     {
-        return $this->config->get('location.localhost_forget_location');
+        return $this->config->get('location.localhost_forget_location', false);
     }
 
     /**
@@ -357,7 +360,7 @@ class Location
      */
     private function getLocalHostTestingIp()
     {
-        return $this->config->get('location.localhost_testing_ip');
+        return $this->config->get('location.localhost_testing_ip', '66.102.0.0');
     }
 
     /**
@@ -387,7 +390,7 @@ class Location
      */
     private function getDropdownValue()
     {
-        return $this->config->get('location.dropdown_config.value');
+        return $this->config->get('location.dropdown_config.value', 'country_code');
     }
 
     /**
@@ -397,7 +400,7 @@ class Location
      */
     private function getDropdownName()
     {
-        return $this->config->get('location.dropdown_config.name');
+        return $this->config->get('location.dropdown_config.name', 'country_name');
     }
 
     /**
