@@ -40,13 +40,13 @@ Publish the config file:
 ##Installation (Laravel 5)
 Add Location to your `composer.json` file:
 
-	"stevebauman/location": "1.2.*"
+	"stevebauman/location": "1.3.*"
 
 Then run `composer update` on your project source.
 
 Add the service provider in `config/app.php`:
 
-	'Stevebauman\Location\LocationServiceProvider',
+	Stevebauman\Location\LocationServiceProvider::class,
 
 Add the alias in your `config/app.php` file:
 
@@ -58,6 +58,7 @@ Publish the config file (mandatory):
 
 ##Changelog
     
+    1.3.0 - November 16th, 2015 - Telize driver removed http://www.cambus.net/adventures-in-running-a-free-public-api/
     1.2.0 - August 14th, 2015 - Laravel 5 only update, tweaks and fixes
     1.1.8 - May 8th, 2015 - Rolled back layout change, PHP-CS fixed all files
     1.1.7 - May 6th, 2015 - Code reformatting tweaks
