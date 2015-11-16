@@ -18,8 +18,8 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('location', function() {
-            return new Location();
+        $this->app->bind('location', function($app) {
+            return new Location($app['session'], $app['config']);
         });
     }
 
