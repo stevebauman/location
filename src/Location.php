@@ -2,6 +2,8 @@
 
 namespace Stevebauman\Location;
 
+use Illuminate\Session\SessionManager;
+use Illuminate\Contracts\Config\Repository as ConfigInterface;
 use Stevebauman\Location\Drivers\DriverInterface;
 use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
@@ -48,25 +50,39 @@ class Location
     /**
      * Constructor.
      *
+     * @param SessionManager   $session
+     * @param ConfigInterface  $config
+     *
      * @throws DriverDoesNotExistException
      */
-    public function __construct()
+    public function __construct(SessionManager $session, ConfigInterface $config)
     {
-        $this->config = app('config');
-        $this->session = app('session');
+        $this->session = $session;
+        $this->config = $config;
 
-        $key = $this->config->get('location.selected_driver');
+        $this->setDefaultDriver();
+    }
 
-        $driver = $this->config->get("location.drivers.$key.class");
+    /**
+     * Creates the selected driver instance and sets the driver property.
+     *
+     * @param DriverInterface $driver
+     */
+    public function setDriver(DriverInterface $driver)
+    {
+        $this->driver = $driver;
+    }
 
-        if(class_exists($driver)) {
-            // Set the currently selected driver from the configuration
-            $this->setDriver(new $driver($this));
-        } else {
-            $message = "Driver: $driver, does not exist.";
+    /**
+     * Sets the default driver from the configuration.
+     *
+     * @throws DriverDoesNotExistException
+     */
+    public function setDefaultDriver()
+    {
+        $selected = $this->config->get('location.selected_driver');
 
-            throw new DriverDoesNotExistException($message);
-        }
+        $this->setDriver($this->getDriver($selected));
     }
 
     /**
@@ -177,17 +193,6 @@ class Location
     }
 
     /**
-     * Creates the selected driver instance and sets the driver property.
-     *
-     * @param DriverInterface $driver
-     */
-    private function setDriver(DriverInterface $driver)
-    {
-        // Retrieve the current driver
-        $this->driver = $driver;
-    }
-
-    /**
      * Sets the location property to the drivers returned location object.
      *
      * @param string $ip
@@ -287,8 +292,7 @@ class Location
         // Errors occurred on trying to get a location from
         // each driver, or no fallback drivers exist.
         // Throw no driver available exception
-        $message = sprintf('No Location drivers are available.'
-            .' Did you forget to set up your MaxMind GeoLite2-City.mmdb?');
+        $message = sprintf('No Location drivers are available.');
 
         throw new NoDriverAvailableException($message);
     }
@@ -397,35 +401,22 @@ class Location
     }
 
     /**
-     * Retrieves the config option for the driver namespace.
-     *
-     * @return mixed
-     */
-    private function getDriverNamespace()
-    {
-        return $this->config->get('location.driver_namespace', __NAMESPACE__.'\\');
-    }
-
-    /**
      * Returns the specified driver.
      *
-     * @param string $driver
+     * @param string $name
      *
      * @return \Stevebauman\Location\Drivers\DriverInterface
      *
      * @throws DriverDoesNotExistException
      */
-    private function getDriver($driver)
+    private function getDriver($name)
     {
-        $namespace = $this->getDriverNamespace();
+        $driver = $this->config->get("location.drivers.$name.class");
 
-        $driverStr = $namespace.$driver;
-
-        if (class_exists($driverStr)) {
-            return new $driverStr($this);
+        if (class_exists($driver)) {
+            return new $driver($this);
         } else {
-            $message = sprintf('The driver: %s, does not exist. Please check the docs and'
-                .' verify that it does.', $namespace.$driver);
+            $message = sprintf('The driver: %s, does not exist.', $driver);
 
             throw new DriverDoesNotExistException($message);
         }
