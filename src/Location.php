@@ -15,7 +15,7 @@ class Location
     /*
      * Holds the current driver object
      *
-     * @var \Stevebauman\Location\Drivers\DriverInterface
+     * @var DriverInterface
      */
     protected $driver;
 
@@ -408,7 +408,7 @@ class Location
      *
      * @param string $name
      *
-     * @return \Stevebauman\Location\Drivers\DriverInterface
+     * @return DriverInterface
      *
      * @throws DriverDoesNotExistException
      */
