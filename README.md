@@ -1,5 +1,4 @@
-![Location Banner]
-(https://raw.githubusercontent.com/stevebauman/location/master/location-banner.jpg)
+# Location
 
 [![Travis CI](https://img.shields.io/travis/stevebauman/location.svg?style=flat-square)](https://travis-ci.org/stevebauman/location)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/location/?branch=master)
