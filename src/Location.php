@@ -177,37 +177,7 @@ class Location
      */
     protected function getDriverFallbacks()
     {
-        return config('location.selected_driver_fallbacks', []);
-    }
-
-    /**
-     * Retrieves the config option for country codes.
-     *
-     * @return array
-     */
-    protected function getCountryCodes()
-    {
-        return config('location.country_codes');
-    }
-
-    /**
-     * Retrieves the config option for the dropdown value.
-     *
-     * @return string
-     */
-    protected function getDropdownValue()
-    {
-        return config('location.dropdown_config.value', 'country_code');
-    }
-
-    /**
-     * Retrieves the config option for the dropdown name.
-     *
-     * @return string
-     */
-    protected function getDropdownName()
-    {
-        return config('location.dropdown_config.name', 'country_name');
+        return config('location.fallbacks', []);
     }
 
     /**
@@ -217,7 +187,7 @@ class Location
      */
     protected function getDefaultDriver()
     {
-        return config('location.selected_driver');
+        return config('location.driver');
     }
 
     /**
