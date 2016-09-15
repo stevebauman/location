@@ -4,34 +4,19 @@ namespace Stevebauman\Location\Drivers;
 
 use Stevebauman\Location\Objects\Location;
 
-class IpInfo implements DriverInterface
+class IpInfo extends Driver
 {
-    /*
-     * Stores the drivers URL.
-     */
-    protected $url;
-
     /**
-     * Constructor.
+     * {@inheritdoc}
      */
-    public function __construct()
+    protected function process($ip)
     {
-        $this->url = config('location.drivers.IpInfo.url');
-    }
+        $url = config('location.drivers.IpInfo.url');
 
-    /**
-     * Retrieves the location from the driver IpInfo and returns a location object.
-     *
-     * @param string $ip
-     *
-     * @return Location
-     */
-    public function get($ip)
-    {
         $location = new Location();
 
         try {
-            $contents = json_decode(file_get_contents($this->url.$ip));
+            $contents = json_decode(file_get_contents($url.$ip));
 
             $location->ip = $ip;
 
@@ -72,10 +57,10 @@ class IpInfo implements DriverInterface
             }
 
             $location->driver = get_class($this);
-        } catch (\Exception $e) {
-            $location->error = true;
-        }
 
-        return $location;
+            return $location;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

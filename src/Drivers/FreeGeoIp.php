@@ -3,40 +3,20 @@
 namespace Stevebauman\Location\Drivers;
 
 use Stevebauman\Location\Objects\Location;
-use Stevebauman\Location\Location as LocationInstance;
 
-class FreeGeoIp implements DriverInterface
+class FreeGeoIp extends Driver
 {
-    /*
-     * Stores the drivers URL.
-     *
-     * @var string
-     */
-    protected $url;
-
     /**
-     * Constructor.
-     *
-     * @param LocationInstance $instance
+     * {@inheritdoc}
      */
-    public function __construct(LocationInstance $instance)
+    protected function process($ip)
     {
-        $this->url = config('location.drivers.FreeGeoIp.url');
-    }
+        $url = config('location.drivers.FreeGeoIp.url');
 
-    /**
-     * Retrieves the location from the driver FreeGeoIp and returns a location object.
-     *
-     * @param string $ip
-     *
-     * @return Location
-     */
-    public function get($ip)
-    {
         $location = new Location();
 
         try {
-            $contents = json_decode(file_get_contents($this->url.$ip), true);
+            $contents = json_decode(file_get_contents($url.$ip), true);
 
             $location->ip = $ip;
 
@@ -81,10 +61,10 @@ class FreeGeoIp implements DriverInterface
             }
 
             $location->driver = get_class($this);
-        } catch (\Exception $e) {
-            $location->error = true;
-        }
 
-        return $location;
+            return $location;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

@@ -6,16 +6,12 @@ use GeoIp2\Database\Reader;
 use GeoIp2\WebService\Client;
 use Stevebauman\Location\Objects\Location;
 
-class MaxMind implements DriverInterface
+class MaxMind extends Driver
 {
     /**
-     * Retrieves the location from the driver MaxMind and returns a location object.
-     *
-     * @param string $ip
-     *
-     * @return Location
+     * {@inheritdoc}
      */
-    public function get($ip)
+    protected function process($ip)
     {
         $location = new Location();
 
@@ -47,10 +43,10 @@ class MaxMind implements DriverInterface
             $location->longitude = $record->location->longitude;
 
             $location->driver = get_class($this);
-        } catch (\Exception $e) {
-            $location->error = true;
-        }
 
-        return $location;
+            return $location;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

@@ -4,36 +4,19 @@ namespace Stevebauman\Location\Drivers;
 
 use Stevebauman\Location\Objects\Location;
 
-class GeoPlugin implements DriverInterface
+class GeoPlugin extends Driver
 {
-    /*
-     * Stores the drivers URL.
-     *
-     * @var string
-     */
-    protected $url;
-
     /**
-     * Constructor.
+     * {@inheritdoc}
      */
-    public function __construct()
+    protected function process($ip)
     {
-        $this->url = config('location.drivers.GeoPlugin.url');
-    }
+        $url = config('location.drivers.GeoPlugin.url');
 
-    /**
-     * Retrieves the location from the driver GeoPlugin and returns a location object.
-     *
-     * @param string $ip
-     *
-     * @return Location
-     */
-    public function get($ip)
-    {
         $location = new Location();
 
         try {
-            $contents = unserialize(file_get_contents($this->url.$ip));
+            $contents = unserialize(file_get_contents($url.$ip));
 
             $location->ip = $ip;
 
@@ -74,10 +57,10 @@ class GeoPlugin implements DriverInterface
             }
 
             $location->driver = get_class($this);
-        } catch (\Exception $e) {
-            $location->error = true;
-        }
 
-        return $location;
+            return $location;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
