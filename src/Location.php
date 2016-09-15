@@ -2,8 +2,6 @@
 
 namespace Stevebauman\Location;
 
-use Illuminate\Session\SessionManager;
-use Illuminate\Contracts\Config\Repository as ConfigInterface;
 use Stevebauman\Location\Drivers\DriverInterface;
 use Stevebauman\Location\Exceptions\InvalidIpException;
 use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
@@ -13,35 +11,21 @@ use Stevebauman\Location\Exceptions\NoDriverAvailableException;
 class Location
 {
     /*
-     * Holds the current driver object
+     * Stores the current driver object
      *
      * @var DriverInterface
      */
     protected $driver;
 
     /*
-     * Holds the current location object
+     * Stores the current location object
      *
      * @var \Stevebauman\Location\Objects\Location
      */
     protected $location;
 
-    /**
-     * Holds the configuration instance.
-     *
-     * @var \Illuminate\Contracts\Config\Repository
-     */
-    protected $config;
-
-    /**
-     * Holds the session instance.
-     *
-     * @var \Illuminate\Session\SessionManager
-     */
-    protected $session;
-
     /*
-     * Holds the current IP of the user
+     * Stores the current IP of the user
      *
      * @var string
      */
@@ -50,16 +34,10 @@ class Location
     /**
      * Constructor.
      *
-     * @param SessionManager   $session
-     * @param ConfigInterface  $config
-     *
      * @throws DriverDoesNotExistException
      */
-    public function __construct(SessionManager $session, ConfigInterface $config)
+    public function __construct()
     {
-        $this->session = $session;
-        $this->config = $config;
-
         $this->setDefaultDriver();
     }
 
@@ -80,7 +58,7 @@ class Location
      */
     public function setDefaultDriver()
     {
-        $selected = $this->config->get('location.selected_driver');
+        $selected = $this->getDefaultDriver();
 
         $this->setDriver($this->getDriver($selected));
     }
@@ -156,19 +134,6 @@ class Location
     }
 
     /**
-     * Depreciated function from Beta. Alias for lists function.
-     *
-     * @param string $value
-     * @param string $name
-     *
-     * @return array
-     */
-    public function dropdown($value = '', $name = '')
-    {
-        return $this->lists($value, $name);
-    }
-
-    /**
      * Returns true/false if one of the properties on the selected driver
      * equals the specified field.
      *
@@ -197,20 +162,20 @@ class Location
      *
      * @param string $ip
      */
-    private function setLocation($ip = '')
+    protected function setLocation($ip = '')
     {
         // The location session key.
         $key = 'location';
 
         // Removes location from the session if config option is set
         if ($this->localHostForgetLocation()) {
-            $this->session->forget($key);
+            session()->forget($key);
         }
 
         // Check if the location has already been set in the current session
-        if ($this->session->has($key)) {
+        if (session()->has($key)) {
             // Set the current driver to the current session location
-            $this->location = $this->session->get($key);
+            $this->location = session($key);
         } else {
             $this->setIp($ip);
 
@@ -224,7 +189,7 @@ class Location
                 $this->location = $this->getLocationFromFallback();
             }
 
-            $this->session->set($key, $this->location);
+            session([$key => $this->location]);
         }
     }
 
@@ -234,16 +199,12 @@ class Location
      *
      * @param string $ip
      */
-    private function setIp($ip = null)
+    protected function setIp($ip = null)
     {
         // If an IP address is supplied, we'll validate it and
         // set it, otherwise we'll grab it automatically
-        // from the client
-        if ($ip) {
-            $this->ip = $this->validateIp($ip);
-        } else {
-            $this->ip = $this->getClientIP();
-        }
+        // from the client.
+        $this->ip = $ip ? $this->validateIp($ip) : $this->getClientIP();
     }
 
     /**
@@ -255,7 +216,7 @@ class Location
      *
      * @throws InvalidIpException
      */
-    private function validateIp($ip)
+    protected function validateIp($ip)
     {
         $filteredIp = filter_var($ip, FILTER_VALIDATE_IP);
 
@@ -275,7 +236,7 @@ class Location
      *
      * @throws NoDriverAvailableException
      */
-    private function getLocationFromFallback()
+    protected function getLocationFromFallback()
     {
         $fallbacks = $this->getDriverFallbackList();
 
@@ -308,29 +269,9 @@ class Location
      *
      * @return string
      */
-    private function getClientIP()
+    protected function getClientIP()
     {
-        if ($this->localHostTesting()) {
-            return $this->getLocalHostTestingIp();
-        } else {
-            if (getenv('HTTP_CLIENT_IP')) {
-                $ipaddress = getenv('HTTP_CLIENT_IP');
-            } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
-                $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-            } elseif (getenv('HTTP_X_FORWARDED')) {
-                $ipaddress = getenv('HTTP_X_FORWARDED');
-            } elseif (getenv('HTTP_FORWARDED_FOR')) {
-                $ipaddress = getenv('HTTP_FORWARDED_FOR');
-            } elseif (getenv('HTTP_FORWARDED')) {
-                $ipaddress = getenv('HTTP_FORWARDED');
-            } elseif (getenv('REMOTE_ADDR')) {
-                $ipaddress = getenv('REMOTE_ADDR');
-            } else {
-                $ipaddress = filter_input('INPUT_SERVER', 'REMOTE_ADDR');
-            }
-
-            return $ipaddress;
-        }
+        return $this->localHostTesting() ? $this->getLocalHostTestingIp() : request()->ip();
     }
 
     /**
@@ -338,9 +279,9 @@ class Location
      *
      * @return bool
      */
-    private function localHostTesting()
+    protected function localHostTesting()
     {
-        return $this->config->get('location.localhost_testing', true);
+        return config('location.localhost_testing', true);
     }
 
     /**
@@ -348,9 +289,9 @@ class Location
      *
      * @return bool
      */
-    private function localHostForgetLocation()
+    protected function localHostForgetLocation()
     {
-        return $this->config->get('location.localhost_forget_location', false);
+        return config('location.localhost_forget_location', false);
     }
 
     /**
@@ -358,9 +299,9 @@ class Location
      *
      * @return string
      */
-    private function getLocalHostTestingIp()
+    protected function getLocalHostTestingIp()
     {
-        return $this->config->get('location.localhost_testing_ip', '66.102.0.0');
+        return config('location.localhost_testing_ip', '66.102.0.0');
     }
 
     /**
@@ -368,9 +309,9 @@ class Location
      *
      * @return array
      */
-    private function getDriverFallbackList()
+    protected function getDriverFallbackList()
     {
-        return $this->config->get('location.selected_driver_fallbacks', []);
+        return config('location.selected_driver_fallbacks', []);
     }
 
     /**
@@ -378,9 +319,9 @@ class Location
      *
      * @return array
      */
-    private function getCountryCodes()
+    protected function getCountryCodes()
     {
-        return $this->config->get('location.country_codes');
+        return config('location.country_codes');
     }
 
     /**
@@ -388,9 +329,9 @@ class Location
      *
      * @return string
      */
-    private function getDropdownValue()
+    protected function getDropdownValue()
     {
-        return $this->config->get('location.dropdown_config.value', 'country_code');
+        return config('location.dropdown_config.value', 'country_code');
     }
 
     /**
@@ -398,9 +339,19 @@ class Location
      *
      * @return string
      */
-    private function getDropdownName()
+    protected function getDropdownName()
     {
-        return $this->config->get('location.dropdown_config.name', 'country_name');
+        return config('location.dropdown_config.name', 'country_name');
+    }
+
+    /**
+     * Returns the selected driver
+     *
+     * @return \Illuminate\Support\Facades\Config
+     */
+    protected function getDefaultDriver()
+    {
+        return config('location.selected_driver');
     }
 
     /**
@@ -412,9 +363,9 @@ class Location
      *
      * @throws DriverDoesNotExistException
      */
-    private function getDriver($name)
+    protected function getDriver($name)
     {
-        $driver = $this->config->get("location.drivers.$name.class");
+        $driver = config("location.drivers.$name.class");
 
         if (class_exists($driver)) {
             return new $driver($this);
