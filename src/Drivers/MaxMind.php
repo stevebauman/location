@@ -5,36 +5,9 @@ namespace Stevebauman\Location\Drivers;
 use GeoIp2\Database\Reader;
 use GeoIp2\WebService\Client;
 use Stevebauman\Location\Objects\Location;
-use Stevebauman\Location\Location as LocationInstance;
 
 class MaxMind implements DriverInterface
 {
-    /**
-     * Holds the current Location class instance.
-     *
-     * @var LocationInstance
-     */
-    private $instance;
-
-    /**
-     * Holds the configuration instance.
-     *
-     * @var \Illuminate\Config\Repository
-     */
-    private $config;
-
-    /**
-     * Constructor.
-     *
-     * @param LocationInstance $instance
-     */
-    public function __construct(LocationInstance $instance)
-    {
-        $this->instance = $instance;
-
-        $this->config = $this->instance->getConfig();
-    }
-
     /**
      * Retrieves the location from the driver MaxMind and returns a location object.
      *
@@ -46,7 +19,7 @@ class MaxMind implements DriverInterface
     {
         $location = new Location();
 
-        $settings = $this->config->get('location.drivers.MaxMind.configuration');
+        $settings = config('location.drivers.MaxMind.configuration');
 
         try {
             if ($settings['web_service']) {

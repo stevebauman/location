@@ -25,7 +25,7 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('location', new Location());
+        $this->app->bind('location', Location::class);
     }
 
     /**

@@ -93,16 +93,6 @@ class Location
     }
 
     /**
-     * Returns the current configuration instance.
-     *
-     * @return \Illuminate\Contracts\Config\Repository
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      * Returns a country array compatible with Laravel's Form::select().
      *
      * @param string $value

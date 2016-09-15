@@ -3,41 +3,20 @@
 namespace Stevebauman\Location\Drivers;
 
 use Stevebauman\Location\Objects\Location;
-use Stevebauman\Location\Location as LocationInstance;
 
 class IpInfo implements DriverInterface
 {
-    /**
-     * Holds the current Location class instance.
-     *
-     * @var LocationInstance
-     */
-    private $instance;
-
-    /**
-     * Holds the configuration instance.
-     *
-     * @var \Illuminate\Config\Repository
-     */
-    private $config;
-
     /*
-     * Holds the drivers URL
+     * Stores the drivers URL.
      */
-    private $url;
+    protected $url;
 
     /**
      * Constructor.
-     *
-     * @param LocationInstance $instance
      */
-    public function __construct(LocationInstance $instance)
+    public function __construct()
     {
-        $this->instance = $instance;
-
-        $this->config = $this->instance->getConfig();
-
-        $this->url = $this->config->get('location.drivers.IpInfo.url');
+        $this->url = config('location.drivers.IpInfo.url');
     }
 
     /**
@@ -84,12 +63,11 @@ class IpInfo implements DriverInterface
                 }
             }
 
-            $countries = $this->config->get('location.country_codes');
+            $countries = config('location.country_codes', []);
 
-            /*
-             * See if we can convert the country code to the country name
-             */
-            if (is_array($countries) && array_key_exists($location->countryCode, $countries)) {
+            // We'll see if we can convert the country
+            // code to the country name.
+            if (array_key_exists($location->countryCode, $countries)) {
                 $location->countryName = $countries[$location->countryCode];
             }
 

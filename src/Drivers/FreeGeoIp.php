@@ -7,24 +7,12 @@ use Stevebauman\Location\Location as LocationInstance;
 
 class FreeGeoIp implements DriverInterface
 {
-    /**
-     * Holds the current Location class instance.
-     *
-     * @var LocationInstance
-     */
-    private $instance;
-
-    /**
-     * Holds the configuration instance.
-     *
-     * @var \Illuminate\Config\Repository
-     */
-    private $config;
-
     /*
-     * Holds the drivers URL
+     * Stores the drivers URL.
+     *
+     * @var string
      */
-    private $url;
+    protected $url;
 
     /**
      * Constructor.
@@ -33,11 +21,7 @@ class FreeGeoIp implements DriverInterface
      */
     public function __construct(LocationInstance $instance)
     {
-        $this->instance = $instance;
-
-        $this->config = $this->instance->getConfig();
-
-        $this->url = $this->config->get('location.drivers.FreeGeoIp.url');
+        $this->url = config('location.drivers.FreeGeoIp.url');
     }
 
     /**
