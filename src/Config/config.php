@@ -4,28 +4,30 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Selected Driver
+    | Driver
     |--------------------------------------------------------------------------
     |
-    | The first driver you would like to use for location retrieval.
+    | The default driver you would like to use for location retrieval.
     |
     */
 
-    'driver' => Stevebauman\Location\Drivers\FreeGeoIp::class,
+    'driver' => Stevebauman\Location\Drivers\IpInfo::class,
 
     /*
     |--------------------------------------------------------------------------
-    | Select Driver Fallbacks
+    | Driver Fallbacks
     |--------------------------------------------------------------------------
     |
-    | The drivers you want to use to grab location if the selected driver
-    | is unavailable (in order).
+    | The drivers you want to use to retrieve the users location
+    | if the above selected driver is unavailable.
+    |
+    | These will be called upon in order.
     |
     */
 
     'fallbacks' => [
 
-        Stevebauman\Location\Drivers\IpInfo::class,
+        Stevebauman\Location\Drivers\FreeGeoIp::class,
 
         Stevebauman\Location\Drivers\GeoPlugin::class,
 
@@ -35,39 +37,56 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | MaxMind Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The configuration for the MaxMind driver.
+    |
+    | If web_service is enabled, you must fill in your user ID and license key.
+    |
+    | If web_service is disabled, it will try and retrieve the users location
+    | from the MaxMind database file located in the path below.
+    |
+    */
+
+    'maxmind' => [
+
+        'web' => [
+
+            'enabled' => false,
+
+            'user_id' => '',
+
+            'license_key' => '',
+
+        ],
+
+        'local' => [
+
+            'path' => database_path('maxmind/GeoLite2-City.mmdb')
+
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Localhost Testing
     |--------------------------------------------------------------------------
     |
     | If your running your website locally and want to test different
-    | IP addresses to see location detection set to true.
+    | IP addresses to see location detection, set 'enabled' to true.
+    |
+    | The testing IP address is a Google host in the United-States.
     |
     */
 
-    'localhost_testing' => true,
+    'testing' => [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Localhost Forget Location
-    |--------------------------------------------------------------------------
-    |
-    | Removes the location key from the session so it is retrieved
-    | on every request for testing purposes.
-    |
-    */
+        'enabled' => true,
 
-    'localhost_forget_location' => true,
+        'ip' => '66.102.0.0',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Localhost Testing IP Address
-    |--------------------------------------------------------------------------
-    |
-    | The IP address to use for localhost testing.
-    |
-    | The default IP is a Google Host in US.
-    |
-    */
-
-    'localhost_testing_ip' => '66.102.0.0',
+    ],
 
 ];
