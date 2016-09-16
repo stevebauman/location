@@ -22,20 +22,6 @@ class Location
     protected $driver;
 
     /**
-     * Stores the current location object
-     *
-     * @var \Stevebauman\Location\Objects\Location
-     */
-    protected $location;
-
-    /**
-     * Stores the current IP of the user
-     *
-     * @var string
-     */
-    protected $ip;
-
-    /**
      * Constructor.
      *
      * @throws DriverDoesNotExistException
@@ -80,7 +66,7 @@ class Location
      *
      * @param string $ip
      *
-     * @return \Stevebauman\Location\Objects\Location|bool
+     * @return \Stevebauman\Location\Position|bool
      */
     public function get($ip = '')
     {
