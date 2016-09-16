@@ -23,6 +23,8 @@
         "geoip2/geoip2": "2.3.*"
     },
     "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~5.0",
         "orchestra/testbench": "~3.3"
     },
     "archive": {
