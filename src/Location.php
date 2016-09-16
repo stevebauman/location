@@ -3,13 +3,17 @@
 namespace Stevebauman\Location;
 
 use Stevebauman\Location\Drivers\Driver;
-use Stevebauman\Location\Exceptions\InvalidIpException;
-use Stevebauman\Location\Exceptions\LocationFieldDoesNotExistException;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
-use Stevebauman\Location\Exceptions\NoDriverAvailableException;
 
 class Location
 {
+    /**
+     * The session key.
+     *
+     * @var string
+     */
+    protected $key = 'location';
+
     /**
      * Stores the current driver.
      *
@@ -75,56 +79,24 @@ class Location
      * return the matching location objects variable.
      *
      * @param string $ip
-     * @param string $field
      *
-     * @return \Stevebauman\Location\Objects\Location|array|string
-     *
-     * @throws LocationFieldDoesNotExistException
+     * @return \Stevebauman\Location\Objects\Location|bool
      */
-    public function get($ip = '', $field = '')
+    public function get($ip = '')
     {
-        $location = $this->find($ip);
-
-        if ($field) {
-            if (property_exists($location, $field)) {
-                return $location->{$field};
-            } else {
-                $message = sprintf('Location field: %s does not exist. Please check the docs'
-                    .' to verify which fields are available.', $field);
-
-                throw new LocationFieldDoesNotExistException($message);
-            }
+        if (session()->has($this->key)) {
+            return session($this->key);
         }
 
-        return $location;
-    }
+        if ($location = $this->driver->get($ip ?: $this->getClientIP())) {
+            // We'll store the location inside of our session
+            // so it isn't retrieved on the next request.
+            session([$this->key => $location]);
 
-    /**
-     * Sets the location property to the drivers returned location object.
-     *
-     * @param string $ip
-     *
-     * @return Location
-     */
-    protected function find($ip = '')
-    {
-        $key = 'location';
-
-        if ($this->localHostForgetLocation()) {
-            session()->forget($key);
+            return $location;
         }
 
-        if (session()->has($key)) {
-            return session($key);
-        }
-
-        $location = $this->driver->get($ip ?: $this->getClientIP());
-
-        // We'll store the location inside of our session
-        // so it isn't retrieved on the next request.
-        session([$key => $location]);
-
-        return $location;
+        return false;
     }
 
     /**
@@ -147,17 +119,7 @@ class Location
      */
     protected function localHostTesting()
     {
-        return config('location.localhost_testing', true);
-    }
-
-    /**
-     * Retrieves the config option for forgetting the location from the current session.
-     *
-     * @return bool
-     */
-    protected function localHostForgetLocation()
-    {
-        return config('location.localhost_forget_location', false);
+        return config('location.testing.enabled', true);
     }
 
     /**
@@ -167,7 +129,7 @@ class Location
      */
     protected function getLocalHostTestingIp()
     {
-        return config('location.localhost_testing_ip', '66.102.0.0');
+        return config('location.testing.ip', '66.102.0.0');
     }
 
     /**
@@ -193,16 +155,14 @@ class Location
     /**
      * Returns the specified driver.
      *
-     * @param string $name
+     * @param string $driver
      *
      * @return Driver
      *
      * @throws DriverDoesNotExistException
      */
-    protected function getDriver($name)
+    protected function getDriver($driver)
     {
-        $driver = config("location.drivers.$name.class");
-
         if (class_exists($driver)) {
             return new $driver();
         }
