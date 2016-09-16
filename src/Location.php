@@ -15,7 +15,7 @@ class Location
     protected $key = 'location';
 
     /**
-     * Stores the current driver.
+     * The current driver.
      *
      * @var Driver
      */
