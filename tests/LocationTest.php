@@ -2,40 +2,26 @@
 
 namespace Stevebauman\Location\Tests;
 
+use Illuminate\Support\Fluent;
+use Mockery as m;
+use Stevebauman\Location\Position;
+use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Facades\Location;
 
-class LocationTest extends FunctionalTestCase
+class LocationTest extends TestCase
 {
-    public function testLocationDriverFreeGeoIp()
+    public function test_retrieval()
     {
-        app('config')->set('location.selected_driver', 'FreeGeoIp');
+        $driver = m::mock(Driver::class);
 
-        $location = Location::get();
+        Location::setDriver($driver);
 
-        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
-        $this->assertEquals('Stevebauman\Location\Drivers\FreeGeoIp', $location->driver);
-        $this->assertFalse($location->error);
-    }
+        $driver
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent())
+            ->shouldReceive('hydrate')->once()->andReturn(new Position());
 
-    public function testLocationDriverIpInfo()
-    {
-        app('config')->set('location.selected_driver', 'IpInfo');
-
-        $location = Location::get();
-
-        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
-        $this->assertEquals('Stevebauman\Location\Drivers\IpInfo', $location->driver);
-        $this->assertFalse($location->error);
-    }
-
-    public function testLocationDriverGeoPlugin()
-    {
-        app('config')->set('location.selected_driver', 'GeoPlugin');
-
-        $location = Location::get();
-
-        $this->assertInstanceOf('Stevebauman\Location\Objects\Location', $location);
-        $this->assertEquals('Stevebauman\Location\Drivers\GeoPlugin', $location->driver);
-        $this->assertFalse($location->error);
+        $this->assertInstanceOf(Position::class, Location::get());
     }
 }

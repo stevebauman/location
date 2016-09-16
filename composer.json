@@ -23,7 +23,7 @@
         "geoip2/geoip2": "2.3.*"
     },
     "require-dev": {
-        "orchestra/testbench": "3.1.*"
+        "orchestra/testbench": "~3.3"
     },
     "archive": {
       "exclude": ["/tests"]
