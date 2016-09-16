@@ -2,63 +2,45 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Stevebauman\Location\Objects\Location;
+use Illuminate\Support\Fluent;
+use Stevebauman\Location\Position;
 
 class GeoPlugin extends Driver
 {
     /**
      * {@inheritdoc}
      */
+    protected function url()
+    {
+        return 'http://www.geoplugin.net/php.gp?ip=';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function hydrate(Position $position, Fluent $location)
+    {
+        $position->countryCode = $location->geoplugin_countryCode;
+        $position->countryName = $location->geoplugin_countryName;
+        $position->regionName = $location->geoplugin_regionName;
+        $position->regionCode = $location->geoplugin_regionCode;
+        $position->cityName = $location->geoplugin_city;
+        $position->latitude = $location->geoplugin_latitude;
+        $position->longitude = $location->geoplugin_longitude;
+        $position->areaCode = $location->geoplugin_areaCode;
+
+        return $position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function process($ip)
     {
-        $url = config('location.drivers.GeoPlugin.url');
-
-        $location = new Location();
-
         try {
-            $contents = unserialize(file_get_contents($url.$ip));
+            $response = unserialize(file_get_contents($this->url().$ip));
 
-            $location->ip = $ip;
-
-            if (array_key_exists('geoplugin_countryCode', $contents)) {
-                $location->countryCode = $contents['geoplugin_countryCode'];
-            }
-
-            if (array_key_exists('geoplugin_countryName', $contents)) {
-                $location->countryName = $contents['geoplugin_countryName'];
-            }
-
-            if (array_key_exists('geoplugin_regionName', $contents)) {
-                $location->regionName = $contents['geoplugin_regionName'];
-            }
-
-            if (array_key_exists('geoplugin_city', $contents)) {
-                $location->regionName = $contents['geoplugin_city'];
-            }
-
-            if (array_key_exists('geoplugin_longitude', $contents)) {
-                $location->longitude = $contents['geoplugin_longitude'];
-            }
-
-            if (array_key_exists('geoplugin_latitude', $contents)) {
-                $location->latitude = $contents['geoplugin_latitude'];
-            }
-
-            if (array_key_exists('geoplugin_areaCode', $contents)) {
-                $location->areaCode = $contents['geoplugin_areaCode'];
-            }
-
-            if (array_key_exists('geoplugin_regionCode', $contents)) {
-                $location->regionCode = $contents['geoplugin_regionCode'];
-            }
-
-            if (array_key_exists('geoplugin_regionName', $contents)) {
-                $location->regionName = $contents['geoplugin_regionName'];
-            }
-
-            $location->driver = get_class($this);
-
-            return $location;
+            return new Fluent($response);
         } catch (\Exception $e) {
             return false;
         }

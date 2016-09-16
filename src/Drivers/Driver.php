@@ -2,6 +2,9 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Illuminate\Support\Fluent;
+use Stevebauman\Location\Position;
+
 abstract class Driver
 {
     /**
@@ -30,25 +33,47 @@ abstract class Driver
      *
      * @param string $ip
      *
-     * @return mixed|bool
+     * @return Position|bool
      */
     public function get($ip)
     {
         $location = $this->process($ip);
 
-        if (!$location && !is_null($this->fallback)) {
+        if (!$location && $this->fallback) {
             $location = $this->fallback->get($ip);
         }
 
-        return $location;
+        if ($location instanceof Fluent) {
+            return $this->hydrate(new Position(), $location);
+        }
+
+        return false;
     }
+
+    /**
+     * Returns the URL to use for querying the current driver.
+     *
+     * @return string
+     */
+    abstract protected function url();
+
+    /**
+     * Hydrates the position with the given location
+     * instance using the drivers array map.
+     *
+     * @param Position $position
+     * @param Fluent   $location
+     *
+     * @return \Stevebauman\Location\Position
+     */
+    abstract protected function hydrate(Position $position, Fluent $location);
 
     /**
      * Process the specified driver.
      *
      * @param string $ip
      *
-     * @return \Stevebauman\Location\Objects\Location|bool
+     * @return Fluent|bool
      */
     abstract protected function process($ip);
 }
