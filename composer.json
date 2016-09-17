@@ -1,6 +1,6 @@
 {
     "name": "stevebauman/location",
-    "description": "Retrieve a users location by their IP Address using Laravel 4 / 5",
+    "description": "Retrieve a users location by their IP Address using Laravel 5",
     "authors": [
         {
             "name": "Steve Bauman",
