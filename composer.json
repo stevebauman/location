@@ -19,12 +19,12 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "~5.0",
+        "illuminate/support": "5.*",
         "geoip2/geoip2": "2.3.*"
     },
     "require-dev": {
+        "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~5.0",
-        "mockery/mockery": "0.9.*",
         "orchestra/testbench": "~3.3"
     },
     "archive": {
