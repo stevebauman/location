@@ -61,6 +61,20 @@ class Location
     }
 
     /**
+     * Sets the location session key.
+     *
+     * @param string $key
+     *
+     * @return Location
+     */
+    public function setSessionKey($key)
+    {
+        $this->key = $key;
+
+        return $this;
+    }
+
+    /**
      * Returns the driver's location object. If a field is specified it will
      * return the matching location objects variable.
      *
