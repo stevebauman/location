@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~5.0",
+        "phpunit/phpunit": "~4.8|~5.0",
         "orchestra/testbench": "~3.3"
     },
     "archive": {
