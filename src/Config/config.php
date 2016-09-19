@@ -59,6 +59,14 @@ return [
 
             'license_key' => '',
 
+
+
+            'options' => [
+
+                'host' => 'geoip.maxmind.com',
+
+            ],
+
         ],
 
         'local' => [
