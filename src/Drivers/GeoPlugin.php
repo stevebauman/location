@@ -20,8 +20,6 @@ class GeoPlugin extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        $position->driver = GeoPlugin::class;
-
         $position->countryCode = $location->geoplugin_countryCode;
         $position->countryName = $location->geoplugin_countryName;
         $position->regionName = $location->geoplugin_regionName;

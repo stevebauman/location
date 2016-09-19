@@ -22,8 +22,6 @@ class MaxMind extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        $position->driver = MaxMind::class;
-
         $position->countryName = $location->country;
         $position->countryCode = $location->country_code;
         $position->cityName = $location->city;

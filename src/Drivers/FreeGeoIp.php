@@ -20,8 +20,6 @@ class FreeGeoIp extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        $position->driver = FreeGeoIp::class;
-
         $position->countryCode = $location->country_code;
         $position->regionName = $location->region_name;
         $position->cityName = $location->city;

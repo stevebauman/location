@@ -44,7 +44,11 @@ abstract class Driver
         }
 
         if ($location instanceof Fluent) {
-            return $this->hydrate(new Position(), $location);
+            $position = $this->hydrate(new Position(), $location);
+
+            $position->driver = get_class($this);
+
+            return $position;
         }
 
         return false;
