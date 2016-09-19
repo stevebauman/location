@@ -72,7 +72,7 @@ You should end up with a folder path of: `my-laravel-app/database/maxmind/GeoLit
 
 Then, set your default driver to `Stevebauman\Location\Drivers\MaxMind::class`, and you're all set!
 
-> ** Note **: Keep in mind, you'll need to update this file continuously to retrieve the most current information.
+> **Note**: Keep in mind, you'll need to update this file continuously to retrieve the most current information.
 
 #### Creating your own drivers
 
