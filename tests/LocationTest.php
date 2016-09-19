@@ -41,7 +41,7 @@ class LocationTest extends TestCase
     {
         config(['location.driver' => 'Test']);
 
-        $this->expectException(DriverDoesNotExistException::class);
+        $this->setExpectedException(DriverDoesNotExistException::class);
 
         Location::get();
     }
