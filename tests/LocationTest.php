@@ -4,6 +4,7 @@ namespace Stevebauman\Location\Tests;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
+use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Drivers\IpInfo;
 use Stevebauman\Location\Drivers\Driver;
@@ -29,6 +30,13 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
+    public function test_is_stored_in_session()
+    {
+        $this->test_driver_process();
+
+        $this->assertInstanceOf(Position::class, session('location'));
+    }
+
     public function test_driver_does_not_exist()
     {
         config(['location.driver' => 'Test']);
@@ -40,21 +48,54 @@ class LocationTest extends TestCase
 
     public function test_free_geo_ip()
     {
-        Location::setDriver(new FreeGeoIp());
+        $driver = m::mock(FreeGeoIp::class)->makePartial();
+
+        $driver
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent());
+
+        Location::setDriver($driver);
 
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
     public function test_geo_plugin()
     {
-        Location::setDriver(new GeoPlugin());
+        $driver = m::mock(GeoPlugin::class)->makePartial();
+
+        $driver
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent());
+
+        Location::setDriver($driver);
 
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
     public function test_ip_info()
     {
-        Location::setDriver(new IpInfo());
+        $driver = m::mock(IpInfo::class)->makePartial();
+
+        $driver
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent());
+
+        Location::setDriver($driver);
+
+        $this->assertInstanceOf(Position::class, Location::get());
+    }
+
+    public function test_max_mind_local()
+    {
+        $driver = m::mock(MaxMind::class);
+
+        $driver
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent())
+            ->shouldReceive('hydrate')->once()->andReturn(new Position());
+
+        Location::setDriver($driver);
 
         $this->assertInstanceOf(Position::class, Location::get());
     }
