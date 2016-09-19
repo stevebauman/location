@@ -22,9 +22,13 @@ class MaxMind extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
+        $position->driver = MaxMind::class;
+
         $position->countryName = $location->country;
+        $position->countryCode = $location->country_code;
         $position->cityName = $location->city;
         $position->postalCode = $location->postal;
+        $position->metroCode = $location->metro_code;
         $position->latitude = $location->latitude;
         $position->longitude = $location->longitude;
 
@@ -38,17 +42,19 @@ class MaxMind extends Driver
     {
         try {
             $maxmind = $this->isWebServiceEnabled() ?
-                $this->newClient($this->getUserId(), $this->getLicenseKey()) :
+                $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions()) :
                 $this->newReader($this->getDatabasePath());
 
             $record = $maxmind->city($ip);
 
             return new Fluent([
                 'country' => $record->country->name,
+                'country_code' => $record->country->isoCode,
                 'city' => $record->city->name,
                 'postal' => $record->postal->code,
-                'latitude' => $record->location->latitude,
-                'longitude' => $record->location->longitude,
+                'latitude' => (string) $record->location->latitude,
+                'longitude' => (string) $record->location->longitude,
+                'metro_code' => (string) $record->location->metroCode,
             ]);
         } catch (\Exception $e) {
             return false;
@@ -60,12 +66,13 @@ class MaxMind extends Driver
      *
      * @param string $userId
      * @param string $licenseKey
+     * @param array  $options
      *
      * @return Client
      */
-    protected function newClient($userId, $licenseKey)
+    protected function newClient($userId, $licenseKey, array $options = [])
     {
-        return new Client($userId, $licenseKey);
+        return new Client($userId, $licenseKey, $options);
     }
 
     /**
@@ -92,7 +99,7 @@ class MaxMind extends Driver
     }
 
     /**
-     * Returns the configured MaxMinds web user ID.
+     * Returns the configured MaxMind web user ID.
      *
      * @return string
      */
@@ -102,13 +109,23 @@ class MaxMind extends Driver
     }
 
     /**
-     * Returns the configured MaxMinds web license key.
+     * Returns the configured MaxMind web license key.
      *
      * @return string
      */
     protected function getLicenseKey()
     {
         return config('location.maxmind.web.license_key');
+    }
+
+    /**
+     * Returns the configured MaxMind web option array.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return config('location.maxmind.web.options', []);
     }
 
     /**
