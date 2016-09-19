@@ -20,6 +20,8 @@ class IpInfo extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
+        $position->driver = IpInfo::class;
+
         $position->countryCode = $location->country;
         $position->regionName = $location->region;
         $position->cityName = $location->city;
