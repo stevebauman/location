@@ -23,6 +23,7 @@
         "geoip2/geoip2": "2.3.*"
     },
     "require-dev": {
+        "mockery/mockery": "~0.9",
         "orchestra/testbench": "~3.2"
     },
     "archive": {
