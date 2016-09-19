@@ -87,4 +87,11 @@ class Position
      * @var string
      */
     public $areaCode = '';
+
+    /**
+     * The driver used for retrieving the location.
+     *
+     * @var string
+     */
+    public $driver = '';
 }
