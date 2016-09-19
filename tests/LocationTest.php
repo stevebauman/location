@@ -85,7 +85,7 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
-    public function test_max_mind_local()
+    public function test_max_mind()
     {
         $driver = m::mock(MaxMind::class);
 
