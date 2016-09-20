@@ -51,14 +51,6 @@ If you're upgrading from `v1.*`, there's some changes to be aware of:
 
     $position = Location::get('192.168.1.1');
 
-#### Fallback drivers
-
-In the config file, you can specify as many fallback drivers as you wish. It's recommended to install
-the MaxMind database `.mmdb` file so your always retrieving some generic location information from the user.
-
-If an exception occurs trying to grab a driver (such as a 404 error if the
-providers API changes), it will automatically use the next driver in line.
-
 ## Drivers
 
 #### Available Drivers
@@ -84,6 +76,14 @@ You should end up with a folder path of: `my-laravel-app/database/maxmind/GeoLit
 Then, set your default driver to `Stevebauman\Location\Drivers\MaxMind::class`, and you're all set!
 
 > **Note**: Keep in mind, you'll need to update this file continuously to retrieve the most current information.
+
+#### Fallback drivers
+
+In the config file, you can specify as many fallback drivers as you wish. It's recommended to install
+the MaxMind database `.mmdb` file so your always retrieving some generic location information from the user.
+
+If an exception occurs trying to grab a driver (such as a 404 error if the
+providers API changes), it will automatically use the next driver in line.
 
 #### Creating your own drivers
 
