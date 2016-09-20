@@ -42,10 +42,10 @@ return [
     |
     | The configuration for the MaxMind driver.
     |
-    | If web_service is enabled, you must fill in your user ID and license key.
+    | If web service is enabled, you must fill in your user ID and license key.
     |
-    | If web_service is disabled, it will try and retrieve the users location
-    | from the MaxMind database file located in the path below.
+    | If web service is disabled, it will try and retrieve the users location
+    | from the MaxMind database file located in the local path below.
     |
     */
 
