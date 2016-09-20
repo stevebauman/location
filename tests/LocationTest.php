@@ -30,6 +30,29 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
+    public function test_driver_fallback()
+    {
+        $fallback = m::mock(Driver::class)
+            ->shouldAllowMockingProtectedMethods();
+
+        $fallback
+            ->shouldReceive('get')->once()->andReturn(new Fluent());
+
+        $driver = m::mock(Driver::class)
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
+
+        $driver
+            ->shouldReceive('process')->once()->andReturn(false)
+            ->shouldReceive('hydrate')->once()->andReturn(new Position());
+
+        $driver->fallback($fallback);
+
+        Location::setDriver($driver);
+
+        $this->assertInstanceOf(Position::class, Location::get());
+    }
+
     public function test_is_stored_in_session()
     {
         $this->test_driver_process();
