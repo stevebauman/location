@@ -28,6 +28,17 @@ Publish the config file:
 
     php artisan vendor:publish
 
+## Upgrading
+
+If you're upgrading from `v1.*`, there's some changes to be aware of:
+
+- `Location::dropdown()` Removed
+- `Location::lists()` Removed
+- `Location::is()` Removed
+- Second parameter in `Location::get()` removed: Was `Location::get($ip, $field)`, now `Location::get($ip)`
+- `Location::getConfig()` Removed
+- Configuration completely reworked, you will need to republish your configuration file
+
 ## Usage
 
 #### Retrieving a users location:
