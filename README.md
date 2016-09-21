@@ -37,6 +37,7 @@ If you're upgrading from `v1.*`, there's some changes to be aware of:
 - `Location::is()` Removed
 - Second parameter in `Location::get()` removed: Was `Location::get($ip, $field)`, now `Location::get($ip)`
 - `Location::getConfig()` Removed
+- `Stevebauman\Location\Drivers\DriverInterface` has been removed
 - Configuration completely reworked, you will need to republish your configuration file
 
 ## Usage
