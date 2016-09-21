@@ -75,8 +75,7 @@ class Location
     }
 
     /**
-     * Returns the driver's location object. If a field is specified it will
-     * return the matching location objects variable.
+     * Retrieve the users location.
      *
      * @param string $ip
      *
