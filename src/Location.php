@@ -102,8 +102,6 @@ class Location
      * Returns the client IP address. Will return the set config IP if localhost
      * testing is set to true.
      *
-     * @thanks https://github.com/Torann/laravel-4-geoip/blob/master/src/Torann/GeoIP/GeoIP.php
-     *
      * @return string
      */
     protected function getClientIP()
