@@ -7,6 +7,14 @@ use Illuminate\Support\ServiceProvider;
 class LocationServiceProvider extends ServiceProvider
 {
     /**
+     * Run boot operations.
+     */
+    public function boot()
+    {
+        $this->app->bind('location', Location::class);
+    }
+
+    /**
      * Register the service provider.
      */
     public function register()
@@ -19,15 +27,7 @@ class LocationServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($config, 'location');
     }
-
-    /**
-     * Run boot operations.
-     */
-    public function boot()
-    {
-        $this->app->bind('location', Location::class);
-    }
-
+    
     /**
      * Get the services provided by the provider.
      *
