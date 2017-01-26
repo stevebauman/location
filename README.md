@@ -44,13 +44,17 @@ If you're upgrading from `v1.*`, there's some changes to be aware of:
 
 #### Retrieving a users location:
 
-    // Returns instance of Stevebauman\Location\Position
+```php
+$position = Location::get();
 
-    $position = Location::get();
+// Returns instance of Stevebauman\Location\Position
+```
 
 #### Retrieving a users location with a specific IP address:
 
-    $position = Location::get('192.168.1.1');
+```php
+$position = Location::get('192.168.1.1');
+```
 
 ## Drivers
 
