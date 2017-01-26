@@ -22,11 +22,11 @@ Add the service provider in `config/app.php`:
 
 Add the alias in your `config/app.php` file:
 
-	'Location' => 'Stevebauman\Location\Facades\Location',
+	'Location' => Stevebauman\Location\Facades\Location::class,
 
 Publish the config file:
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
 
 ## Upgrading
 
