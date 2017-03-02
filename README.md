@@ -50,7 +50,7 @@ $position = Location::get();
 // Returns instance of Stevebauman\Location\Position
 ```
 
-#### Retrieving a users location with a specific IP address:
+#### Retrieving a location with a specific IP address:
 
 ```php
 $position = Location::get('192.168.1.1');
