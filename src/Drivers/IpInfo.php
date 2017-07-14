@@ -46,7 +46,7 @@ class IpInfo extends Driver
     protected function process($ip)
     {
         try {
-            $response = json_decode(file_get_contents($this->url().$ip));
+            $response = json_decode($this->getUrlContent($this->url().$ip));
 
             return new Fluent($response);
         } catch (\Exception $e) {

@@ -38,7 +38,7 @@ class GeoPlugin extends Driver
     protected function process($ip)
     {
         try {
-            $response = unserialize(file_get_contents($this->url().$ip));
+            $response = unserialize($this->getUrlContent($this->url().$ip));
 
             return new Fluent($response);
         } catch (\Exception $e) {

@@ -38,7 +38,7 @@ class FreeGeoIp extends Driver
     protected function process($ip)
     {
         try {
-            $response = json_decode(file_get_contents($this->url().$ip), true);
+            $response = json_decode($this->getUrlContent($this->url().$ip), true);
 
             return new Fluent($response);
         } catch (\Exception $e) {
