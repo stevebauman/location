@@ -55,6 +55,26 @@ abstract class Driver
     }
 
     /**
+     * Returns url content as string.
+     *
+     * @param string $url
+     *
+     * @return mixed
+     */
+    protected function getUrlContent($url)
+    {
+        $timeout = 5;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $urlContent = curl_exec($ch);
+        curl_close($ch);
+
+        return $urlContent;
+    }
+
+    /**
      * Returns the URL to use for querying the current driver.
      *
      * @return string
