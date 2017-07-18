@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
+        "ext-curl": "*", 
         "illuminate/support": "5.*",
         "geoip2/geoip2": "2.3.*"
     },
