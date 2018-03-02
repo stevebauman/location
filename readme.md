@@ -12,7 +12,9 @@ Retrieve a users location from their IP address using external web services, or 
 
 Add Location to your `composer.json` file:
 
-	"stevebauman/location": "2.0.*"
+```json
+"stevebauman/location": "3.0.*"
+```
 
 Then run `composer update` on your project source.
 
