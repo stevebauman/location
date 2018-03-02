@@ -8,6 +8,12 @@
 
 Retrieve a users location from their IP address using external web services, or through a flat-file database hosted on your server.
 
+## Requirements
+
+- Laravel 5.*
+- PHP 5.6 or greater
+- cURL extension enabled
+
 ## Installation
 
 Add Location to your `composer.json` file:
