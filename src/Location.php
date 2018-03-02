@@ -8,13 +8,6 @@ use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 class Location
 {
     /**
-     * The session key.
-     *
-     * @var string
-     */
-    protected $key = 'location';
-
-    /**
      * The current driver.
      *
      * @var Driver
@@ -61,37 +54,15 @@ class Location
     }
 
     /**
-     * Sets the location session key.
-     *
-     * @param string $key
-     *
-     * @return Location
-     */
-    public function setSessionKey($key)
-    {
-        $this->key = $key;
-
-        return $this;
-    }
-
-    /**
      * Retrieve the users location.
      *
-     * @param string $ip
+     * @param array|string $ip
      *
      * @return \Stevebauman\Location\Position|bool
      */
     public function get($ip = '')
     {
-        if (session()->has($this->key)) {
-            return session($this->key);
-        }
-
         if ($location = $this->driver->get($ip ?: $this->getClientIP())) {
-            // We'll store the location inside of our session
-            // so it isn't retrieved on the next request.
-            session([$this->key => $location]);
-
             return $location;
         }
 
