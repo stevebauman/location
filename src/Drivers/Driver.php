@@ -55,23 +55,25 @@ abstract class Driver
     }
 
     /**
-     * Returns url content as string.
+     * Retrieves content from the given URL using cURL.
      *
      * @param string $url
      *
      * @return mixed
      */
     protected function getUrlContent($url)
-    {
-        $timeout = 5;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $urlContent = curl_exec($ch);
-        curl_close($ch);
+    {        
+        $session = curl_init();
+        
+        curl_setopt($session, CURLOPT_URL, $url);
+        curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($session, CURLOPT_CONNECTTIMEOUT, 5);
+        
+        $content = curl_exec($session);
+        
+        curl_close($session);
 
-        return $urlContent;
+        return $content;
     }
 
     /**
