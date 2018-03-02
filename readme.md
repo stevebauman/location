@@ -78,8 +78,9 @@ To setup MaxMind to retrieve the users location from your own server, download t
 
 http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
 
-Extract the downloaded file, and place the GeoLite2-City.mmdb file
-into your `database` directory, and create the folder `maxmind`.
+1. Extract the downloaded file
+2. Create a `maxmind` folder inside your `database` directory (`database/maxmind`)
+3. Place the GeoLite2-City.mmdb file into the `maxmind` directory
 
 You should end up with a folder path of: `my-laravel-app/database/maxmind/GeoLite2-City.mmdb`.
 
