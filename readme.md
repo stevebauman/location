@@ -78,7 +78,7 @@ To setup MaxMind to retrieve the users location from your own server, download t
 
 http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
 
-1. Extract the downloaded file
+1. Extract the downloaded file (you may need to use an application such as [7zip](http://www.7-zip.org/download.html) if on Windows)
 2. Create a `maxmind` folder inside your `database` directory (`database/maxmind`)
 3. Place the GeoLite2-City.mmdb file into the `maxmind` directory
 
