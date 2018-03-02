@@ -16,14 +16,16 @@ Add Location to your `composer.json` file:
 
 Then run `composer update` on your project source.
 
-Add the service provider in `config/app.php`:
+For laravel <= "5.4.\*"
+```PHP
+// Add the service provider in `config/app.php`:
 
 	Stevebauman\Location\LocationServiceProvider::class,
 
-Add the alias in your `config/app.php` file:
+// Add the alias in your `config/app.php` file:
 
 	'Location' => Stevebauman\Location\Facades\Location::class,
-
+```
 Publish the config file:
 
     php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
@@ -107,14 +109,14 @@ class MyDriver extends Driver
     {
         return '';
     }
-    
+
     protected function hydrate(Position $position, Fluent $location)
     {
         $position->countryCode = $location->country_code;
-        
+
         return $position;
     }
-    
+
     protected function process($ip)
     {
         try {
