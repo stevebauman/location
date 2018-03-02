@@ -18,10 +18,10 @@
         "ip"
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.0",
         "ext-curl": "*",
         "illuminate/support": "5.*",
-        "geoip2/geoip2": "2.3.*"
+        "geoip2/geoip2": "2.8.*"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
