@@ -48,7 +48,7 @@
                 "Stevebauman\\Location\\LocationServiceProvider"
             ],
             "aliases": {
-                    "Location": "Stevebauman\\Location\\Facades\\Location"
+                "Location": "Stevebauman\\Location\\Facades\\Location"
             }
         }
     }
