@@ -53,18 +53,11 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(Position::class, Location::get());
     }
 
-    public function test_is_stored_in_session()
-    {
-        $this->test_driver_process();
-
-        $this->assertInstanceOf(Position::class, session('location'));
-    }
-
     public function test_driver_does_not_exist()
     {
         config(['location.driver' => 'Test']);
 
-        $this->setExpectedException(DriverDoesNotExistException::class);
+        $this->expectException(DriverDoesNotExistException::class);
 
         Location::get();
     }
