@@ -16,19 +16,26 @@ Add Location to your `composer.json` file:
 
 Then run `composer update` on your project source.
 
-For laravel <= "5.4.\*"
-```PHP
-// Add the service provider in `config/app.php`:
+> **Note**: If you're using Laravel 5.5, you can skip the
+> registration of the service provider and the facade,
+> as they are registered automatically.
 
-	Stevebauman\Location\LocationServiceProvider::class,
+Add the service provider in `config/app.php`:
 
-// Add the alias in your `config/app.php` file:
-
-	'Location' => Stevebauman\Location\Facades\Location::class,
+```php
+Stevebauman\Location\LocationServiceProvider::class,
 ```
+
+Add the alias in your `config/app.php` file:'
+```php
+'Location' => Stevebauman\Location\Facades\Location::class,
+```
+
 Publish the config file:
 
-    php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
+```bash
+php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
+```
 
 ## Upgrading
 
