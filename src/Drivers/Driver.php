@@ -51,7 +51,7 @@ abstract class Driver
             return $position;
         }
 
-        return false;
+        return $location;
     }
 
     /**
