@@ -16,13 +16,11 @@ Retrieve a users location from their IP address using external web services, or 
 
 ## Installation
 
-Add Location to your `composer.json` file:
+Run the following command in the root of your project:
 
-```json
-"stevebauman/location": "3.0.*"
+```bash
+composer require stevebauman/location
 ```
-
-Then run `composer update` on your project source.
 
 > **Note**: If you're using Laravel 5.5, you can skip the
 > registration of the service provider and the facade,
@@ -34,7 +32,8 @@ Add the service provider in `config/app.php`:
 Stevebauman\Location\LocationServiceProvider::class,
 ```
 
-Add the alias in your `config/app.php` file:'
+Add the alias in your `config/app.php` file:
+
 ```php
 'Location' => Stevebauman\Location\Facades\Location::class,
 ```
