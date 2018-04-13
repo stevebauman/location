@@ -21,7 +21,7 @@ return [
     | The drivers you want to use to retrieve the users location
     | if the above selected driver is unavailable.
     |
-    | These will be called upon in order.
+    | These will be called upon in order (first to last).
     |
     */
 
