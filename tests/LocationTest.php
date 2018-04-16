@@ -36,15 +36,14 @@ class LocationTest extends TestCase
             ->shouldAllowMockingProtectedMethods();
 
         $fallback
-            ->shouldReceive('get')->once()->andReturn(new Fluent());
+            ->shouldReceive('get')->once()->andReturn(new Position());
 
         $driver = m::mock(Driver::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
         $driver
-            ->shouldReceive('process')->once()->andReturn(false)
-            ->shouldReceive('hydrate')->once()->andReturn(new Position());
+            ->shouldReceive('process')->once()->andReturn(false);
 
         $driver->fallback($fallback);
 
