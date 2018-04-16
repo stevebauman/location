@@ -37,18 +37,21 @@ abstract class Driver
      */
     public function get($ip)
     {
-        $location = $this->process($ip);
-
-        if (!$location && $this->fallback) {
-            $location = $this->fallback->get($ip);
-        }
-
-        if ($location instanceof Fluent) {
-            $position = $this->hydrate(new Position(), $location);
+        $data = $this->process($ip);
+        
+        if ($data instanceof Fluent) {
+            $position = $this->hydrate(new Position(), $data);
 
             $position->driver = get_class($this);
 
             return $position;
+        }
+        
+        if (!$data && $this->fallback) {
+            // If the current driver was unable to return any data,
+            // we'll try and retrieve a location from
+            // our fallback driver.
+            return $this->fallback->get($ip);
         }
 
         return false;
