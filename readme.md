@@ -67,7 +67,7 @@ $position = Location::get('192.168.1.1');
 Available drivers at the moment are:
 
 - [IpInfo](https://ipinfo.io/) - Default
-- [FreeGeoIp](https://freegeoip.net/)
+- [IpApi](http://ip-api.com/)
 - [GeoPlugin](http://www.geoplugin.com/)
 - [MaxMind](https://www.maxmind.com/en/home)
 

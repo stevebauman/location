@@ -5,14 +5,14 @@ namespace Stevebauman\Location\Drivers;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class FreeGeoIp extends Driver
+class IpApi extends Driver
 {
     /**
      * {@inheritdoc}
      */
     protected function url()
     {
-        return 'http://freegeoip.net/json/';
+        return 'http://ip-api.com/json/';
     }
 
     /**
@@ -20,14 +20,15 @@ class FreeGeoIp extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        $position->countryCode = $location->country_code;
-        $position->regionName = $location->region_name;
+        $position->countryName = $location->country;
+        $position->countryCode = $location->countryCode;
+        $position->regionName = $location->regionName;
         $position->cityName = $location->city;
-        $position->zipCode = $location->zip_code;
-        $position->latitude = (string) $location->latitude;
-        $position->longitude = (string) $location->longitude;
-        $position->metroCode = (string) $location->metro_code;
-        $position->areaCode = $location->area_code;
+        $position->zipCode = $location->zip;
+        $position->latitude = (string) $location->lat;
+        $position->longitude = (string) $location->lon;
+        // $position->metroCode = (string) $location->metro_code;
+        $position->areaCode = $location->region;
 
         return $position;
     }
