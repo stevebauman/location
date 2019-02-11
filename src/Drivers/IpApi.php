@@ -22,6 +22,7 @@ class IpApi extends Driver
     {
         $position->countryName = $location->country;
         $position->countryCode = $location->countryCode;
+        $position->regionCode = $location->region;
         $position->regionName = $location->regionName;
         $position->cityName = $location->city;
         $position->zipCode = $location->zip;
