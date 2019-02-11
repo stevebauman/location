@@ -27,7 +27,6 @@ class IpApi extends Driver
         $position->zipCode = $location->zip;
         $position->latitude = (string) $location->lat;
         $position->longitude = (string) $location->lon;
-        // $position->metroCode = (string) $location->metro_code;
         $position->areaCode = $location->region;
 
         return $position;

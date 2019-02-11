@@ -6,9 +6,9 @@ use Mockery as m;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Position;
+use Stevebauman\Location\Drivers\IpApi;
 use Stevebauman\Location\Drivers\IpInfo;
 use Stevebauman\Location\Drivers\Driver;
-use Stevebauman\Location\Drivers\FreeGeoIp;
 use Stevebauman\Location\Drivers\GeoPlugin;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
@@ -63,7 +63,7 @@ class LocationTest extends TestCase
 
     public function test_free_geo_ip()
     {
-        $driver = m::mock(FreeGeoIp::class)->makePartial();
+        $driver = m::mock(IpApi::class)->makePartial();
 
         $driver
             ->shouldAllowMockingProtectedMethods()
