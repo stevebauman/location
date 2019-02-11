@@ -87,8 +87,7 @@ abstract class Driver
     abstract protected function url();
 
     /**
-     * Hydrates the position with the given location
-     * instance using the drivers array map.
+     * Hydrates the Position object with the given location data.
      *
      * @param Position $position
      * @param Fluent   $location
