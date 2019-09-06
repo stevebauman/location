@@ -46,7 +46,13 @@ class IpInfo extends Driver
     protected function process($ip)
     {
         try {
-            $response = json_decode($this->getUrlContent($this->url().$ip));
+            $full_url = $this->url().$ip;
+
+            if (config('location.ipinfo.token')) {
+                $full_url .= '?token='.config('location.ipinfo.token');
+            }
+
+            $response = json_decode($this->getUrlContent($full_url));
 
             return new Fluent($response);
         } catch (\Exception $e) {
