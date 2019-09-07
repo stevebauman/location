@@ -215,7 +215,7 @@ class LocationTest extends TestCase
             'regionName' => null,
             'cityName' => 'Long Beach',
             'zipCode' => null,
-            'isoCode' => null,
+            'isoCode' => 'US',
             'postalCode' => '55555',
             'latitude' => '50',
             'longitude' => '50',

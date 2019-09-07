@@ -24,6 +24,7 @@ class MaxMind extends Driver
     {
         $position->countryName = $location->country;
         $position->countryCode = $location->country_code;
+        $position->isoCode = $location->country_code;
         $position->cityName = $location->city;
         $position->postalCode = $location->postal;
         $position->metroCode = $location->metro_code;
