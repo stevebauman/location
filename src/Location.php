@@ -135,6 +135,6 @@ class Location
             return new $driver();
         }
 
-        throw new DriverDoesNotExistException("The driver [{$driver}] does not exist.");
+        throw new DriverDoesNotExistException("The driver '{$driver}' does not exist.");
     }
 }
