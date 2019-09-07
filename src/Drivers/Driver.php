@@ -43,9 +43,9 @@ abstract class Driver
 
         // Here we will ensure the locations data we received isn't empty.
         // Some IP location providers will return empty JSON. We want
-        // to avoid this so we can go to a fallback provider.
+        // to avoid this so we can go to a fallback driver.
         if ($data instanceof Fluent && $this->fluentDataIsNotEmpty($data)) {
-            $this->hydrate($position, $data);
+            $position = $this->hydrate($position, $data);
 
             $position->driver = get_class($this);
         }
