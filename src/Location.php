@@ -56,11 +56,11 @@ class Location
     /**
      * Retrieve the users location.
      *
-     * @param array|string $ip
+     * @param string|null $ip
      *
      * @return \Stevebauman\Location\Position|bool
      */
-    public function get($ip = '')
+    public function get($ip = null)
     {
         if ($location = $this->driver->get($ip ?: $this->getClientIP())) {
             return $location;
