@@ -10,7 +10,7 @@ Retrieve a users location from their IP address using external web services, or 
 
 ## Requirements
 
-- Laravel 5.*
+- Laravel 5.* or 6.*
 - PHP 5.6 or greater
 - cURL extension enabled
 
@@ -66,8 +66,8 @@ $position = Location::get('192.168.1.1');
 
 Available drivers at the moment are:
 
-- [IpInfo](https://ipinfo.io/) - Default
-- [IpApi](http://ip-api.com/)
+- [IpApi](http://ip-api.com/) - Default
+- [IpInfo](https://ipinfo.io/)
 - [GeoPlugin](http://www.geoplugin.com/)
 - [MaxMind](https://www.maxmind.com/en/home)
 
