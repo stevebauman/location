@@ -11,23 +11,23 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('location', Location::class);
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
         $config = __DIR__.'/Config/config.php';
 
         $this->publishes([
             $config => config_path('location.php'),
-        ], 'config');
+        ]);
 
         $this->mergeConfigFrom($config, 'location');
     }
-    
+
+    /**
+     * Register the location binding.
+     */
+    public function register()
+    {
+        $this->app->bind('location', Location::class);
+    }
+
     /**
      * Get the services provided by the provider.
      *
