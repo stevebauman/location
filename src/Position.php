@@ -2,7 +2,9 @@
 
 namespace Stevebauman\Location;
 
-class Position
+use Illuminate\Contracts\Support\Arrayable;
+
+class Position implements Arrayable
 {
     /**
      * The country name.
@@ -102,10 +104,20 @@ class Position
      */
     public function isEmpty()
     {
-        $data = get_object_vars($this);
+        $data = $this->toArray();
 
         unset($data['driver']);
 
         return count(array_filter($data)) === 0;
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 }
