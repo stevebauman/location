@@ -101,6 +101,7 @@ class LocationTest extends TestCase
             'longitude' => '50',
             'metroCode' => null,
             'areaCode' => 'CA',
+            'ip' => '66.102.0.0',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -142,6 +143,7 @@ class LocationTest extends TestCase
             'longitude' => '50',
             'metroCode' => null,
             'areaCode' => '555',
+            'ip' => '66.102.0.0',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -180,6 +182,7 @@ class LocationTest extends TestCase
             'longitude' => '50',
             'metroCode' => null,
             'areaCode' => null,
+            'ip' => '66.102.0.0',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -221,7 +224,21 @@ class LocationTest extends TestCase
             'longitude' => '50',
             'metroCode' => '5555',
             'areaCode' => null,
+            'ip' => '66.102.0.0',
             'driver' => get_class($driver),
         ], $position->toArray());
+    }
+
+    public function test_position_is_empty()
+    {
+        $position = new Position();
+        $position->ip = '192.168.1.1';
+        $position->driver = 'foo';
+
+        $this->assertTrue($position->isEmpty());
+
+        $position = new Position();
+        $position->isoCode = 'foo';
+        $this->assertFalse($position->isEmpty());
     }
 }
