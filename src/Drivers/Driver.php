@@ -38,23 +38,35 @@ abstract class Driver
     public function get($ip)
     {
         $data = $this->process($ip);
-        
-        if ($data instanceof Fluent) {
-            $position = $this->hydrate(new Position(), $data);
+
+        $position = new Position();
+
+        // Here we will ensure the locations data we received isn't empty.
+        // Some IP location providers will return empty JSON. We want
+        // to avoid this so we can go to a fallback provider.
+        if ($data instanceof Fluent && $this->fluentDataIsNotEmpty($data)) {
+            $this->hydrate($position, $data);
 
             $position->driver = get_class($this);
+        }
 
+        if (! $position->isEmpty()) {
             return $position;
         }
-        
-        if (!$data && $this->fallback) {
-            // If the current driver was unable to return any data,
-            // we'll try and retrieve a location from
-            // our fallback driver.
-            return $this->fallback->get($ip);
-        }
 
-        return false;
+        return $this->fallback ? $this->fallback->get($ip) : false;
+    }
+
+    /**
+     * Determine if the given fluent data is not empty.
+     *
+     * @param Fluent $data
+     *
+     * @return bool
+     */
+    protected function fluentDataIsNotEmpty(Fluent $data)
+    {
+        return count(array_filter($data->getAttributes())) > 0;
     }
 
     /**
@@ -65,15 +77,15 @@ abstract class Driver
      * @return mixed
      */
     protected function getUrlContent($url)
-    {        
+    {
         $session = curl_init();
-        
+
         curl_setopt($session, CURLOPT_URL, $url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($session, CURLOPT_CONNECTTIMEOUT, 5);
-        
+
         $content = curl_exec($session);
-        
+
         curl_close($session);
 
         return $content;
