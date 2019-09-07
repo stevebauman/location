@@ -47,6 +47,7 @@ abstract class Driver
         if ($data instanceof Fluent && $this->fluentDataIsNotEmpty($data)) {
             $position = $this->hydrate($position, $data);
 
+            $position->ip = $ip;
             $position->driver = get_class($this);
         }
 

@@ -7,6 +7,13 @@ use Illuminate\Contracts\Support\Arrayable;
 class Position implements Arrayable
 {
     /**
+     * The IP address used to retrieve the location.
+     *
+     * @var string
+     */
+    public $ip;
+
+    /**
      * The country name.
      *
      * @var string|null
@@ -106,6 +113,7 @@ class Position implements Arrayable
     {
         $data = $this->toArray();
 
+        unset($data['ip']);
         unset($data['driver']);
 
         return count(array_filter($data)) === 0;
