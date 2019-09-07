@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'driver' => Stevebauman\Location\Drivers\IpInfo::class,
+    'driver' => Stevebauman\Location\Drivers\IpApi::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ return [
 
     'fallbacks' => [
 
-        Stevebauman\Location\Drivers\IpApi::class,
+        Stevebauman\Location\Drivers\IpInfo::class,
 
         Stevebauman\Location\Drivers\GeoPlugin::class,
 
@@ -81,8 +81,6 @@ return [
     |--------------------------------------------------------------------------
     |
     | The configuration for the IPInfo driver.
-    |
-    | If web service is enabled, you must fill in your user ID and license key.
     |
     */
 
