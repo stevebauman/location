@@ -7,91 +7,105 @@ class Position
     /**
      * The country name.
      *
-     * @var string
+     * @var string|null
      */
-    public $countryName = '';
+    public $countryName;
 
     /**
      * The country code.
      *
-     * @var string
+     * @var string|null
      */
-    public $countryCode = '';
+    public $countryCode;
 
     /**
      * The region code.
      *
-     * @var string
+     * @var string|null
      */
-    public $regionCode = '';
+    public $regionCode;
 
     /**
      * The region name.
      *
-     * @var string
+     * @var string|null
      */
-    public $regionName = '';
+    public $regionName;
 
     /**
      * The city name.
      *
-     * @var string
+     * @var string|null
      */
-    public $cityName = '';
+    public $cityName;
 
     /**
      * The zip code.
      *
-     * @var string
+     * @var string|null
      */
-    public $zipCode = '';
+    public $zipCode;
 
     /**
      * The iso code.
      *
-     * @var string
+     * @var string|null
      */
-    public $isoCode = '';
+    public $isoCode;
 
     /**
      * The postal code.
      *
-     * @var string
+     * @var string|null
      */
-    public $postalCode = '';
+    public $postalCode;
 
     /**
      * The latitude.
      *
-     * @var string
+     * @var string|null
      */
-    public $latitude = '';
+    public $latitude;
 
     /**
      * The longitude.
      *
-     * @var string
+     * @var string|null
      */
-    public $longitude = '';
+    public $longitude;
 
     /**
      * The metro code.
      *
-     * @var string
+     * @var string|null
      */
-    public $metroCode = '';
+    public $metroCode;
 
     /**
      * The area code.
      *
-     * @var string
+     * @var string|null
      */
-    public $areaCode = '';
+    public $areaCode;
 
     /**
      * The driver used for retrieving the location.
      *
-     * @var string
+     * @var string|null
      */
-    public $driver = '';
+    public $driver;
+
+    /**
+     * Determine if the position is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        $data = get_object_vars($this);
+
+        unset($data['driver']);
+
+        return count(array_filter($data)) === 0;
+    }
 }
