@@ -22,22 +22,6 @@ Run the following command in the root of your project:
 composer require stevebauman/location
 ```
 
-> **Note**: If you're using Laravel 5.5, you can skip the
-> registration of the service provider and the facade,
-> as they are registered automatically.
-
-Add the service provider in `config/app.php`:
-
-```php
-Stevebauman\Location\LocationServiceProvider::class,
-```
-
-Add the alias in your `config/app.php` file:
-
-```php
-'Location' => Stevebauman\Location\Facades\Location::class,
-```
-
 Publish the config file:
 
 ```bash
