@@ -11,6 +11,6 @@ class IpApiPro extends IpApi
     {
         $key = config('ip_api.token');
 
-        return "https://pro.ip-api.com/json/{$ip}?key={$key}";
+        return "https://pro.ip-api.com/json/$ip?key=$key";
     }
 }
