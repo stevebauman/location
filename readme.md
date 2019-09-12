@@ -153,7 +153,9 @@ Location is versioned under the Semantic Versioning guidelines as much as possib
 
 Releases will be numbered with the following format:
 
+```
 <major>.<minor>.<patch>
+```
 
 And constructed with the following guidelines:
 
