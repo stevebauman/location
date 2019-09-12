@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
@@ -10,9 +11,9 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url()
+    protected function url($ip)
     {
-        return 'http://www.geoplugin.net/php.gp?ip=';
+        return "http://www.geoplugin.net/php.gp?ip=$ip";
     }
 
     /**
@@ -38,10 +39,10 @@ class GeoPlugin extends Driver
     protected function process($ip)
     {
         try {
-            $response = unserialize($this->getUrlContent($this->url().$ip));
+            $response = unserialize($this->getUrlContent($this->url($ip)));
 
             return new Fluent($response);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }

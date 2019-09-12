@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\WebService\Client;
 use Illuminate\Support\Fluent;
@@ -12,7 +13,7 @@ class MaxMind extends Driver
     /**
      * {@inheritdoc}
      */
-    public function url()
+    public function url($ip)
     {
         return;
     }
@@ -55,7 +56,7 @@ class MaxMind extends Driver
                 'longitude' => (string) $record->location->longitude,
                 'metro_code' => (string) $record->location->metroCode,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }

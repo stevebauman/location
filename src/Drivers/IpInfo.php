@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
@@ -10,9 +11,15 @@ class IpInfo extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url()
+    protected function url($ip)
     {
-        return 'http://ipinfo.io/';
+        $url = "http://ipinfo.io/$ip";
+
+        if ($token = config('location.ipinfo.token')) {
+            $url .= '?token='.$token;
+        }
+
+        return $url;
     }
 
     /**
@@ -46,16 +53,10 @@ class IpInfo extends Driver
     protected function process($ip)
     {
         try {
-            $url = $this->url().$ip;
+            $response = json_decode($this->getUrlContent($this->url($ip)));
 
-            if ($token = config('location.ipinfo.token')) {
-                $url .= '?token='.$token;
-            }
-
-            return new Fluent(
-                json_decode($this->getUrlContent($url))
-            );
-        } catch (\Exception $e) {
+            return new Fluent($response);
+        } catch (Exception $e) {
             return false;
         }
     }

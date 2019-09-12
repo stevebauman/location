@@ -95,9 +95,11 @@ abstract class Driver
     /**
      * Returns the URL to use for querying the current driver.
      *
+     * @param string $ip
+     *
      * @return string
      */
-    abstract protected function url();
+    abstract protected function url($ip);
 
     /**
      * Hydrates the Position object with the given location data.

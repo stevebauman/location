@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
@@ -10,9 +11,9 @@ class IpApi extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url()
+    protected function url($ip)
     {
-        return 'http://ip-api.com/json/';
+        return "http://ip-api.com/json/$ip";
     }
 
     /**
@@ -39,10 +40,10 @@ class IpApi extends Driver
     protected function process($ip)
     {
         try {
-            $response = json_decode($this->getUrlContent($this->url().$ip), true);
+            $response = json_decode($this->getUrlContent($this->url($ip)), true);
 
             return new Fluent($response);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
