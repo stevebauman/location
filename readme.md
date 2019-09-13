@@ -39,7 +39,9 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 
 ## Usage
 
-#### Retrieving a users location:
+#### Retrieving a users location
+
+> **Note**: This will retrieve the users IP address via `request()->ip()`:
 
 ```php
 $position = Location::get();
@@ -47,7 +49,7 @@ $position = Location::get();
 // Returns instance of Stevebauman\Location\Position
 ```
 
-#### Retrieving a location with a specific IP address:
+#### Retrieving a location with a specific IP address
 
 ```php
 $position = Location::get('192.168.1.1');
@@ -102,9 +104,9 @@ use Stevebauman\Location\Drivers\Driver;
 
 class MyDriver extends Driver
 {
-    public function url()
+    public function url($ip)
     {
-        return '';
+        return "http://driver-url.com?ip=$ip";
     }
 
     protected function hydrate(Position $position, Fluent $location)
@@ -117,7 +119,7 @@ class MyDriver extends Driver
     protected function process($ip)
     {
         try {
-            $response = json_decode(file_get_contents($this->url().$ip), true);
+            $response = json_decode(file_get_contents($this->url($ip)), true);
 
             return new Fluent($response);
         } catch (\Exception $e) {
