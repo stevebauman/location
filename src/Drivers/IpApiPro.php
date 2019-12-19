@@ -9,7 +9,7 @@ class IpApiPro extends IpApi
      */
     protected function url($ip)
     {
-        $key = config('ip_api.token');
+        $key = config('location.ip_api.token');
 
         return "https://pro.ip-api.com/json/$ip?key=$key";
     }
