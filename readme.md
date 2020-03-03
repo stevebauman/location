@@ -10,7 +10,7 @@ Retrieve a users location from their IP address using external web services, or 
 
 ## Requirements
 
-- Laravel 5.* or 6.*
+- Laravel >= 5
 - PHP 7.0 or greater
 - cURL extension enabled
 
