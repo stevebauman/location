@@ -21,7 +21,7 @@
         "php": ">=5.6.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "illuminate/support": "~5.0|~6.0",
+        "illuminate/support": "~5.0|~6.0|~7.0",
         "geoip2/geoip2": "2.8.*"
     },
     "require-dev": {
