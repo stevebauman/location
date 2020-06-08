@@ -131,10 +131,10 @@ class Location
      */
     protected function getDriver($driver)
     {
-        if (class_exists($driver)) {
-            return new $driver();
+        if (! class_exists($driver)) {
+            throw new DriverDoesNotExistException("The location driver [$driver] does not exist.");
         }
 
-        throw new DriverDoesNotExistException("The driver '{$driver}' does not exist.");
+        return new $driver();
     }
 }

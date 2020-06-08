@@ -116,7 +116,7 @@ class Position implements Arrayable
         unset($data['ip']);
         unset($data['driver']);
 
-        return count(array_filter($data)) === 0;
+        return empty(array_filter($data));
     }
 
     /**
