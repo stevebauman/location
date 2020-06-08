@@ -37,6 +37,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Position
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the position instance that is created
+    | and returned from the above drivers. The instance you
+    | create must extend the built-in Position class.
+    |
+    */
+
+    'position' => Stevebauman\Location\Position::class,
+
+    /*
+    |--------------------------------------------------------------------------
     | MaxMind Configuration
     |--------------------------------------------------------------------------
     |

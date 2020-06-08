@@ -39,7 +39,7 @@ abstract class Driver
     {
         $data = $this->process($ip);
 
-        $position = new Position();
+        $position = $this->getNewPosition();
 
         // Here we will ensure the locations data we received isn't empty.
         // Some IP location providers will return empty JSON. We want
@@ -59,6 +59,18 @@ abstract class Driver
     }
 
     /**
+     * Create a new position instance.
+     *
+     * @return Position
+     */
+    protected function getNewPosition()
+    {
+        $position = config('location.position', Position::class);
+
+        return new $position;
+    }
+
+    /**
      * Determine if the given fluent data is not empty.
      *
      * @param Fluent $data
@@ -67,7 +79,7 @@ abstract class Driver
      */
     protected function fluentDataIsNotEmpty(Fluent $data)
     {
-        return count(array_filter($data->getAttributes())) > 0;
+        return ! empty(array_filter($data->getAttributes()));
     }
 
     /**
