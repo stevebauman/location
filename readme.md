@@ -6,7 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
 [![License](https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
 
-Retrieve a users location from their IP address using external web services, or through a flat-file database hosted on your server.
+Retrieve a user's location from their IP address using external web services, or through a flat-file database hosted on your server.
 
 ## Requirements
 
@@ -31,7 +31,7 @@ Add the service provider in `config/app.php`:
 Stevebauman\Location\LocationServiceProvider::class,
 ```
 
-Publish the config file:
+Publish the config file (will create the `location.php` file inside the config directory):
 
 ```bash
 php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
@@ -39,9 +39,9 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 
 ## Usage
 
-#### Retrieving a users location
+#### Retrieve a user's location
 
-> **Note**: This method retrieves the users IP address via `request()->ip()`:
+> **Note**: This method retrieves the user's IP address via `request()->ip()`:
 
 ```php
 $position = Location::get();
@@ -49,7 +49,7 @@ $position = Location::get();
 // Returns instance of Stevebauman\Location\Position on success, otherwise false (for example for local network ip addresses)
 ```
 
-#### Retrieving a location with a specific IP address
+#### Retrieve the location of a specific IP address
 
 ```php
 $position = Location::get('192.168.1.1');
@@ -69,9 +69,9 @@ Available drivers at the moment are:
 
 #### Setting Up MaxMind (optional)
 
-To setup MaxMind to retrieve the users location from your own server, download the database file here:
+To setup MaxMind to retrieve the user's location from your own server, create a [maxmind account](https://www.maxmind.com/en/geolite2/signup), create a license key and download the database file in mmdb format:
 
-http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=YOUR_LICENSE_KEY&suffix=tar.gz
 
 1. Extract the downloaded file (you may need to use an application such as [7zip](http://www.7-zip.org/download.html) if on Windows)
 2. Create a `maxmind` folder inside your `database` directory (`database/maxmind`)
@@ -85,8 +85,7 @@ Then, set your default driver to `Stevebauman\Location\Drivers\MaxMind::class`, 
 
 #### Fallback drivers
 
-In the config file, you can specify as many fallback drivers as you wish. It's recommended to install
-the MaxMind database `.mmdb` file so your always retrieving some generic location information from the user.
+In the config file, you can specify as many fallback drivers as you wish. It's recommended to install the MaxMind database `.mmdb` file so you are always retrieving some generic location information for the user.
 
 If an exception occurs trying to grab a driver (such as a 404 error if the
 providers API changes), it will automatically use the next driver in line.
