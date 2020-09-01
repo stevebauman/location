@@ -61,13 +61,13 @@ $position = Location::get('192.168.1.1');
 
 Available drivers at the moment are:
 
-- [IpApi](http://ip-api.com) - Default
+- [IpApi](http://ip-api.com) - Default (works out of the box without config)
 - [IpApiPro](https://pro.ip-api.com)
 - [IpInfo](https://ipinfo.io)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
 
-#### Setting Up MaxMind
+#### Setting Up MaxMind (optional)
 
 To setup MaxMind to retrieve the users location from your own server, download the database file here:
 
