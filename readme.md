@@ -46,7 +46,7 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 ```php
 $position = Location::get();
 
-// Returns instance of Stevebauman\Location\Position
+// Returns instance of Stevebauman\Location\Position on success, otherwise false (for example for local network ip addresses)
 ```
 
 #### Retrieving a location with a specific IP address
