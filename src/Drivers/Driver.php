@@ -37,6 +37,11 @@ abstract class Driver
      */
     public function get($ip)
     {
+        // ignore IPs in private network range 10.0.0.0 – 10.255.255.255, 192.168.0.0 – 192.168.255.255, 172.16.0.0 – 172.31.255.255
+        if (preg_match('/^(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168.\d{1,3}.\d{1,3}|172\.(1\d|2\d|3[01]).\d{1,3}.\d{1,3})$/', $ip) === 1) {
+            return false;
+        }
+
         $data = $this->process($ip);
 
         $position = $this->getNewPosition();
