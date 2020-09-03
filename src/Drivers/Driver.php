@@ -7,6 +7,9 @@ use Stevebauman\Location\Position;
 
 abstract class Driver
 {
+    const CURL_CONNECT_TIMEOUT = 5;
+    const CURL_MAX_TIME        = 5;
+
     /**
      * The fallback driver.
      *
@@ -95,7 +98,8 @@ abstract class Driver
 
         curl_setopt($session, CURLOPT_URL, $url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($session, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($session, CURLOPT_CONNECTTIMEOUT, self::CURL_CONNECT_TIMEOUT);
+        curl_setopt($session, CURLOPT_TIMEOUT, self::CURL_MAX_TIME);
 
         $content = curl_exec($session);
 
