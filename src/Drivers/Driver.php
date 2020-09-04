@@ -7,8 +7,8 @@ use Stevebauman\Location\Position;
 
 abstract class Driver
 {
-    const CURL_CONNECT_TIMEOUT = 5;
-    const CURL_MAX_TIME        = 5;
+    const CURL_CONNECT_TIMEOUT = 2;
+    const CURL_MAX_TIME        = 2;
 
     /**
      * The fallback driver.
