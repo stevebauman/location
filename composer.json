@@ -21,12 +21,12 @@
         "php": ">=5.6.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "illuminate/support": "~5.0 || ~6.0 || ~7.0 || ~8.0",
+        "illuminate/support": "~5.0|~6.0|~7.0|~8.0",
         "geoip2/geoip2": "2.8.*"
     },
     "require-dev": {
-        "mockery/mockery": "~0.9 || ^1.0",
-        "orchestra/testbench": "~3.2 || ~4.0 || ^6.0"
+        "mockery/mockery": "~0.9|^1.0",
+        "orchestra/testbench": "~3.2|~4.0|^6.0"
     },
     "archive": {
       "exclude": ["/tests"]
