@@ -8,20 +8,24 @@ class LocationServiceProvider extends ServiceProvider
 {
     /**
      * Run boot operations.
+     *
+     * @return void
      */
     public function boot()
     {
-        $config = __DIR__.'/Config/config.php';
+        $config = __DIR__.'/../config/config.php';
 
-        $this->publishes([
-            $config => config_path('location.php'),
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->publishes([$config => config_path('location.php')]);
+        }
 
         $this->mergeConfigFrom($config, 'location');
     }
 
     /**
      * Register the location binding.
+     *
+     * @return void
      */
     public function register()
     {
