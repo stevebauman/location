@@ -44,7 +44,7 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 > **Note**: This method retrieves the user's IP address via `request()->ip()`:
 
 ```php
-use Stevebauman\Location\Facade\Location;
+use Stevebauman\Location\Facades\Location;
 
 $position = Location::get();
 
