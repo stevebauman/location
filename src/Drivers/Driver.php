@@ -86,7 +86,7 @@ abstract class Driver
     }
 
     /**
-     * Retrieves content from the given URL using cURL.
+     * Get content from the given URL using cURL.
      *
      * @param string $url
      *
@@ -109,7 +109,7 @@ abstract class Driver
     }
 
     /**
-     * Returns the URL to use for querying the current driver.
+     * Get the URL to use for querying the current driver.
      *
      * @param string $ip
      *
@@ -118,7 +118,7 @@ abstract class Driver
     abstract protected function url($ip);
 
     /**
-     * Hydrates the Position object with the given location data.
+     * Hydrate the Position object with the given location data.
      *
      * @param Position $position
      * @param Fluent   $location
@@ -128,7 +128,7 @@ abstract class Driver
     abstract protected function hydrate(Position $position, Fluent $location);
 
     /**
-     * Process the specified driver.
+     * Attempt to fetch and process the location data from the driver.
      *
      * @param string $ip
      *
