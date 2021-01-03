@@ -41,11 +41,7 @@ class MaxMind extends Driver
     protected function process($ip)
     {
         try {
-            $maxmind = $this->isWebServiceEnabled() ?
-                $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions()) :
-                $this->newReader($this->getDatabasePath());
-
-            $record = $maxmind->city($ip);
+            $record = $this->fetchLocation($ip);
 
             return new Fluent([
                 'country' => $record->country->name,
@@ -59,6 +55,24 @@ class MaxMind extends Driver
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Attempt to fetch the location model from Maxmind.
+     *
+     * @param string $ip
+     *
+     * @return \GeoIp2\Model\City
+     *
+     * @throws \Exception
+     */
+    protected function fetchLocation($ip)
+    {
+        $maxmind = $this->isWebServiceEnabled()
+            ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions())
+            : $this->newReader($this->getDatabasePath());
+
+        return $maxmind->city($ip);
     }
 
     /**
