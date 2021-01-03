@@ -107,7 +107,6 @@ To create your own driver, simply create a class in your application, and extend
 ```php
 namespace App\Location\Drivers;
 
-use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Drivers\Driver;
