@@ -22,7 +22,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "illuminate/support": "~5.0|~6.0|~7.0|~8.0",
-        "geoip2/geoip2": "2.8.*"
+        "geoip2/geoip2": "^2.8.0"
     },
     "require-dev": {
         "mockery/mockery": "~0.9|^1.0",
