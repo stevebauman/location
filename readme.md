@@ -107,6 +107,7 @@ To create your own driver, simply create a class in your application, and extend
 ```php
 namespace App\Location\Drivers;
 
+use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Drivers\Driver;
@@ -117,23 +118,21 @@ class MyDriver extends Driver
     {
         return "http://driver-url.com?ip=$ip";
     }
+    
+    protected function process($ip)
+    {
+        return rescue(function () use ($ip) {
+            $response = json_decode(file_get_contents($this->url($ip)), true);
+            
+            return new Fluent($response);
+        }, $rescue = false);
+    }
 
     protected function hydrate(Position $position, Fluent $location)
     {
         $position->countryCode = $location->country_code;
 
         return $position;
-    }
-
-    protected function process($ip)
-    {
-        try {
-            $response = json_decode(file_get_contents($this->url($ip)), true);
-
-            return new Fluent($response);
-        } catch (\Exception $e) {
-            return false;
-        }
     }
 }
 ```
