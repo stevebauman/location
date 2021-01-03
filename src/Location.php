@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location;
 
+use Illuminate\Contracts\Config\Repository;
 use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 
@@ -15,17 +16,28 @@ class Location
     protected $driver;
 
     /**
+     * The application configuration.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * Constructor.
+     *
+     * @param Repository $config
      *
      * @throws DriverDoesNotExistException
      */
-    public function __construct()
+    public function __construct(Repository $config)
     {
+        $this->config = $config;
+
         $this->setDefaultDriver();
     }
 
     /**
-     * Creates the selected driver instance and sets the driver property.
+     * Set the current driver to use.
      *
      * @param Driver $driver
      */
@@ -35,26 +47,23 @@ class Location
     }
 
     /**
-     * Sets the default driver from the configuration.
+     * Set the default location driver to use.
      *
      * @throws DriverDoesNotExistException
      */
     public function setDefaultDriver()
     {
-        // Retrieve the default driver.
         $driver = $this->getDriver($this->getDefaultDriver());
 
         foreach($this->getDriverFallbacks() as $fallback) {
-            // We'll add each fallback to our responsibility chain.
             $driver->fallback($this->getDriver($fallback));
         }
 
-        // Finally, set the driver.
         $this->setDriver($driver);
     }
 
     /**
-     * Retrieve the users location.
+     * Attempt to retrieve the location of the user.
      *
      * @param string|null $ip
      *
@@ -70,58 +79,59 @@ class Location
     }
 
     /**
-     * Returns the client IP address. Will return the set config IP if localhost
-     * testing is set to true.
+     * Get the client IP address.
      *
      * @return string
      */
     protected function getClientIP()
     {
-        return $this->localHostTesting() ? $this->getLocalHostTestingIp() : request()->ip();
+        return $this->localHostTesting()
+            ? $this->getLocalHostTestingIp()
+            : request()->ip();
     }
 
     /**
-     * Retrieves the config option for localhost testing.
+     * Determine if testing is enabled.
      *
      * @return bool
      */
     protected function localHostTesting()
     {
-        return config('location.testing.enabled', true);
+        return $this->config->get('location.testing.enabled', true);
     }
 
     /**
-     * Retrieves the config option for the localhost testing IP.
+     * Get the testing IP address.
      *
      * @return string
      */
     protected function getLocalHostTestingIp()
     {
-        return config('location.testing.ip', '66.102.0.0');
+        return $this->config->get('location.testing.ip', '66.102.0.0');
     }
 
     /**
-     * Retrieves the config option for select driver fallbacks.
+     * Get the fallback location drivers to use.
      *
      * @return array
      */
     protected function getDriverFallbacks()
     {
-        return config('location.fallbacks', []);
+        return $this->config->get('location.fallbacks', []);
     }
 
     /**
-     * Returns the selected driver
+     * Get the default location driver.
      *
-     * @return \Illuminate\Support\Facades\Config
+     * @return string
      */
     protected function getDefaultDriver()
     {
-        return config('location.driver');
+        return $this->config->get('location.driver');
     }
 
     /**
-     * Returns the specified driver.
+     * Attempt to create the location driver.
      *
      * @param string $driver
      *
@@ -132,9 +142,9 @@ class Location
     protected function getDriver($driver)
     {
         if (! class_exists($driver)) {
-            throw new DriverDoesNotExistException("The location driver [$driver] does not exist.");
+            throw DriverDoesNotExistException::forDriver($driver);
         }
 
-        return new $driver();
+        return app()->make($driver);
     }
 }
