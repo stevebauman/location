@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Location;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
 class LocationServiceProvider extends ServiceProvider
@@ -13,6 +14,10 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->isLumen()) {
+            return;
+        }
+
         $config = __DIR__.'/../config/config.php';
 
         if ($this->app->runningInConsole()) {
@@ -29,7 +34,9 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('location', Location::class);
+        $this->app->singleton('location', function ($app) {
+            return new Location($app['config']);
+        });
     }
 
     /**
@@ -40,5 +47,15 @@ class LocationServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['location'];
+    }
+
+    /**
+     * Determine if the current application is Lumen.
+     *
+     * @return bool
+     */
+    protected function isLumen()
+    {
+        return Str::contains($this->app->version(), 'Lumen');
     }
 }
