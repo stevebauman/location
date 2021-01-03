@@ -46,9 +46,12 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 ```php
 use Stevebauman\Location\Facades\Location;
 
-$position = Location::get();
-
-// Returns instance of Stevebauman\Location\Position on success, otherwise false (for example for local network ip addresses)
+if ($position = Location::get()) {
+    // Successfully retrieved position.
+    echo $position->countryName;
+} else {
+    // Failed retrieving position.
+}
 ```
 
 ### Retrieve the location of a specific IP address
