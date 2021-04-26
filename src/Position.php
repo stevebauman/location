@@ -98,6 +98,13 @@ class Position implements Arrayable
     public $areaCode;
 
     /**
+     * The timezone.
+     *
+     * @var string|null
+     */
+    public $timezone;
+
+    /**
      * The driver used for retrieving the location.
      *
      * @var string|null
