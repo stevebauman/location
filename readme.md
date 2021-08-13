@@ -68,6 +68,7 @@ Available drivers at the moment are:
 
 - [IpApi](http://ip-api.com) - Default
 - [IpApiPro](https://pro.ip-api.com)
+- [IpData](https://ipdata.co/)
 - [IpInfo](https://ipinfo.io)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
