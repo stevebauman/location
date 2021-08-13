@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://banners.beyondco.de/Location.png?theme=light&packageManager=composer+require&packageName=stevebauman%2Fmy-awesome-package&pattern=texture&style=style_1&description=Retrieve+a+user%27s+location+from+their+IP+address+using+various+services.&md=1&showWatermark=0&fontSize=100px&images=location-marker&widths=auto">
+    <img src="https://banners.beyondco.de/Location.png?theme=light&packageManager=composer+require&packageName=stevebauman%2Flocation&pattern=texture&style=style_1&description=Retrieve+a+user%27s+location+from+their+IP+address+using+various+services.&md=1&showWatermark=0&fontSize=100px&images=location-marker&widths=auto">
 </p>
 
 <p align="center">
