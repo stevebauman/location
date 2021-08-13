@@ -4,6 +4,7 @@ namespace Stevebauman\Location\Tests;
 
 use Mockery as m;
 use Illuminate\Support\Fluent;
+use Stevebauman\Location\Drivers\IpData;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Drivers\IpApi;
 use Stevebauman\Location\Drivers\IpInfo;
@@ -226,6 +227,49 @@ class LocationTest extends TestCase
             'areaCode' => null,
             'ip' => '66.102.0.0',
             'driver' => get_class($driver),
+        ], $position->toArray());
+    }
+
+    public function test_ip_data()
+    {
+        $driver = m::mock(IpData::class);
+
+        $attributes = [
+            'country_name'  => 'United States',
+            'country_code'  => 'US',
+            'region_code'   => 'CA',
+            'region'        => 'California',
+            'city'          => 'Long Beach',
+            'postal'        => '55555',
+            'latitude'      => '50',
+            'longitude'     => '50',
+        ];
+
+        $driver
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldReceive('process')->once()->andReturn(new Fluent($attributes));
+
+        Location::setDriver($driver);
+
+        $position = Location::get();
+
+        $this->assertInstanceOf(Position::class, $position);
+        $this->assertEquals([
+            'countryName'   => 'United States',
+            'countryCode'   => 'US',
+            'regionCode'    => 'CA',
+            'regionName'    => 'California',
+            'cityName'      => 'Long Beach',
+            'zipCode'       => '55555',
+            'isoCode'       => null,
+            'postalCode'    => '55555',
+            'latitude'      => '50',
+            'longitude'     => '50',
+            'metroCode'     => null,
+            'areaCode'      => null,
+            'ip'            => '66.102.0.0',
+            'driver'        => get_class($driver),
         ], $position->toArray());
     }
 
