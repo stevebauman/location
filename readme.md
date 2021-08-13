@@ -1,12 +1,24 @@
-# Location
+<p align="center">
+    <img src="https://banners.beyondco.de/Location.png?theme=light&packageManager=composer+require&packageName=stevebauman%2Fmy-awesome-package&pattern=texture&style=style_1&description=Retrieve+a+user%27s+location+from+their+IP+address+using+various+services.&md=1&showWatermark=0&fontSize=100px&images=location-marker&widths=auto">
+</p>
 
-[![GitHub Actions](https://img.shields.io/github/workflow/status/stevebauman/location/run-tests.svg?style=flat-square)](https://github.com/stevebauman/location/actions)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/location/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
-[![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
-[![License](https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
+<p align="center">
+<a href="https://github.com/stevebauman/location/actions">
+<img src="https://img.shields.io/github/workflow/status/stevebauman/location/run-tests.svg?style=flat-square">
+</a>
 
-Retrieve a user's location from their IP address using external web services, or through a flat-file database hosted on your server.
+<a href="https://scrutinizer-ci.com/g/stevebauman/location/?branch=master">
+<img src="https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square">
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/location">
+<img src="https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square">
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/location">
+<img src="https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square">
+</a>
+</p>
 
 ## Requirements
 
