@@ -33,6 +33,7 @@ class IpData extends Driver
         $position->postalCode   = $location->postal;
         $position->latitude     = (string)$location->latitude;
         $position->longitude    = (string)$location->longitude;
+        $position->timeZone     = $location->time_zone['name'];
 
         return $position;
     }
