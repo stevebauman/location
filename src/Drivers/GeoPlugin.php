@@ -29,7 +29,7 @@ class GeoPlugin extends Driver
         $position->latitude = $location->geoplugin_latitude;
         $position->longitude = $location->geoplugin_longitude;
         $position->areaCode = $location->geoplugin_areaCode;
-        $position->timeZone = $location->geoplugin_timezone;
+        $position->timezone = $location->geoplugin_timezone;
 
         return $position;
     }

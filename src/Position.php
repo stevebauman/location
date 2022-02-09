@@ -102,7 +102,7 @@ class Position implements Arrayable
      *
      * @var string|null
      */
-    public $timeZone;
+    public $timezone;
 
     /**
      * The driver used for retrieving the location.
