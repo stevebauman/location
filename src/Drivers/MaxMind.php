@@ -26,6 +26,8 @@ class MaxMind extends Driver
         $position->countryName = $location->country;
         $position->countryCode = $location->country_code;
         $position->isoCode = $location->country_code;
+        $position->regionCode = $location->regionCode;
+        $position->regionName = $location->regionName;
         $position->cityName = $location->city;
         $position->postalCode = $location->postal;
         $position->metroCode = $location->metro_code;
@@ -48,7 +50,10 @@ class MaxMind extends Driver
                 'country' => $record->country->name,
                 'country_code' => $record->country->isoCode,
                 'city' => $record->city->name,
+                'regionCode' => $record->mostSpecificSubdivision->isoCode,
+                'regionName' => $record->mostSpecificSubdivision->name,
                 'postal' => $record->postal->code,
+                'timezone' => $record->location->timezone,
                 'latitude' => (string) $record->location->latitude,
                 'longitude' => (string) $record->location->longitude,
                 'metro_code' => (string) $record->location->metroCode,
