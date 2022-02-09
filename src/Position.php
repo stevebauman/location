@@ -98,7 +98,7 @@ class Position implements Arrayable
     public $areaCode;
 
     /**
-     * The timezone.
+     * The time zone.
      *
      * @var string|null
      */

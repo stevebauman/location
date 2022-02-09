@@ -1,12 +1,24 @@
-# Location
+<p align="center">
+    <img src="https://github.com/stevebauman/location/blob/master/art/logo.png">
+</p>
 
-[![GitHub Actions](https://img.shields.io/github/workflow/status/stevebauman/location/run-tests.svg?style=flat-square)](https://github.com/stevebauman/location/actions)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/location/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
-[![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
-[![License](https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square)](https://packagist.org/packages/stevebauman/location)
+<p align="center">
+<a href="https://github.com/stevebauman/location/actions">
+<img src="https://img.shields.io/github/workflow/status/stevebauman/location/run-tests.svg?style=flat-square">
+</a>
 
-Retrieve a user's location from their IP address using external web services, or through a flat-file database hosted on your server.
+<a href="https://scrutinizer-ci.com/g/stevebauman/location/?branch=master">
+<img src="https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square">
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/location">
+<img src="https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square">
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/location">
+<img src="https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square">
+</a>
+</p>
 
 ## Requirements
 
@@ -68,6 +80,7 @@ Available drivers at the moment are:
 
 - [IpApi](http://ip-api.com) - Default
 - [IpApiPro](https://pro.ip-api.com)
+- [IpData](https://ipdata.co)
 - [IpInfo](https://ipinfo.io)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)

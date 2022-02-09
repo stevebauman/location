@@ -34,6 +34,7 @@ class MaxMind extends Driver
         $position->timezone = $location->timezone;
         $position->latitude = $location->latitude;
         $position->longitude = $location->longitude;
+        $position->time_zone = $location->time_zone;
 
         return $position;
     }
