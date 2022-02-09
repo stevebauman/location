@@ -24,16 +24,16 @@ class IpData extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        $position->countryName  = $location->country_name;
-        $position->countryCode  = $location->country_code;
-        $position->regionCode   = $location->region_code;
-        $position->regionName   = $location->region;
-        $position->cityName     = $location->city;
-        $position->zipCode      = $location->postal;
-        $position->postalCode   = $location->postal;
-        $position->latitude     = (string)$location->latitude;
-        $position->longitude    = (string)$location->longitude;
-        $position->timeZone     = $location->time_zone['name'];
+        $position->countryName = $location->country_name;
+        $position->countryCode = $location->country_code;
+        $position->regionCode = $location->region_code;
+        $position->regionName = $location->region;
+        $position->cityName = $location->city;
+        $position->zipCode = $location->postal;
+        $position->postalCode = $location->postal;
+        $position->latitude = (string)$location->latitude;
+        $position->longitude = (string)$location->longitude;
+        $position->timezone = $location->time_zone['name'];
 
         return $position;
     }
