@@ -4,7 +4,7 @@ on:
     push:
     pull_request:
     schedule:
-        - cron: '0 0 * * *'
+        - cron: "0 0 * * *"
 
 jobs:
     run-tests:
@@ -27,22 +27,34 @@ jobs:
                     - laravel: 5.8.*
                       testbench: 3.8.*
                 exclude:
-                  - laravel: 8.*
-                    php: 7.2
-                  - laravel: 8.*
-                    php: 7.1
-                  - laravel: 8.*
-                    php: 7.0
-                  - laravel: 7.*
-                    php: 7.1
-                  - laravel: 7.*
-                    php: 7.0
-                  - laravel: 6.*
-                    php: 7.1
-                  - laravel: 6.*
-                    php: 7.0
-                  - laravel: 5.8.*
-                    php: 7.0
+                    - laravel: 9.*
+                      php: 7.4
+                    - laravel: 9.*
+                      php: 7.3
+                    - laravel: 9.*
+                      php: 7.2
+                    - laravel: 9.*
+                      php: 7.1
+                    - laravel: 9.*
+                      php: 7.0
+                    - laravel: 8.*
+                      php: 7.2
+                    - laravel: 8.*
+                      php: 7.1
+                    - laravel: 8.*
+                      php: 7.0
+                    - laravel: 7.*
+                      php: 7.1
+                    - laravel: 7.*
+                      php: 7.0
+                    - laravel: 6.*
+                      php: 7.1
+                    - laravel: 6.*
+                      php: 7.0
+                    - laravel: 5.8.*
+                      php: 8.0
+                    - laravel: 5.8.*
+                      php: 7.0
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
