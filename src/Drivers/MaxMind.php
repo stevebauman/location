@@ -29,9 +29,9 @@ class MaxMind extends Driver
         $position->cityName = $location->city;
         $position->postalCode = $location->postal;
         $position->metroCode = $location->metro_code;
+        $position->timezone = $location->time_zone;
         $position->latitude = $location->latitude;
         $position->longitude = $location->longitude;
-        $position->time_zone = $location->time_zone;
 
         return $position;
     }

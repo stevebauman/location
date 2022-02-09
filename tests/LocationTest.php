@@ -78,6 +78,7 @@ class LocationTest extends TestCase
             'zip' => '55555',
             'lat' => '50',
             'lon' => '50',
+            'timezone' => 'America/Toronto',
         ];
 
         $driver
@@ -103,6 +104,7 @@ class LocationTest extends TestCase
             'metroCode' => null,
             'areaCode' => 'CA',
             'ip' => '66.102.0.0',
+            'timezone' => 'America/Toronto',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -120,6 +122,7 @@ class LocationTest extends TestCase
             'geoplugin_latitude' => '50',
             'geoplugin_longitude' => '50',
             'geoplugin_areaCode' => '555',
+            'geoplugin_timezone' => 'America/Toronto',
         ];
 
         $driver
@@ -145,6 +148,7 @@ class LocationTest extends TestCase
             'metroCode' => null,
             'areaCode' => '555',
             'ip' => '66.102.0.0',
+            'timezone' => 'America/Toronto',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -159,6 +163,7 @@ class LocationTest extends TestCase
             'city' => 'Long Beach',
             'postal' => '55555',
             'loc' => '50,50',
+            'timezone' => 'America/Toronto',
         ];
 
         $driver
@@ -184,6 +189,7 @@ class LocationTest extends TestCase
             'metroCode' => null,
             'areaCode' => null,
             'ip' => '66.102.0.0',
+            'timezone' => 'America/Toronto',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -200,6 +206,7 @@ class LocationTest extends TestCase
             'metro_code' => '5555',
             'latitude' => '50',
             'longitude' => '50',
+            'time_zone' => 'America/Toronto'
         ];
 
         $driver
@@ -226,6 +233,7 @@ class LocationTest extends TestCase
             'metroCode' => '5555',
             'areaCode' => null,
             'ip' => '66.102.0.0',
+            'timezone' => 'America/Toronto',
             'driver' => get_class($driver),
         ], $position->toArray());
     }
@@ -235,14 +243,15 @@ class LocationTest extends TestCase
         $driver = m::mock(IpData::class);
 
         $attributes = [
-            'country_name'  => 'United States',
-            'country_code'  => 'US',
-            'region_code'   => 'CA',
-            'region'        => 'California',
-            'city'          => 'Long Beach',
-            'postal'        => '55555',
-            'latitude'      => '50',
-            'longitude'     => '50',
+            'country_name' => 'United States',
+            'country_code' => 'US',
+            'region_code' => 'CA',
+            'region' => 'California',
+            'city' => 'Long Beach',
+            'postal' => '55555',
+            'latitude' => '50',
+            'longitude' => '50',
+            'time_zone' => ['name' => 'America/Toronto'],
         ];
 
         $driver
@@ -256,20 +265,21 @@ class LocationTest extends TestCase
 
         $this->assertInstanceOf(Position::class, $position);
         $this->assertEquals([
-            'countryName'   => 'United States',
-            'countryCode'   => 'US',
-            'regionCode'    => 'CA',
-            'regionName'    => 'California',
-            'cityName'      => 'Long Beach',
-            'zipCode'       => '55555',
-            'isoCode'       => null,
-            'postalCode'    => '55555',
-            'latitude'      => '50',
-            'longitude'     => '50',
-            'metroCode'     => null,
-            'areaCode'      => null,
-            'ip'            => '66.102.0.0',
-            'driver'        => get_class($driver),
+            'countryName' => 'United States',
+            'countryCode' => 'US',
+            'regionCode' => 'CA',
+            'regionName' => 'California',
+            'cityName' => 'Long Beach',
+            'zipCode' => '55555',
+            'isoCode' => null,
+            'postalCode' => '55555',
+            'latitude' => '50',
+            'longitude' => '50',
+            'metroCode' => null,
+            'areaCode' => null,
+            'ip' => '66.102.0.0',
+            'timezone' => 'America/Toronto',
+            'driver' => get_class($driver),
         ], $position->toArray());
     }
 
