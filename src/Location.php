@@ -87,7 +87,15 @@ class Location
     {
         return $this->localHostTesting()
             ? $this->getLocalHostTestingIp()
-            : request()->ip();
+            : $this->checkCloudflare();
+    }
+    protected function checkCloudflare()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+          return $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+        return request()->ip();
+      
     }
 
     /**
