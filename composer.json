@@ -1,6 +1,6 @@
 {
     "name": "stevebauman/location",
-    "description": "Retrieve a users location by their IP Address",
+    "description": "Retrieve a user's location by their IP Address",
     "authors": [
         {
             "name": "Steve Bauman",
