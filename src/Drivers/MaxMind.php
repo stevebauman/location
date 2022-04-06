@@ -3,6 +3,7 @@
 namespace Stevebauman\Location\Drivers;
 
 use Exception;
+use GeoIp2\Model\City;
 use GeoIp2\Database\Reader;
 use GeoIp2\WebService\Client;
 use Illuminate\Support\Fluent;
@@ -46,7 +47,7 @@ class MaxMind extends Driver
         try {
             $record = $this->fetchLocation($ip);
 
-            if ($record instanceof GeoIp2\Model\City) {
+            if ($record instanceof City) {
                 return new Fluent([
                     'country' => $record->country->name,
                     'country_code' => $record->country->isoCode,
@@ -59,12 +60,12 @@ class MaxMind extends Driver
                     'longitude' => (string) $record->location->longitude,
                     'metro_code' => (string) $record->location->metroCode,
                 ]);
-            } else {
-                return new Fluent([
-                    'country' => $record->country->name,
-                    'country_code' => $record->country->isoCode,
-                ]);
             }
+            
+            return new Fluent([
+                'country' => $record->country->name,
+                'country_code' => $record->country->isoCode,
+            ]);
         } catch (Exception $e) {
             return false;
         }
@@ -85,11 +86,11 @@ class MaxMind extends Driver
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions())
             : $this->newReader($this->getDatabasePath());
 
-        if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {    
+        if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
-        } else {
-            return $maxmind->country($ip);
         }
+        
+        return $maxmind->country($ip);
     }
 
     /**
