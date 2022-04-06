@@ -53,8 +53,6 @@ php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvi
 
 ### Retrieve a client's location
 
-> **Note**: This method retrieves the user's IP address via `request()->ip()`:
-
 ```php
 use Stevebauman\Location\Facades\Location;
 
@@ -65,6 +63,10 @@ if ($position = Location::get()) {
     // Failed retrieving position.
 }
 ```
+
+> **Note**:
+> - This method retrieves the user's IP address via `request()->ip()`.
+> - In the default configuration, `testing.enabled` is active, the returned IP address is in the USA. Disable it to get the client's real IP address.
 
 ### Retrieve the location of a specific IP address
 
