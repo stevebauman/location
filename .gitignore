@@ -2,3 +2,4 @@
 composer.lock
 composer.phar
 .DS_Store
+.phpunit.result.cache
