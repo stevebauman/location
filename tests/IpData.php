@@ -3,8 +3,8 @@
 namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Fluent;
-use Stevebauman\Location\Drivers\IpData;
 use Mockery as m;
+use Stevebauman\Location\Drivers\IpData;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 

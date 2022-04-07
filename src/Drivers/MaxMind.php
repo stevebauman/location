@@ -3,8 +3,8 @@
 namespace Stevebauman\Location\Drivers;
 
 use Exception;
-use GeoIp2\Model\City;
 use GeoIp2\Database\Reader;
+use GeoIp2\Model\City;
 use GeoIp2\WebService\Client;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
@@ -16,7 +16,7 @@ class MaxMind extends Driver
      */
     public function url($ip)
     {
-        return;
+
     }
 
     /**
@@ -61,7 +61,7 @@ class MaxMind extends Driver
                     'metro_code' => (string) $record->location->metroCode,
                 ]);
             }
-            
+
             return new Fluent([
                 'country' => $record->country->name,
                 'country_code' => $record->country->isoCode,
@@ -89,7 +89,7 @@ class MaxMind extends Driver
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
         }
-        
+
         return $maxmind->country($ip);
     }
 

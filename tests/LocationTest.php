@@ -3,10 +3,10 @@
 namespace Stevebauman\Location\Tests;
 
 use Mockery as m;
-use Stevebauman\Location\Position;
 use Stevebauman\Location\Drivers\Driver;
-use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
+use Stevebauman\Location\Facades\Location;
+use Stevebauman\Location\Position;
 
 it('can fallback to other drivers', function () {
     $fallback = m::mock(Driver::class)
@@ -31,6 +31,6 @@ it('can fallback to other drivers', function () {
 
 it('throws an exception when the driver does not exist', function () {
     config(['location.driver' => 'Test']);
-    
+
     Location::get();
 })->throws(DriverDoesNotExistException::class);

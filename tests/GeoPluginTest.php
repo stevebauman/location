@@ -32,7 +32,7 @@ it('it can process fluent response', function () {
     $position = Location::get();
 
     expect($position)->toBeInstanceOf(Position::class);
-    
+
     expect($position->toArray())->toEqual([
         'countryName' => 'United States',
         'countryCode' => 'US',
