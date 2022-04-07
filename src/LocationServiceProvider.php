@@ -18,7 +18,7 @@ class LocationServiceProvider extends ServiceProvider
             return;
         }
 
-        $config = __DIR__.'/../config/config.php';
+        $config = __DIR__.'/../config/location.php';
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$config => config_path('location.php')]);
