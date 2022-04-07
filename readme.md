@@ -22,9 +22,9 @@
 
 ## Requirements
 
-- PHP >= 7.0
+- PHP >= 7.3
+- PHP cURL extension enabled
 - Laravel >= 5.0
-- cURL extension enabled
 
 ## Installation
 
