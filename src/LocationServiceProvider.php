@@ -2,8 +2,8 @@
 
 namespace Stevebauman\Location;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class LocationServiceProvider extends ServiceProvider
 {

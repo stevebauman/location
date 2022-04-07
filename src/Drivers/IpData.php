@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Stevebauman\Location\Drivers;
 
 use Exception;
@@ -31,8 +30,8 @@ class IpData extends Driver
         $position->cityName = $location->city;
         $position->zipCode = $location->postal;
         $position->postalCode = $location->postal;
-        $position->latitude = (string)$location->latitude;
-        $position->longitude = (string)$location->longitude;
+        $position->latitude = (string) $location->latitude;
+        $position->longitude = (string) $location->longitude;
         $position->timezone = $location->time_zone['name'] ?? null;
 
         return $position;

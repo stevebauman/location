@@ -6,7 +6,7 @@ use Stevebauman\Location\Position;
 
 it('returns empty', function () {
     $position = new Position();
-    
+
     $position->ip = '192.168.1.1';
     $position->driver = 'foo';
 

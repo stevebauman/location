@@ -19,7 +19,7 @@ it('it can process fluent response', function () {
         'metro_code' => '5555',
         'latitude' => '50',
         'longitude' => '50',
-        'time_zone' => 'America/Toronto'
+        'time_zone' => 'America/Toronto',
     ];
 
     $driver
@@ -63,18 +63,18 @@ it('can use city database', function () {
     expect($position)->toBeInstanceOf(Position::class);
 
     expect($position->toArray())->toEqual([
-        'ip' => "2.125.160.216",
-        'countryName' => "United Kingdom",
-        'countryCode' => "GB",
+        'ip' => '2.125.160.216',
+        'countryName' => 'United Kingdom',
+        'countryCode' => 'GB',
         'regionCode' => 'WBK',
         'regionName' => 'West Berkshire',
         'cityName' => 'Boxford',
         'zipCode' => null,
-        'isoCode' => "GB",
+        'isoCode' => 'GB',
         'postalCode' => 'OX1',
-        'latitude' => "51.75",
-        'longitude' => "-1.25",
-        'metroCode' => "",
+        'latitude' => '51.75',
+        'longitude' => '-1.25',
+        'metroCode' => '',
         'areaCode' => null,
         'timezone' => null,
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
@@ -92,14 +92,14 @@ it('can use country database', function () {
     expect($position)->toBeInstanceOf(Position::class);
 
     expect($position->toArray())->toEqual([
-        'ip' => "2.125.160.216",
-        'countryName' => "United Kingdom",
-        'countryCode' => "GB",
+        'ip' => '2.125.160.216',
+        'countryName' => 'United Kingdom',
+        'countryCode' => 'GB',
         'regionCode' => null,
         'regionName' => null,
         'cityName' => null,
         'zipCode' => null,
-        'isoCode' => "GB",
+        'isoCode' => 'GB',
         'postalCode' => null,
         'latitude' => null,
         'longitude' => null,

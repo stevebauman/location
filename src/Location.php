@@ -55,7 +55,7 @@ class Location
     {
         $driver = $this->getDriver($this->getDefaultDriver());
 
-        foreach($this->getDriverFallbacks() as $fallback) {
+        foreach ($this->getDriverFallbacks() as $fallback) {
             $driver->fallback($this->getDriver($fallback));
         }
 
