@@ -78,7 +78,7 @@ $position = Location::get('192.168.1.1');
 
 ### Available Drivers
 
-Available drivers at the moment are:
+Available drivers:
 
 - [IpApi](http://ip-api.com) - Default
 - [IpApiPro](https://pro.ip-api.com)
