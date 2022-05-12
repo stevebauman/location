@@ -16,7 +16,6 @@ class MaxMind extends Driver
      */
     public function url($ip)
     {
-
     }
 
     /**
