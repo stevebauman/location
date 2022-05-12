@@ -84,6 +84,7 @@ Available drivers:
 - [IpApiPro](https://pro.ip-api.com)
 - [IpData](https://ipdata.co)
 - [IpInfo](https://ipinfo.io)
+- [Kloudend](https://ipapi.co)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
 
