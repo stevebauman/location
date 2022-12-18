@@ -4,7 +4,7 @@
 
 <p align="center">
 <a href="https://github.com/stevebauman/location/actions">
-<img src="https://img.shields.io/github/workflow/status/stevebauman/location/run-tests.svg?style=flat-square">
+<img src="https://img.shields.io/github/actions/workflow/status/stevebauman/location/run-tests.yml?branch=master&style=flat-square">
 </a>
 
 <a href="https://scrutinizer-ci.com/g/stevebauman/location/?branch=master">
