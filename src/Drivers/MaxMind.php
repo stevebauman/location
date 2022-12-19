@@ -2,14 +2,14 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Illuminate\Console\Command;
-use PharData;
 use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\Model\City;
 use GeoIp2\WebService\Client;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
+use PharData;
 use Stevebauman\Location\Position;
 
 class MaxMind extends Driver implements Updatable
@@ -42,7 +42,9 @@ class MaxMind extends Driver implements Updatable
 
     /**
      * @param PharData $archive
+     *
      * @return \FilesystemIterator
+     *
      * @throws Exception
      */
     protected function discoverDatabaseFile(PharData $archive)
