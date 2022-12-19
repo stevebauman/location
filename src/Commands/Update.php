@@ -1,0 +1,48 @@
+<?php
+
+namespace Stevebauman\Location\Commands;
+
+use Illuminate\Console\Command;
+use Stevebauman\Location\Drivers\Updatable;
+use Stevebauman\Location\Facades\Location;
+
+class Update extends Command
+{
+    /**
+     * The signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'location:update';
+
+    /**
+     * The description of the console command.
+     *
+     * @var string
+     */
+    protected $description = 'Update the configured drivers.';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        foreach (Location::drivers() as $driver) {
+            if ($driver instanceof Updatable) {
+                $this->line("Updating driver [{$driver::class}]...");
+
+                $driver->update($this);
+
+                $this->line("Successfully updated driver [{$driver::class}].");
+
+                $this->newLine();
+            }
+        }
+
+        $this->line("All configured drivers have been updated.");
+
+        return static::SUCCESS;
+    }
+}

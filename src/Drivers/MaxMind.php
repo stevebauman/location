@@ -2,20 +2,65 @@
 
 namespace Stevebauman\Location\Drivers;
 
+use Illuminate\Console\Command;
+use PharData;
 use Exception;
 use GeoIp2\Database\Reader;
 use GeoIp2\Model\City;
 use GeoIp2\WebService\Client;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class MaxMind extends Driver
+class MaxMind extends Driver implements Updatable
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function url($ip)
+    public function update(Command $command)
     {
+        $storage = Storage::build([
+            'driver' => 'local',
+            'root' => sys_get_temp_dir(),
+        ]);
+
+        $directory = $storage->makeDirectory(
+            tempnam($storage->path('/'), 'maxmind')
+        );
+
+        $tar = "$directory/maxmind.tar.gz";
+
+        $storage->put($tar, fopen($this->getDatabaseUrl(), 'r'));
+
+        $file = $this->discoverDatabaseFile(
+            $archive = new PharData($tar)
+        );
+
+        $relativePath = "{$file->getFilename()}/{$file->getFilename()}";
+
+        $archive->extractTo($directory, $relativePath);
+
+        file_put_contents($this->getDatabasePath(), fopen("{$directory}/{$relativePath}", 'r'));
+    }
+
+    /**
+     * @param PharData $archive
+     * @return \FilesystemIterator
+     * @throws Exception
+     */
+    protected function discoverDatabaseFile(PharData $archive)
+    {
+        /** @var \FilesystemIterator $file */
+        foreach ($archive as $file) {
+            if ($file->isDir()) {
+                return $this->discoverDatabaseFile(
+                    new PharData($file->getPathName())
+                );
+            }
+
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'mmdb') {
+                return $file;
+            }
+        }
+
+        throw new \Exception('Unable to locate database file.');
     }
 
     /**
@@ -65,7 +110,7 @@ class MaxMind extends Driver
                 'country' => $record->country->name,
                 'country_code' => $record->country->isoCode,
             ]);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }
@@ -167,6 +212,19 @@ class MaxMind extends Driver
     protected function getDatabasePath()
     {
         return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
+    }
+
+    /**
+     * Get the database URL to download.
+     *
+     * @return string
+     */
+    protected function getDatabaseUrl()
+    {
+        return config(
+            'location.maxmind.local.url',
+            sprintf('https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz', $this->getLicenseKey()),
+        );
     }
 
     /**

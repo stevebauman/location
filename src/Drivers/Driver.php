@@ -46,7 +46,7 @@ abstract class Driver
 
         // Here we will ensure the locations data we received isn't empty.
         // Some IP location providers will return empty JSON. We want
-        // to avoid this so we can go to a fallback driver.
+        // to avoid this, so we can go to a fallback driver.
         if ($data instanceof Fluent && $this->fluentDataIsNotEmpty($data)) {
             $position = $this->hydrate($position, $data);
 
@@ -90,7 +90,7 @@ abstract class Driver
      *
      * @param string $url
      *
-     * @return mixed
+     * @return bool|string
      */
     protected function getUrlContent($url)
     {
@@ -107,15 +107,6 @@ abstract class Driver
 
         return $content;
     }
-
-    /**
-     * Get the URL to use for querying the current driver.
-     *
-     * @param string $ip
-     *
-     * @return string
-     */
-    abstract protected function url($ip);
 
     /**
      * Hydrate the Position object with the given location data.

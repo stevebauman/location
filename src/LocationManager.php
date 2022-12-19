@@ -6,8 +6,15 @@ use Illuminate\Contracts\Config\Repository;
 use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 
-class Location
+class LocationManager
 {
+    /**
+     * The application configuration.
+     *
+     * @var Repository
+     */
+    protected $config;
+
     /**
      * The current driver.
      *
@@ -16,11 +23,11 @@ class Location
     protected $driver;
 
     /**
-     * The application configuration.
+     * The loaded drivers.
      *
-     * @var Repository
+     * @var Driver[]
      */
-    protected $config;
+    protected $loaded = [];
 
     /**
      * Constructor.
@@ -40,26 +47,32 @@ class Location
      * Set the current driver to use.
      *
      * @param Driver $driver
+     *
+     * @return $this
      */
     public function setDriver(Driver $driver)
     {
         $this->driver = $driver;
+
+        return $this;
     }
 
     /**
      * Set the default location driver to use.
      *
+     * @return $this
+     *
      * @throws DriverDoesNotExistException
      */
     public function setDefaultDriver()
     {
-        $driver = $this->getDriver($this->getDefaultDriver());
+        $this->loaded[] = $driver = $this->getDriver($this->getDefaultDriver());
 
         foreach ($this->getDriverFallbacks() as $fallback) {
-            $driver->fallback($this->getDriver($fallback));
+            $driver->fallback($this->loaded[] = $this->getDriver($fallback));
         }
 
-        $this->setDriver($driver);
+        return $this->setDriver($driver);
     }
 
     /**
@@ -67,7 +80,7 @@ class Location
      *
      * @param string|null $ip
      *
-     * @return \Stevebauman\Location\Position|bool
+     * @return \Stevebauman\Location\Position|false
      */
     public function get($ip = null)
     {
@@ -76,6 +89,18 @@ class Location
         }
 
         return false;
+    }
+
+    /**
+     * Get all the loaded driver instances.
+     *
+     * @return Driver[]
+     *
+     * @throws DriverDoesNotExistException
+     */
+    public function drivers()
+    {
+        return $this->loaded;
     }
 
     /**
