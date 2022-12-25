@@ -41,7 +41,7 @@ class Update extends Command
             }
         }
 
-        $this->line("All configured drivers have been updated.");
+        $this->line('All configured drivers have been updated.');
 
         return static::SUCCESS;
     }

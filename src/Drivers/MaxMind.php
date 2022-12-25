@@ -25,7 +25,7 @@ class MaxMind extends Driver implements Updatable
         ]);
 
         $storage->put(
-            $tar = "maxmind.tar.gz",
+            $tar = 'maxmind.tar.gz',
             fopen($this->getDatabaseUrl(), 'r')
         );
 

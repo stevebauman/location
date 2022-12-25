@@ -2,7 +2,6 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
