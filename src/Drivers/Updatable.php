@@ -8,10 +8,6 @@ interface Updatable
 {
     /**
      * Update the driver.
-     *
-     * @param Command $command
-     *
-     * @return mixed
      */
-    public function update(Command $command);
+    public function update(Command $command): void;
 }

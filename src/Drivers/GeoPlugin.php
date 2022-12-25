@@ -11,7 +11,7 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url($ip)
+    protected function url(string $ip): string
     {
         return "http://www.geoplugin.net/php.gp?ip=$ip";
     }
@@ -19,7 +19,7 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryCode = $location->geoplugin_countryCode;
         $position->countryName = $location->geoplugin_countryName;
@@ -37,14 +37,10 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function process($ip)
+    protected function process($ip): Fluent|false
     {
-        try {
-            $response = unserialize($this->getUrlContent($this->url($ip)));
-
-            return new Fluent($response);
-        } catch (Exception $e) {
-            return false;
-        }
+        return rescue(fn () => new Fluent(
+            unserialize($this->http()->get($this->url($ip)))
+        ), false);
     }
 }

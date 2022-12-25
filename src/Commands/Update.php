@@ -31,11 +31,11 @@ class Update extends Command
     {
         foreach (Location::drivers() as $driver) {
             if ($driver instanceof Updatable) {
-                $this->line("Updating driver [{$driver::class}]...");
+                $this->line(sprintf('Updating driver [%s]...', $driver::class));
 
                 $driver->update($this);
 
-                $this->line("Successfully updated driver [{$driver::class}].");
+                $this->line(sprintf('Successfully updated driver [%s].', $driver::class));
 
                 $this->newLine();
             }

@@ -14,30 +14,31 @@ use Stevebauman\Location\Position;
 
 class MaxMind extends Driver implements Updatable
 {
-    public function update(Command $command)
+    /**
+     * Update the MaxMind database.
+     */
+    public function update(Command $command): void
     {
         $storage = Storage::build([
             'driver' => 'local',
             'root' => sys_get_temp_dir(),
         ]);
 
-        $directory = $storage->makeDirectory(
-            tempnam($storage->path('/'), 'maxmind')
+        $storage->put(
+            $tar = "maxmind.tar.gz",
+            fopen($this->getDatabaseUrl(), 'r')
         );
-
-        $tar = "$directory/maxmind.tar.gz";
-
-        $storage->put($tar, fopen($this->getDatabaseUrl(), 'r'));
 
         $file = $this->discoverDatabaseFile(
-            $archive = new PharData($tar)
+            $archive = new PharData($storage->path($tar))
         );
 
-        $relativePath = "{$file->getFilename()}/{$file->getFilename()}";
+        $archive->extractTo($storage->path('/'), $file->getFilename(), true);
 
-        $archive->extractTo($directory, $relativePath);
-
-        file_put_contents($this->getDatabasePath(), fopen("{$directory}/{$relativePath}", 'r'));
+        file_put_contents(
+            $this->getDatabasePath(),
+            fopen($storage->path($file->getFilename()), 'r')
+        );
     }
 
     /**
@@ -62,13 +63,13 @@ class MaxMind extends Driver implements Updatable
             }
         }
 
-        throw new \Exception('Unable to locate database file.');
+        throw new Exception('Unable to locate database file.');
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryName = $location->country;
         $position->countryCode = $location->country_code;
@@ -88,7 +89,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * {@inheritdoc}
      */
-    protected function process($ip)
+    protected function process($ip): Fluent|false
     {
         try {
             $record = $this->fetchLocation($ip);

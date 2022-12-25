@@ -11,7 +11,7 @@ class IpInfo extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url($ip)
+    protected function url(string $ip): string
     {
         $url = "http://ipinfo.io/$ip";
 
@@ -25,7 +25,7 @@ class IpInfo extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryCode = $location->country;
         $position->regionName = $location->region;
@@ -46,19 +46,5 @@ class IpInfo extends Driver
         }
 
         return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function process($ip)
-    {
-        try {
-            $response = json_decode($this->getUrlContent($this->url($ip)));
-
-            return new Fluent($response);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

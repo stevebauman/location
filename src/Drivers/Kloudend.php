@@ -2,7 +2,6 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
@@ -11,17 +10,17 @@ class Kloudend extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function url($ip)
+    protected function url(string $ip): string
     {
-        $token = config('location.kloudend.token', '');
+        $token = config('location.kloudend.token');
 
-        return "https://ipapi.co/{$ip}/?key={$token}";
+        return "https://ipapi.co/$ip/?key={$token}";
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryName = $location->country_name;
         $position->countryCode = $location->country_code;
@@ -35,19 +34,5 @@ class Kloudend extends Driver
         $position->timezone = $location->timezone;
 
         return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function process($ip)
-    {
-        try {
-            $response = json_decode($this->getUrlContent($this->url($ip)), true);
-
-            return new Fluent($response);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

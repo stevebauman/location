@@ -3,6 +3,7 @@
 namespace Stevebauman\Location;
 
 use Illuminate\Support\ServiceProvider;
+use Stevebauman\Location\Commands\Update;
 
 class LocationServiceProvider extends ServiceProvider
 {
@@ -13,13 +14,15 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $config = __DIR__.'/../config/location.php';
+        $this->mergeConfigFrom(
+            $config = __DIR__.'/../config/location.php', 'location'
+        );
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$config => config_path('location.php')]);
         }
 
-        $this->mergeConfigFrom($config, 'location');
+        $this->commands(Update::class);
     }
 
     /**
