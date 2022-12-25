@@ -36,7 +36,7 @@ class MaxMind extends Driver implements Updatable
 
         $relativePath = implode('/', [
             Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR),
-            $file->getFilename()
+            $file->getFilename(),
         ]);
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
