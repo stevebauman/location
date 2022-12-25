@@ -9,6 +9,7 @@ use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Str;
 use PharData;
 use Stevebauman\Location\Position;
 
@@ -33,11 +34,20 @@ class MaxMind extends Driver implements Updatable
             $archive = new PharData($storage->path($tar))
         );
 
-        $archive->extractTo($storage->path('/'), $file->getFilename(), true);
+        $relativePath = implode('/', [
+            Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR),
+            $file->getFilename()
+        ]);
+
+        $archive->extractTo($storage->path('/'), $relativePath, true);
+
+        @mkdir(
+            Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR)
+        );
 
         file_put_contents(
             $this->getDatabasePath(),
-            fopen($storage->path($file->getFilename()), 'r')
+            fopen($storage->path($relativePath), 'r')
         );
     }
 
