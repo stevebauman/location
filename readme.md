@@ -1,5 +1,7 @@
+<h1 align="center">Location</h1>
+
 <p align="center">
-    <img src="https://github.com/stevebauman/location/blob/master/art/logo.png">
+Retrieve a user's location from their IP address using various services.
 </p>
 
 <p align="center">
