@@ -148,7 +148,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * Get a new MaxMind web service client.
      */
-    protected function newClient(string  $userId, string $licenseKey, array $options = []): Client
+    protected function newClient(string $userId, string $licenseKey, array $options = []): Client
     {
         return new Client($userId, $licenseKey, $options);
     }
