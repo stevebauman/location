@@ -32,18 +32,6 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('location', function ($app) {
-            return new LocationManager($app['config']);
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['location'];
+        $this->app->singleton(LocationManager::class);
     }
 }

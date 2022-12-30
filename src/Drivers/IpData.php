@@ -5,7 +5,7 @@ namespace Stevebauman\Location\Drivers;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class IpData extends Driver
+class IpData extends HttpDriver
 {
     /**
      * {@inheritdoc}

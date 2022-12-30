@@ -4,6 +4,7 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
+use Stevebauman\Location\Requestable;
 
 class GeoPlugin extends Driver
 {
@@ -36,10 +37,10 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function process($ip): Fluent|false
+    protected function process(Requestable $request): Fluent|false
     {
         return rescue(fn () => new Fluent(
-            unserialize($this->http()->get($this->url($ip)))
+            unserialize($this->http()->get($this->url($request->ip())))
         ), false);
     }
 }

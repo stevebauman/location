@@ -2,55 +2,46 @@
 
 namespace Stevebauman\Location;
 
-use Illuminate\Contracts\Config\Repository;
 use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 
 class LocationManager
 {
     /**
-     * The application configuration.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The current driver.
-     *
-     * @var Driver
      */
-    protected $driver;
+    protected Driver $driver;
 
     /**
      * The loaded drivers.
      *
      * @var Driver[]
      */
-    protected $loaded = [];
+    protected array $loaded = [];
+
+    /**
+     * The request resolver callback.
+     *
+     * @var callable
+     */
+    protected $requestResolver;
 
     /**
      * Constructor.
      *
-     * @param Repository $config
-     *
      * @throws DriverDoesNotExistException
      */
-    public function __construct(Repository $config)
+    public function __construct()
     {
-        $this->config = $config;
-
         $this->setDefaultDriver();
+
+        $this->requestResolver = fn () => app(LocationRequest::class);
     }
 
     /**
      * Set the current driver to use.
-     *
-     * @param Driver $driver
-     *
-     * @return $this
      */
-    public function setDriver(Driver $driver)
+    public function setDriver(Driver $driver): static
     {
         $this->driver = $driver;
 
@@ -60,11 +51,9 @@ class LocationManager
     /**
      * Set the default location driver to use.
      *
-     * @return $this
-     *
      * @throws DriverDoesNotExistException
      */
-    public function setDefaultDriver()
+    public function setDefaultDriver(): static
     {
         $this->loaded[] = $driver = $this->getDriver($this->getDefaultDriver());
 
@@ -77,14 +66,10 @@ class LocationManager
 
     /**
      * Attempt to retrieve the location of the user.
-     *
-     * @param string|null $ip
-     *
-     * @return \Stevebauman\Location\Position|false
      */
-    public function get($ip = null)
+    public function get(string $ip = null): Position|bool
     {
-        if ($location = $this->driver->get($ip ?: $this->getClientIP())) {
+        if ($location = $this->driver->get($this->request()->using($ip))) {
             return $location;
         }
 
@@ -92,47 +77,29 @@ class LocationManager
     }
 
     /**
-     * Get all the loaded driver instances.
+     * Get the HTTP request.
+     */
+    protected function request(): Requestable
+    {
+        return call_user_func($this->requestResolver);
+    }
+
+    /**
+     * Set the request resolver callback.
+     */
+    public function resolveRequestUsing(callable $callback): void
+    {
+        $this->requestResolver = $callback;
+    }
+
+    /**
+     * Get the loaded driver instances.
      *
      * @return Driver[]
-     *
-     * @throws DriverDoesNotExistException
      */
-    public function drivers()
+    public function drivers(): array
     {
         return $this->loaded;
-    }
-
-    /**
-     * Get the client IP address.
-     *
-     * @return string
-     */
-    protected function getClientIP()
-    {
-        return $this->localHostTesting()
-            ? $this->getLocalHostTestingIp()
-            : request()->ip();
-    }
-
-    /**
-     * Determine if testing is enabled.
-     *
-     * @return bool
-     */
-    protected function localHostTesting()
-    {
-        return $this->config->get('location.testing.enabled', true);
-    }
-
-    /**
-     * Get the testing IP address.
-     *
-     * @return string
-     */
-    protected function getLocalHostTestingIp()
-    {
-        return $this->config->get('location.testing.ip', '66.102.0.0');
     }
 
     /**
@@ -142,7 +109,7 @@ class LocationManager
      */
     protected function getDriverFallbacks()
     {
-        return $this->config->get('location.fallbacks', []);
+        return config('location.fallbacks', []);
     }
 
     /**
@@ -152,24 +119,20 @@ class LocationManager
      */
     protected function getDefaultDriver()
     {
-        return $this->config->get('location.driver');
+        return config('location.driver');
     }
 
     /**
      * Attempt to create the location driver.
      *
-     * @param string $driver
-     *
-     * @return Driver
-     *
      * @throws DriverDoesNotExistException
      */
-    protected function getDriver($driver)
+    protected function getDriver(string $driver): Driver
     {
         if (! class_exists($driver)) {
             throw DriverDoesNotExistException::forDriver($driver);
         }
 
-        return app()->make($driver);
+        return app($driver);
     }
 }

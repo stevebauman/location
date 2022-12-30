@@ -3,8 +3,10 @@
 namespace Stevebauman\Location\Drivers;
 
 use Exception;
+use FilesystemIterator;
 use GeoIp2\Database\Reader;
 use GeoIp2\Model\City;
+use GeoIp2\Model\Country;
 use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +14,7 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use PharData;
 use Stevebauman\Location\Position;
+use Stevebauman\Location\Requestable;
 
 class MaxMind extends Driver implements Updatable
 {
@@ -52,13 +55,11 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * @param PharData $archive
-     *
-     * @return \FilesystemIterator
+     * Attempt to discover the database file inside the archive.
      *
      * @throws Exception
      */
-    protected function discoverDatabaseFile(PharData $archive)
+    protected function discoverDatabaseFile(PharData $archive): FilesystemIterator
     {
         /** @var \FilesystemIterator $file */
         foreach ($archive as $file) {
@@ -73,7 +74,7 @@ class MaxMind extends Driver implements Updatable
             }
         }
 
-        throw new Exception('Unable to locate database file.');
+        throw new Exception('Unable to locate database file inside of MaxMind archive.');
     }
 
     /**
@@ -99,10 +100,10 @@ class MaxMind extends Driver implements Updatable
     /**
      * {@inheritdoc}
      */
-    protected function process($ip): Fluent|false
+    protected function process(Requestable $request): Fluent|false
     {
-        try {
-            $record = $this->fetchLocation($ip);
+        return rescue(function () use ($request) {
+            $record = $this->fetchLocation($request->ip());
 
             if ($record instanceof City) {
                 return new Fluent([
@@ -123,21 +124,15 @@ class MaxMind extends Driver implements Updatable
                 'country' => $record->country->name,
                 'country_code' => $record->country->isoCode,
             ]);
-        } catch (Exception) {
-            return false;
-        }
+        }, false);
     }
 
     /**
      * Attempt to fetch the location model from Maxmind.
      *
-     * @param string $ip
-     *
-     * @return \GeoIp2\Model\City
-     *
      * @throws \Exception
      */
-    protected function fetchLocation($ip)
+    protected function fetchLocation(string $ip): City|Country
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions())
@@ -151,88 +146,65 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns a new MaxMind web service client.
-     *
-     * @param string $userId
-     * @param string $licenseKey
-     * @param array  $options
-     *
-     * @return Client
+     * Get a new MaxMind web service client.
      */
-    protected function newClient($userId, $licenseKey, array $options = [])
+    protected function newClient(string  $userId, string $licenseKey, array $options = []): Client
     {
         return new Client($userId, $licenseKey, $options);
     }
 
     /**
-     * Returns a new MaxMind reader client with
-     * the specified database file path.
-     *
-     * @param string $path
-     *
-     * @return \GeoIp2\Database\Reader
+     * Get a new MaxMind reader client.
      */
-    protected function newReader($path)
+    protected function newReader(string $path): Reader
     {
         return new Reader($path);
     }
 
     /**
      * Returns true / false if the MaxMind web service is enabled.
-     *
-     * @return mixed
      */
-    protected function isWebServiceEnabled()
+    protected function isWebServiceEnabled(): bool
     {
-        return config('location.maxmind.web.enabled', false);
+        return (bool) config('location.maxmind.web.enabled', false);
     }
 
     /**
      * Returns the configured MaxMind web user ID.
-     *
-     * @return string
      */
-    protected function getUserId()
+    protected function getUserId(): string
     {
         return config('location.maxmind.web.user_id');
     }
 
     /**
      * Returns the configured MaxMind web license key.
-     *
-     * @return string
      */
-    protected function getLicenseKey()
+    protected function getLicenseKey(): string
     {
         return config('location.maxmind.web.license_key');
     }
 
     /**
      * Returns the configured MaxMind web option array.
-     *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return config('location.maxmind.web.options', []);
     }
 
     /**
      * Returns the MaxMind database file path.
-     *
-     * @return string
      */
-    protected function getDatabasePath()
+    protected function getDatabasePath(): string
     {
         return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
     }
 
     /**
      * Get the database URL to download.
-     *
-     * @return string
      */
-    protected function getDatabaseUrl()
+    protected function getDatabaseUrl(): string
     {
         return config(
             'location.maxmind.local.url',
@@ -242,10 +214,8 @@ class MaxMind extends Driver implements Updatable
 
     /**
      * Returns the MaxMind location type.
-     *
-     * @return string
      */
-    protected function getLocationType()
+    protected function getLocationType(): string
     {
         return config('location.maxmind.local.type', 'city');
     }

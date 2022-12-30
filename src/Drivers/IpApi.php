@@ -5,7 +5,7 @@ namespace Stevebauman\Location\Drivers;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class IpApi extends Driver
+class IpApi extends HttpDriver
 {
     /**
      * {@inheritdoc}
