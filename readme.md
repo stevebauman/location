@@ -89,6 +89,7 @@ Available drivers:
 - [Kloudend](https://ipapi.co)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
+- [Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200168236-Configuring-IP-geolocation)
 
 #### Setting up MaxMind with a self-hosted database (optional)
 
