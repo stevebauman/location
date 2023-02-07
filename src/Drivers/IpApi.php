@@ -13,7 +13,7 @@ class IpApi extends Driver
      */
     protected function url($ip)
     {
-        return "http://ip-api.com/json/$ip";
+        return "http://ip-api.com/json/$ip?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,query";
     }
 
     /**
@@ -31,7 +31,8 @@ class IpApi extends Driver
         $position->longitude = (string) $location->lon;
         $position->areaCode = $location->region;
         $position->timezone = $location->timezone;
-
+        $position->currencyCode = $location->currency;
+        
         return $position;
     }
 
