@@ -14,13 +14,6 @@ class MaxMind extends Driver
     /**
      * {@inheritdoc}
      */
-    public function url($ip)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function hydrate(Position $position, Fluent $location)
     {
         $position->countryName = $location->country;
