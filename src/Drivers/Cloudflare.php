@@ -7,31 +7,31 @@ use Stevebauman\Location\Position;
 
 class Cloudflare extends Driver
 {
-    public function url($ip)
-    {
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     protected function process($ip)
     {
-        return rescue(function () {
-            // This is available both from CloudFlare's dashboard and Managed Transforms.
-            $countryCode = request()->header('cf-ipcountry');
+        // This is available both from CloudFlare's dashboard and Managed Transforms.
+        $countryCode = request()->header('cf-ipcountry');
 
-            // Unknown and Tor values
-            if (! $countryCode || in_array($countryCode, ['XX', 'T1'])) {
-                return false;
-            }
+        // Unknown and Tor values
+        if (! $countryCode || in_array($countryCode, ['XX', 'T1'])) {
+            return false;
+        }
 
-            // These are only available if the relevant Managed Transform is configured.
-            // https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#http-request-headers
-            $cityName = request()->header('cf-ipcity');
-            $longitude = request()->header('cf-iplongitude');
-            $latitude = request()->header('cf-iplatitude');
+        // These are only available if the relevant Managed Transform is configured.
+        // https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#http-request-headers
+        $cityName = request()->header('cf-ipcity');
+        $longitude = request()->header('cf-iplongitude');
+        $latitude = request()->header('cf-iplatitude');
 
-            return new Fluent(compact('countryCode', 'cityName', 'longitude', 'latitude'));
-        }, $rescue = false);
+        return new Fluent(compact('countryCode', 'cityName', 'longitude', 'latitude'));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function hydrate(Position $position, Fluent $location)
     {
         $position->countryCode = $location->countryCode;
