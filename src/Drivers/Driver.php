@@ -113,9 +113,11 @@ abstract class Driver
      *
      * @param string $ip
      *
-     * @return string
+     * @return string|null
      */
-    abstract protected function url($ip);
+    protected function url($ip)
+    {
+    }
 
     /**
      * Hydrate the Position object with the given location data.
