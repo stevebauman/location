@@ -32,7 +32,7 @@ class IpApi extends Driver
         $position->areaCode = $location->region;
         $position->timezone = $location->timezone;
         $position->currencyCode = $location->currency;
-        
+
         return $position;
     }
 
