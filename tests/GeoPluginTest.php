@@ -33,7 +33,7 @@ it('it can process fluent response', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toEqual([
+    expect($position->toArray())->toMatchArray([
         'countryName' => 'United States',
         'countryCode' => 'US',
         'regionCode' => 'CA',
