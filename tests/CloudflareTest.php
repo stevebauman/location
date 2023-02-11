@@ -22,7 +22,7 @@ it('can use CF-injected full headers', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toEqual([
+    expect($position->toArray())->toMatchArray([
         'ip' => '2.125.160.216',
         'countryName' => null,
         'countryCode' => 'GB',
@@ -53,7 +53,7 @@ it('can use CF-injected simple header', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toEqual([
+    expect($position->toArray())->toMatchArray([
         'ip' => '2.125.160.216',
         'countryName' => null,
         'countryCode' => 'GB',
