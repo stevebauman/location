@@ -22,12 +22,12 @@
         "ext-json": "*",
         "ext-curl": "*",
         "geoip2/geoip2": "^2.0",
-        "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0"
+        "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0"
     },
     "require-dev": {
         "pestphp/pest": "^1.21",
         "mockery/mockery": "~0.9|^1.0",
-        "orchestra/testbench": "~3.2|~4.0|^6.0|^7.0"
+        "orchestra/testbench": "~3.2|~4.0|^6.0|^7.0|^8.0"
     },
     "archive": {
         "exclude": [
