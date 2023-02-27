@@ -53,7 +53,7 @@ it('it can process fluent response', function () {
     ]);
 });
 
-it('it can make requests with a token', function () {   
+it('it can make requests with a token', function () {
     config(['location.kloudend.token' => 'ABC1234']);
 
     $driver = m::mock(Kloudend::class);
