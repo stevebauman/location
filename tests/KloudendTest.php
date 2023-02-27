@@ -52,3 +52,19 @@ it('it can process fluent response', function () {
         'driver' => get_class($driver),
     ]);
 });
+
+it('it can make requests with a token', function () {   
+    config(['location.kloudend.token' => 'ABC1234']);
+
+    $driver = m::mock(Kloudend::class);
+    $driver->makePartial();
+
+    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json?key=ABC1234');
+});
+
+it('it can make requests without a token', function () {
+    $driver = m::mock(Kloudend::class);
+    $driver->makePartial();
+
+    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json');
+});
