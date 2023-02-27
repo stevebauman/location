@@ -20,7 +20,7 @@ it('it can process fluent response', function () {
         'postal' => '55555',
         'latitude' => '50',
         'longitude' => '50',
-        'timezone' => ['name' => 'America/Toronto'],
+        'timezone' => 'America/Toronto',
     ];
 
     $driver
