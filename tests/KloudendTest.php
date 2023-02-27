@@ -20,7 +20,7 @@ it('it can process fluent response', function () {
         'postal' => '55555',
         'latitude' => '50',
         'longitude' => '50',
-        'timezone' => ['name' => 'America/Toronto'],
+        'timezone' => 'America/Toronto',
     ];
 
     $driver
@@ -51,4 +51,20 @@ it('it can process fluent response', function () {
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);
+});
+
+it('it can make requests with a token', function () {
+    config(['location.kloudend.token' => 'ABC1234']);
+
+    $driver = m::mock(Kloudend::class);
+    $driver->makePartial();
+
+    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json?key=ABC1234');
+});
+
+it('it can make requests without a token', function () {
+    $driver = m::mock(Kloudend::class);
+    $driver->makePartial();
+
+    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json');
 });
