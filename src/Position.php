@@ -103,7 +103,6 @@ class Position implements Arrayable
      * @var string|null
      */
     public $timezone;
-    
     /**
      * The Organization.
      *
