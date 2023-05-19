@@ -32,6 +32,7 @@ class IpInfo extends Driver
         $position->cityName = $location->city;
         $position->zipCode = $location->postal;
         $position->timezone = $location->timezone;
+        $position->org = $location->org;
 
         if ($location->loc) {
             $coords = explode(',', $location->loc);
