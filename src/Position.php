@@ -103,6 +103,13 @@ class Position implements Arrayable
      * @var string|null
      */
     public $timezone;
+    
+    /**
+     * The Organization.
+     *
+     * @var string|null
+     */
+    public $org;
 
     /**
      * The driver used for retrieving the location.
