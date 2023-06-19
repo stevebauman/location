@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use PharData;
+use PharFileInfo;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Requestable;
 
@@ -59,7 +60,7 @@ class MaxMind extends Driver implements Updatable
      *
      * @throws Exception
      */
-    protected function discoverDatabaseFile(PharData $archive): FilesystemIterator
+    protected function discoverDatabaseFile(PharData $archive): PharFileInfo
     {
         /** @var \FilesystemIterator $file */
         foreach ($archive as $file) {
