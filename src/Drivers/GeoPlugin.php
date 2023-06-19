@@ -4,7 +4,6 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
-use Stevebauman\Location\Requestable;
 
 class GeoPlugin extends HttpDriver
 {
