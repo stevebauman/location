@@ -12,16 +12,6 @@ class LocationRequest extends Request implements Requestable
     protected ?string $ip;
 
     /**
-     * Set the IP address to resolve.
-     */
-    public function using(string $ip = null): static
-    {
-        $this->ip = $ip;
-
-        return $this;
-    }
-
-    /**
      * Get the client IP address.
      */
     public function ip(): string
@@ -35,6 +25,16 @@ class LocationRequest extends Request implements Requestable
         }
 
         return parent::ip();
+    }
+
+    /**
+     * Set the IP address to resolve.
+     */
+    public function using(string $ip = null): static
+    {
+        $this->ip = $ip;
+
+        return $this;
     }
 
     /**
