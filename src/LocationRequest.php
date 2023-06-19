@@ -14,7 +14,7 @@ class LocationRequest extends Request implements Requestable
     /**
      * Get the client IP address.
      */
-    public function ip(): string
+    public function getIp(): string
     {
         if ($this->ip) {
             return $this->ip;
@@ -30,11 +30,19 @@ class LocationRequest extends Request implements Requestable
     /**
      * Set the IP address to resolve.
      */
-    public function using(string $ip = null): static
+    public function setIp(string $ip = null): static
     {
         $this->ip = $ip;
 
         return $this;
+    }
+
+    /**
+     * Get a header from the request.
+     */
+    public function getHeader(string $key = null, string|array $default = null): string|array|null
+    {
+        return parent::header($key, $default);
     }
 
     /**

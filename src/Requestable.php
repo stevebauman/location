@@ -7,10 +7,15 @@ interface Requestable
     /**
      * Get the client IP address.
      */
-    public function ip(): string;
+    public function getIp(): string;
 
     /**
      * Set the IP address to resolve.
      */
-    public function using(string $ip = null): static;
+    public function setIp(string $ip = null): static;
+
+    /**
+     * Get a header from the request.
+     */
+    public function getHeader(string $key = null, string|array $default = null): string|array|null;
 }
