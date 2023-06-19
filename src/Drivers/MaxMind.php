@@ -3,7 +3,6 @@
 namespace Stevebauman\Location\Drivers;
 
 use Exception;
-use FilesystemIterator;
 use GeoIp2\Database\Reader;
 use GeoIp2\Model\City;
 use GeoIp2\Model\Country;
