@@ -4,14 +4,16 @@ namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Facades\Request;
 use Stevebauman\Location\Drivers\Cloudflare;
+use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('can use CF-injected full headers', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => []]);
 
-    Request::instance()->headers->replace([
+    request()->headers->replace([
         'CF-IPCountry' => 'GB',
         'CF-IPCity' => 'Boxford',
         'CF-IPLatitude' => '51.75',
@@ -75,6 +77,7 @@ it('can use CF-injected simple header', function () {
 it('will gracefully fall back if CF header returns falsey value', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => [MaxMind::class]]);
 
     Request::instance()->headers->replace([
         'CF-IPCountry' => 'XX',
@@ -100,6 +103,7 @@ it('will gracefully fall back if CF header returns falsey value', function () {
 it('will gracefully fall back if CF headers are not present', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => [MaxMind::class]]);
 
     $position = Location::get('2.125.160.216');
 
