@@ -103,7 +103,7 @@ class MaxMind extends Driver implements Updatable
     protected function process(Requestable $request): Fluent|false
     {
         return rescue(function () use ($request) {
-            $record = $this->fetchLocation($request->ip());
+            $record = $this->fetchLocation($request->getIp());
 
             if ($record instanceof City) {
                 return new Fluent([
