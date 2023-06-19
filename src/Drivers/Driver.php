@@ -10,17 +10,13 @@ abstract class Driver
 {
     /**
      * The fallback driver.
-     *
-     * @var Driver|null
      */
-    protected $fallback;
+    protected ?Driver $fallback = null;
 
     /**
      * Append a fallback driver to the end of the chain.
-     *
-     * @param Driver $handler
      */
-    public function fallback(Driver $handler)
+    public function fallback(Driver $handler): void
     {
         if (is_null($this->fallback)) {
             $this->fallback = $handler;
@@ -75,10 +71,6 @@ abstract class Driver
 
     /**
      * Determine if the given fluent data is not empty.
-     *
-     * @param Fluent $data
-     *
-     * @return bool
      */
     protected function isEmpty(Fluent $data): bool
     {

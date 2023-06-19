@@ -8,11 +8,9 @@ use Stevebauman\Location\Commands\Update;
 class LocationServiceProvider extends ServiceProvider
 {
     /**
-     * Run boot operations.
-     *
-     * @return void
+     * Bootstrap the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->mergeConfigFrom(
             $config = __DIR__.'/../config/location.php', 'location'
@@ -27,10 +25,8 @@ class LocationServiceProvider extends ServiceProvider
 
     /**
      * Register bindings in the service container.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(LocationManager::class);
     }

@@ -27,7 +27,7 @@ class Update extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         foreach (Location::drivers() as $driver) {
             if ($driver instanceof Updatable) {

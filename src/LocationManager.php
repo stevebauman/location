@@ -104,20 +104,16 @@ class LocationManager
 
     /**
      * Get the fallback location drivers to use.
-     *
-     * @return array
      */
-    protected function getDriverFallbacks()
+    protected function getDriverFallbacks(): array
     {
         return config('location.fallbacks', []);
     }
 
     /**
      * Get the default location driver.
-     *
-     * @return string
      */
-    protected function getDefaultDriver()
+    protected function getDefaultDriver(): string
     {
         return config('location.driver');
     }

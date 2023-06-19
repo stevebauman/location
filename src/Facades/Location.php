@@ -14,11 +14,9 @@ use Stevebauman\Location\LocationManager;
 class Location extends Facade
 {
     /**
-     * The IoC key accessor.
-     *
-     * @return string
+     * Get the registered name of the component.
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return LocationManager::class;
     }

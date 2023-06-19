@@ -12,10 +12,8 @@ abstract class HttpDriver extends Driver
 {
     /**
      * The HTTP resolver callback.
-     *
-     * @var Closure|null
      */
-    protected static $httpResolver;
+    protected static ?Closure $httpResolver = null;
 
     /**
      * Get the URL for the HTTP request.
