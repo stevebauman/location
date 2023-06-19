@@ -5,7 +5,6 @@ namespace Stevebauman\Location\Tests;
 use Illuminate\Support\Facades\Request;
 use Stevebauman\Location\Drivers\Cloudflare;
 use Stevebauman\Location\Drivers\Driver;
-use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
