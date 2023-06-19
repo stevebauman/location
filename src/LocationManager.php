@@ -35,7 +35,7 @@ class LocationManager
     {
         $this->setDefaultDriver();
 
-        $this->requestResolver = fn () => app(LocationRequest::class);
+        $this->requestResolver = fn () => LocationRequest::createFrom(request());
     }
 
     /**
@@ -69,7 +69,7 @@ class LocationManager
      */
     public function get(string $ip = null): Position|bool
     {
-        if ($location = $this->driver->get($this->request()->using($ip))) {
+        if ($location = $this->driver->get($this->request()->setIp($ip))) {
             return $location;
         }
 
