@@ -14,7 +14,7 @@ class Kloudend extends HttpDriver
     {
         $token = config('location.kloudend.token');
 
-        return "https://ipapi.co/$ip/?key={$token}";
+        return "https://ipapi.co/$ip/json".(empty($token) ? '' : "?key={$token}");
     }
 
     /**

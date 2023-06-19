@@ -1,5 +1,7 @@
+<h1 align="center">Location</h1>
+
 <p align="center">
-    <img src="https://github.com/stevebauman/location/blob/master/art/logo.png">
+Retrieve a user's location from their IP address using various services.
 </p>
 
 <p align="center">
@@ -87,6 +89,7 @@ Available drivers:
 - [Kloudend](https://ipapi.co)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
+- [Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200168236-Configuring-IP-geolocation)
 
 #### Setting up MaxMind with a self-hosted database (optional)
 
