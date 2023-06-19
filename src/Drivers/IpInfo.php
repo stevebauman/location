@@ -10,7 +10,7 @@ class IpInfo extends HttpDriver
     /**
      * {@inheritdoc}
      */
-    protected function url(string $ip): string
+    public function url(string $ip): string
     {
         $url = "http://ipinfo.io/$ip";
 

@@ -18,7 +18,7 @@ abstract class HttpDriver extends Driver
     /**
      * Get the URL for the HTTP request.
      */
-    abstract protected function url(string $ip): string;
+    abstract public function url(string $ip): string;
 
     /**
      * Set the callback used to resolve a pending HTTP request.
@@ -34,7 +34,7 @@ abstract class HttpDriver extends Driver
     public function process(Requestable $request): Fluent|false
     {
         return rescue(fn () => new Fluent(
-            $this->http()->get($this->url($request->ip()))->json()
+            $this->http()->get($this->url($request->getIp()))->json()
         ), false);
     }
 

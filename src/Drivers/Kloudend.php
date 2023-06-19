@@ -10,7 +10,7 @@ class Kloudend extends HttpDriver
     /**
      * {@inheritdoc}
      */
-    protected function url(string $ip): string
+    public function url(string $ip): string
     {
         $token = config('location.kloudend.token');
 

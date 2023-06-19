@@ -10,7 +10,7 @@ class IpApi extends HttpDriver
     /**
      * {@inheritdoc}
      */
-    protected function url(string $ip): string
+    public function url(string $ip): string
     {
         return "http://ip-api.com/json/$ip";
     }

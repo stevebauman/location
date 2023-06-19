@@ -6,12 +6,12 @@ use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Requestable;
 
-class GeoPlugin extends Driver
+class GeoPlugin extends HttpDriver
 {
     /**
      * {@inheritdoc}
      */
-    protected function url(string $ip): string
+    public function url(string $ip): string
     {
         return "http://www.geoplugin.net/php.gp?ip=$ip";
     }
@@ -32,15 +32,5 @@ class GeoPlugin extends Driver
         $position->timezone = $location->geoplugin_timezone;
 
         return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function process(Requestable $request): Fluent|false
-    {
-        return rescue(fn () => new Fluent(
-            unserialize($this->http()->get($this->url($request->ip())))
-        ), false);
     }
 }
