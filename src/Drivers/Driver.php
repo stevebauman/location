@@ -4,7 +4,7 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
-use Stevebauman\Location\Requestable;
+use Stevebauman\Location\Request;
 
 abstract class Driver
 {
@@ -28,7 +28,7 @@ abstract class Driver
     /**
      * Get a position from the request.
      */
-    public function get(Requestable $request): Position|false
+    public function get(Request $request): Position|false
     {
         $data = $this->process($request);
 
@@ -52,14 +52,14 @@ abstract class Driver
     }
 
     /**
+     * Attempt to fetch and process the location data from the driver.
+     */
+    abstract protected function process(Request $request): Fluent|false;
+
+    /**
      * Hydrate the Position object with the given location data.
      */
     abstract protected function hydrate(Position $position, Fluent $location): Position;
-
-    /**
-     * Attempt to fetch and process the location data from the driver.
-     */
-    abstract protected function process(Requestable $request): Fluent|false;
 
     /**
      * Create a new position instance.

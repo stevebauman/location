@@ -4,14 +4,14 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
-use Stevebauman\Location\Requestable;
+use Stevebauman\Location\Request;
 
 class Cloudflare extends Driver
 {
     /**
      * {@inheritDoc}
      */
-    protected function process(Requestable $request): Fluent|false
+    protected function process(Request $request): Fluent|false
     {
         // This is available both from CloudFlare's dashboard and Managed Transforms.
         $countryCode = $request->getHeader('cf-ipcountry');

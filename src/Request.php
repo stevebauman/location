@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Location;
 
-interface Requestable
+interface Request
 {
     /**
      * Get the client IP address.

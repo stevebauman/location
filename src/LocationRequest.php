@@ -2,9 +2,9 @@
 
 namespace Stevebauman\Location;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request as IlluminateRequest;
 
-class LocationRequest extends Request implements Requestable
+class LocationRequest extends IlluminateRequest implements Request
 {
     /**
      * The IP address to resolve.

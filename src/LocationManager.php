@@ -79,7 +79,7 @@ class LocationManager
     /**
      * Get the HTTP request.
      */
-    protected function request(): Requestable
+    protected function request(): Request
     {
         return call_user_func($this->requestResolver);
     }

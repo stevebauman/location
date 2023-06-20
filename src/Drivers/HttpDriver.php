@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Fluent;
-use Stevebauman\Location\Requestable;
+use Stevebauman\Location\Request;
 
 abstract class HttpDriver extends Driver
 {
@@ -31,7 +31,7 @@ abstract class HttpDriver extends Driver
     /**
      * Attempt to fetch and process the location data from the driver.
      */
-    public function process(Requestable $request): Fluent|false
+    public function process(Request $request): Fluent|false
     {
         return rescue(fn () => new Fluent(
             $this->http()->get($this->url($request->getIp()))->json()

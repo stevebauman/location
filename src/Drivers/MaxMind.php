@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use PharData;
 use PharFileInfo;
 use Stevebauman\Location\Position;
-use Stevebauman\Location\Requestable;
+use Stevebauman\Location\Request;
 
 class MaxMind extends Driver implements Updatable
 {
@@ -100,7 +100,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * {@inheritdoc}
      */
-    protected function process(Requestable $request): Fluent|false
+    protected function process(Request $request): Fluent|false
     {
         return rescue(function () use ($request) {
             $record = $this->fetchLocation($request->getIp());
