@@ -24,9 +24,8 @@ Retrieve a user's location from their IP address using various services.
 
 ## Requirements
 
-- PHP >= 7.3
-- PHP cURL extension enabled
-- Laravel >= 5.0
+- PHP >= 8.1
+- Laravel >= 8.0
 
 ## Installation
 
@@ -34,15 +33,6 @@ Install location using `composer require`:
 
 ```bash
 composer require stevebauman/location
-```
-
-Add the service provider in `config/app.php`:
-
-> **Important**: If you're using Laravel 5.5 or above, you can skip the registration
-> of the service provider, as it is registered automatically.
-
-```php
-Stevebauman\Location\LocationServiceProvider::class
 ```
 
 Publish the configuration file (this will create a `location.php` file inside the `config/` directory):
