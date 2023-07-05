@@ -1,7 +1,7 @@
 <h1 align="center">Location</h1>
 
 <p align="center">
-Retrieve a user's location from their IP address using various services.
+Retrieve a visitor's location from their IP address using various services.
 </p>
 
 <p align="center">
@@ -103,13 +103,14 @@ To set up MaxMind to retrieve the user's location from your own server, you must
 8. That's it, you're all set!
 
 > **Note**: Keep in mind, you'll need to update this file by running `location:update` 
-> on a regular basis to retrieve the most current information from clients.
+> on a regular basis to retrieve the most current information from your visitors.
 
 ### Fallback Drivers
 
 In the config file, you can specify as many fallback drivers as you wish. It is
-recommended to install the MaxMind database `.mmdb` file, so you are always
-retrieving some generic location information for the user.
+recommended to configure the MaxMind driver with the local database `.mmdb`
+file (mentioned above), so you are alwaysretrieving some generic location
+information from the visitor.
 
 If an exception occurs trying to grab a driver (such as a 400/500 error if the
 providers API changes), it will automatically use the next driver in line.
@@ -183,6 +184,12 @@ return [
         ],
     ],
 ];
+```
+
+Once done, you may execute the below artisan command to download the latest `.mmdb` file:
+
+```bash
+php artisan location:update
 ```
 
 ### Drivers
