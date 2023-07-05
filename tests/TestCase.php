@@ -10,7 +10,7 @@ class TestCase extends BaseTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [LocationServiceProvider::class];
     }

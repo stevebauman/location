@@ -2,16 +2,15 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class GeoPlugin extends Driver
+class GeoPlugin extends HttpDriver
 {
     /**
      * {@inheritdoc}
      */
-    protected function url($ip)
+    public function url(string $ip): string
     {
         return "http://www.geoplugin.net/php.gp?ip=$ip";
     }
@@ -19,7 +18,7 @@ class GeoPlugin extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryCode = $location->geoplugin_countryCode;
         $position->countryName = $location->geoplugin_countryName;
@@ -32,19 +31,5 @@ class GeoPlugin extends Driver
         $position->timezone = $location->geoplugin_timezone;
 
         return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function process($ip)
-    {
-        try {
-            $response = unserialize($this->getUrlContent($this->url($ip)));
-
-            return new Fluent($response);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

@@ -3,59 +3,31 @@
 namespace Stevebauman\Location;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use Stevebauman\Location\Commands\Update;
 
 class LocationServiceProvider extends ServiceProvider
 {
     /**
-     * Run boot operations.
-     *
-     * @return void
+     * Bootstrap the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
-        if ($this->isLumen()) {
-            return;
-        }
-
-        $config = __DIR__.'/../config/location.php';
+        $this->mergeConfigFrom(
+            $config = __DIR__.'/../config/location.php', 'location'
+        );
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$config => config_path('location.php')]);
         }
 
-        $this->mergeConfigFrom($config, 'location');
+        $this->commands(Update::class);
     }
 
     /**
-     * Register the location binding.
-     *
-     * @return void
+     * Register bindings in the service container.
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('location', function ($app) {
-            return new Location($app['config']);
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['location'];
-    }
-
-    /**
-     * Determine if the current application is Lumen.
-     *
-     * @return bool
-     */
-    protected function isLumen()
-    {
-        return Str::contains($this->app->version(), 'Lumen');
+        $this->app->singleton(LocationManager::class);
     }
 }

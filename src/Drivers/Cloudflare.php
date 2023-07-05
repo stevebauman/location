@@ -4,16 +4,17 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
+use Stevebauman\Location\Request;
 
 class Cloudflare extends Driver
 {
     /**
      * {@inheritDoc}
      */
-    protected function process($ip)
+    protected function process(Request $request): Fluent|false
     {
         // This is available both from CloudFlare's dashboard and Managed Transforms.
-        $countryCode = request()->header('cf-ipcountry');
+        $countryCode = $request->getHeader('cf-ipcountry');
 
         // Unknown and Tor values
         if (! $countryCode || in_array($countryCode, ['XX', 'T1'])) {
@@ -22,17 +23,18 @@ class Cloudflare extends Driver
 
         // These are only available if the relevant Managed Transform is configured.
         // https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#http-request-headers
-        $cityName = request()->header('cf-ipcity');
-        $longitude = request()->header('cf-iplongitude');
-        $latitude = request()->header('cf-iplatitude');
-
-        return new Fluent(compact('countryCode', 'cityName', 'longitude', 'latitude'));
+        return new Fluent([
+            'countryCode' => $countryCode,
+            'cityName' => $request->getHeader('cf-ipcity'),
+            'longitude' => $request->getHeader('cf-iplongitude'),
+            'latitude' =>  $request->getHeader('cf-iplatitude'),
+        ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryCode = $location->countryCode;
         $position->isoCode = $location->countryCode;

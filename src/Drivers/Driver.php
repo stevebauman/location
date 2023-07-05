@@ -4,25 +4,19 @@ namespace Stevebauman\Location\Drivers;
 
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
+use Stevebauman\Location\Request;
 
 abstract class Driver
 {
-    const CURL_MAX_TIME = 2;
-    const CURL_CONNECT_TIMEOUT = 2;
-
     /**
      * The fallback driver.
-     *
-     * @var Driver
      */
-    protected $fallback;
+    protected ?Driver $fallback = null;
 
     /**
      * Append a fallback driver to the end of the chain.
-     *
-     * @param Driver $handler
      */
-    public function fallback(Driver $handler)
+    public function fallback(Driver $handler): void
     {
         if (is_null($this->fallback)) {
             $this->fallback = $handler;
@@ -32,25 +26,21 @@ abstract class Driver
     }
 
     /**
-     * Handle the driver request.
-     *
-     * @param string $ip
-     *
-     * @return Position|bool
+     * Get a position from the request.
      */
-    public function get($ip)
+    public function get(Request $request): Position|false
     {
-        $data = $this->process($ip);
+        $data = $this->process($request);
 
-        $position = $this->getNewPosition();
+        $position = $this->makePosition();
 
-        // Here we will ensure the locations data we received isn't empty.
+        // Here we will ensure the location's data we received isn't empty.
         // Some IP location providers will return empty JSON. We want
-        // to avoid this so we can go to a fallback driver.
-        if ($data instanceof Fluent && $this->fluentDataIsNotEmpty($data)) {
+        // to avoid this, so we can call the next fallback driver.
+        if ($data instanceof Fluent && ! $this->isEmpty($data)) {
             $position = $this->hydrate($position, $data);
 
-            $position->ip = $ip;
+            $position->ip = $request->getIp();
             $position->driver = get_class($this);
         }
 
@@ -58,83 +48,32 @@ abstract class Driver
             return $position;
         }
 
-        return $this->fallback ? $this->fallback->get($ip) : false;
+        return $this->fallback ? $this->fallback->get($request) : false;
     }
 
     /**
-     * Create a new position instance.
-     *
-     * @return Position
+     * Attempt to fetch and process the location data from the driver.
      */
-    protected function getNewPosition()
-    {
-        $position = config('location.position', Position::class);
+    abstract protected function process(Request $request): Fluent|false;
 
-        return new $position;
+    /**
+     * Hydrate the Position object with the given location data.
+     */
+    abstract protected function hydrate(Position $position, Fluent $location): Position;
+
+    /**
+     * Create a new position instance.
+     */
+    protected function makePosition(): Position
+    {
+        return app(config('location.position', Position::class));
     }
 
     /**
      * Determine if the given fluent data is not empty.
-     *
-     * @param Fluent $data
-     *
-     * @return bool
      */
-    protected function fluentDataIsNotEmpty(Fluent $data)
+    protected function isEmpty(Fluent $data): bool
     {
-        return ! empty(array_filter($data->getAttributes()));
+        return empty(array_filter($data->getAttributes()));
     }
-
-    /**
-     * Get content from the given URL using cURL.
-     *
-     * @param string $url
-     *
-     * @return mixed
-     */
-    protected function getUrlContent($url)
-    {
-        $session = curl_init();
-
-        curl_setopt($session, CURLOPT_URL, $url);
-        curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($session, CURLOPT_TIMEOUT, static::CURL_MAX_TIME);
-        curl_setopt($session, CURLOPT_CONNECTTIMEOUT, static::CURL_CONNECT_TIMEOUT);
-
-        $content = curl_exec($session);
-
-        curl_close($session);
-
-        return $content;
-    }
-
-    /**
-     * Get the URL to use for querying the current driver.
-     *
-     * @param string $ip
-     *
-     * @return string|null
-     */
-    protected function url($ip)
-    {
-    }
-
-    /**
-     * Hydrate the Position object with the given location data.
-     *
-     * @param Position $position
-     * @param Fluent   $location
-     *
-     * @return \Stevebauman\Location\Position
-     */
-    abstract protected function hydrate(Position $position, Fluent $location);
-
-    /**
-     * Attempt to fetch and process the location data from the driver.
-     *
-     * @param string $ip
-     *
-     * @return Fluent|bool
-     */
-    abstract protected function process($ip);
 }

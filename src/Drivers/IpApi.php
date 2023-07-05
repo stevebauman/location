@@ -2,16 +2,15 @@
 
 namespace Stevebauman\Location\Drivers;
 
-use Exception;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Position;
 
-class IpApi extends Driver
+class IpApi extends HttpDriver
 {
     /**
      * {@inheritdoc}
      */
-    protected function url($ip)
+    public function url(string $ip): string
     {
         return "http://ip-api.com/json/$ip";
     }
@@ -19,7 +18,7 @@ class IpApi extends Driver
     /**
      * {@inheritdoc}
      */
-    protected function hydrate(Position $position, Fluent $location)
+    protected function hydrate(Position $position, Fluent $location): Position
     {
         $position->countryName = $location->country;
         $position->countryCode = $location->countryCode;
@@ -33,19 +32,5 @@ class IpApi extends Driver
         $position->timezone = $location->timezone;
 
         return $position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function process($ip)
-    {
-        try {
-            $response = json_decode($this->getUrlContent($this->url($ip)), true);
-
-            return new Fluent($response);
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

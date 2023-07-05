@@ -4,12 +4,14 @@ namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Facades\Request;
 use Stevebauman\Location\Drivers\Cloudflare;
+use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('can use CF-injected full headers', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => []]);
 
     Request::instance()->headers->replace([
         'CF-IPCountry' => 'GB',
@@ -75,16 +77,22 @@ it('can use CF-injected simple header', function () {
 it('will gracefully fall back if CF header returns falsey value', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => [Driver::class]]);
 
     Request::instance()->headers->replace([
         'CF-IPCountry' => 'XX',
     ]);
 
+    $position = new Position();
+    $position->driver = Driver::class;
+
+    $fallback = $this->mock(Driver::class);
+    $fallback->shouldReceive('get')->andReturn($position);
+
     $position = Location::get('2.125.160.216');
 
     expect($position)->toBeInstanceOf(Position::class);
-
-    expect($position->toArray()['driver'])->toEqual(config('location.fallbacks')[0]);
+    expect($position->driver)->toEqual(Driver::class);
 
     Request::instance()->headers->replace([
         'CF-IPCountry' => 'T1',
@@ -93,17 +101,22 @@ it('will gracefully fall back if CF header returns falsey value', function () {
     $position = Location::get('2.125.160.216');
 
     expect($position)->toBeInstanceOf(Position::class);
-
-    expect($position->toArray()['driver'])->toEqual(config('location.fallbacks')[0]);
+    expect($position->driver)->toEqual(Driver::class);
 });
 
 it('will gracefully fall back if CF headers are not present', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => Cloudflare::class]);
+    config(['location.fallbacks' => [Driver::class]]);
+
+    $position = new Position();
+    $position->driver = Driver::class;
+
+    $fallback = $this->mock(Driver::class);
+    $fallback->shouldReceive('get')->andReturn($position);
 
     $position = Location::get('2.125.160.216');
 
     expect($position)->toBeInstanceOf(Position::class);
-
-    expect($position->toArray()['driver'])->toEqual(config('location.fallbacks')[0]);
+    expect($position->driver)->toEqual(Driver::class);
 });
