@@ -42,7 +42,7 @@ Install location using `composer require`:
 composer require stevebauman/location
 ```
 
-Publish the configuration file (this will create a `location.php` file inside the `config/` directory):
+Publish the configuration file (this will create a `location.php` file inside the `config` directory):
 
 ```bash
 php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
@@ -63,7 +63,7 @@ if ($position = Location::get()) {
 }
 ```
 
-> **Note**:
+> **Important**:
 > - This method retrieves the user's IP address via `request()->ip()`.
 > - In the default configuration, `testing.enabled` is active, the returned IP address is in the USA. Disable it to get the client's real IP address.
 
@@ -96,11 +96,11 @@ you to bypass any throttling that could occur from using external web services.
 To set up MaxMind to retrieve the user's location from your own server, you must:
 
 1. Create a [maxmind account](https://www.maxmind.com/en/geolite2/signup) and sign in
-3. Click "Manage License Keys" from the profile menu dropdown
-4. Generate a new license key
-5. Copy the license key and save it into your `.env` file using the `MAXMIND_LICENSE_KEY` key
-3. Run `php artisan location:update` to download the latest `.mmdb` file into your `database/maxmind` directory
-8. That's it, you're all set!
+2. Click "Manage License Keys" from the profile menu dropdown
+3. Generate a new license key
+4. Copy the license key and save it into your `.env` file using the `MAXMIND_LICENSE_KEY` key
+5. Run `php artisan location:update` to download the latest `.mmdb` file into your `database/maxmind` directory
+6. That's it, you're all set!
 
 > **Note**: Keep in mind, you'll need to update this file by running `location:update` 
 > on a regular basis to retrieve the most current information from your visitors.
