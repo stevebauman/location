@@ -3,22 +3,24 @@
 namespace Stevebauman\Location;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 
 class Position implements Arrayable
 {
     /**
      * The IP address used to retrieve the location.
-     *
-     * @var string
      */
-    public $ip;
+    public string $ip;
+
+    /**
+     * The driver used for retrieving the location.
+     */
+    public string $driver;
 
     /**
      * The country name.
-     *
-     * @var string|null
      */
-    public $countryName;
+    public ?string $countryName = null;
 
     /**
      * The country's currency code.
@@ -29,116 +31,80 @@ class Position implements Arrayable
 
     /**
      * The country code.
-     *
-     * @var string|null
      */
-    public $countryCode;
+    public ?string $countryCode = null;
 
     /**
      * The region code.
-     *
-     * @var string|null
      */
-    public $regionCode;
+    public ?string $regionCode = null;
 
     /**
      * The region name.
-     *
-     * @var string|null
      */
-    public $regionName;
+    public ?string $regionName = null;
 
     /**
      * The city name.
-     *
-     * @var string|null
      */
-    public $cityName;
+    public ?string $cityName = null;
 
     /**
      * The zip code.
-     *
-     * @var string|null
      */
-    public $zipCode;
+    public ?string $zipCode = null;
 
     /**
-     * The iso code.
-     *
-     * @var string|null
+     * The ISO code.
      */
-    public $isoCode;
+    public ?string $isoCode = null;
 
     /**
      * The postal code.
-     *
-     * @var string|null
      */
-    public $postalCode;
+    public ?string $postalCode = null;
 
     /**
      * The latitude.
-     *
-     * @var string|null
      */
-    public $latitude;
+    public ?string $latitude = null;
 
     /**
      * The longitude.
-     *
-     * @var string|null
      */
-    public $longitude;
+    public ?string $longitude = null;
 
     /**
      * The metro code.
-     *
-     * @var string|null
      */
-    public $metroCode;
+    public ?string $metroCode = null;
 
     /**
      * The area code.
-     *
-     * @var string|null
      */
-    public $areaCode;
+    public ?string $areaCode = null;
 
     /**
      * The timezone.
-     *
-     * @var string|null
      */
-    public $timezone;
-
-    /**
-     * The driver used for retrieving the location.
-     *
-     * @var string|null
-     */
-    public $driver;
+    public ?string $timezone = null;
 
     /**
      * Determine if the position is empty.
-     *
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        $data = $this->toArray();
-
-        unset($data['ip']);
-        unset($data['driver']);
+        $data = Arr::except(
+            $this->toArray(), ['ip', 'driver']
+        );
 
         return empty(array_filter($data));
     }
 
     /**
      * Get the instance as an array.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return get_object_vars($this);
     }

@@ -4,11 +4,16 @@ namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Fluent;
 use Mockery as m;
+use Stevebauman\Location\Commands\Update;
 use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
-it('it can process fluent response', function () {
+it('can update database', function () {
+    $this->artisan(Update::class)->assertSuccessful();
+});
+
+it('can process fluent response', function () {
     $driver = m::mock(MaxMind::class);
 
     $attributes = [

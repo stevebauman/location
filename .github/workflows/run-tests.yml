@@ -12,17 +12,16 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [7.4, 8.0, 8.1, 8.2]
-                laravel: [8.*, 9.*]
+                php: [8.1, 8.2]
+                laravel: [8.*, 9.*, 10.*]
                 dependency-version: [prefer-stable]
                 include:
+                    - laravel: 10.*
+                      testbench: 8.*
                     - laravel: 9.*
                       testbench: 7.*
                     - laravel: 8.*
                       testbench: 6.*
-                exclude:
-                    - laravel: 9.*
-                      php: 7.4
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -49,3 +48,5 @@ jobs:
 
             - name: Execute tests
               run: vendor/bin/pest
+              env:
+                MAXMIND_LICENSE_KEY: ${{ secrets.MAXMIND_LICENSE_KEY }}
