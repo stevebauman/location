@@ -24,10 +24,8 @@ class Position implements Arrayable
 
     /**
      * The country's currency code.
-     *
-     * @var string|null
      */
-    public $currencyCode;
+    public ?string $currencyCode;
 
     /**
      * The country code.
