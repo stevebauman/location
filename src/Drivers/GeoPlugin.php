@@ -12,7 +12,7 @@ class GeoPlugin extends HttpDriver
      */
     public function url(string $ip): string
     {
-        return "http://www.geoplugin.net/php.gp?ip=$ip";
+        return "http://www.geoplugin.net/json.gp?ip=$ip";
     }
 
     /**
