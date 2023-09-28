@@ -20,6 +20,7 @@ it('it can process fluent response', function () {
         'zip' => '55555',
         'lat' => '50',
         'lon' => '50',
+        'currency' => 'USD',
         'timezone' => 'America/Toronto',
     ]);
 
@@ -33,7 +34,7 @@ it('it can process fluent response', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toMatchArray([
+    expect($position->toArray())->toEqual([
         'countryName' => 'United States',
         'countryCode' => 'US',
         'regionCode' => 'CA',
@@ -47,6 +48,7 @@ it('it can process fluent response', function () {
         'metroCode' => null,
         'areaCode' => 'CA',
         'ip' => '66.102.0.0',
+        'currencyCode' => 'USD',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);

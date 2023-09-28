@@ -38,7 +38,7 @@ it('can process fluent response', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toMatchArray([
+    expect($position->toArray())->toEqual([
         'countryName' => 'United States',
         'countryCode' => 'US',
         'regionCode' => null,
@@ -67,7 +67,7 @@ it('can use city database', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toMatchArray([
+    expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => 'United Kingdom',
         'countryCode' => 'GB',
@@ -96,7 +96,7 @@ it('can use country database', function () {
 
     expect($position)->toBeInstanceOf(Position::class);
 
-    expect($position->toArray())->toMatchArray([
+    expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => 'United Kingdom',
         'countryCode' => 'GB',
