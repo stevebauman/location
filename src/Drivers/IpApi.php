@@ -12,7 +12,7 @@ class IpApi extends HttpDriver
      */
     public function url(string $ip): string
     {
-        return "http://ip-api.com/json/$ip";
+        return "http://ip-api.com/json/$ip?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,query";
     }
 
     /**
@@ -30,6 +30,7 @@ class IpApi extends HttpDriver
         $position->longitude = (string) $location->lon;
         $position->areaCode = $location->region;
         $position->timezone = $location->timezone;
+        $position->currencyCode = $location->currency;
 
         return $position;
     }

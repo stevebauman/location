@@ -32,6 +32,7 @@ class Kloudend extends HttpDriver
         $position->latitude = (string) $location->latitude;
         $position->longitude = (string) $location->longitude;
         $position->timezone = $location->timezone;
+        $position->currencyCode = $location->currency;
 
         return $position;
     }
