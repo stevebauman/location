@@ -151,7 +151,7 @@ Then, insert your driver class name into the configuration file:
 ```php
 // config/location.php
 
-'driver' => App\Locations\MyDriver::class,
+'driver' => App\Locations\Drivers\MyDriver::class,
 ```
 
 ## Upgrading from v6
