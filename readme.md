@@ -9,10 +9,6 @@ Retrieve a visitor's location from their IP address using various services.
 <img src="https://img.shields.io/github/actions/workflow/status/stevebauman/location/run-tests.yml?branch=master&style=flat-square">
 </a>
 
-<a href="https://scrutinizer-ci.com/g/stevebauman/location/?branch=master">
-<img src="https://img.shields.io/scrutinizer/g/stevebauman/location.svg?style=flat-square">
-</a>
-
 <a href="https://packagist.org/packages/stevebauman/location">
 <img src="https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square">
 </a>
