@@ -33,11 +33,11 @@ it('it can process fluent response', function () {
     expect($position)->toBeInstanceOf(Position::class);
 
     expect($position->toArray())->toEqual([
-        'country_name' => 'United States',
-        'country_code' => 'US',
+        'countryName' => 'United States of America',
+        'countryCode' => 'US',
         'regionCode' => null,
-        'region_name' => 'California',
-        'city_name' => 'Mountain View',
+        'regionName' => 'California',
+        'cityName' => 'Mountain View',
         'zipCode' => '94043',
         'isoCode' => null,
         'postalCode' => null,
