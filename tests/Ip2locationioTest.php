@@ -16,10 +16,10 @@ it('it can process fluent response', function () {
         'country_code' => 'US',
         'region_name' => 'California',
         'city_name' => 'Mountain View',
-        'zip' => '94043',
-        'lat' => '37.405992',
-        'lon' => '-122.078515',
-        'timezone' => '-07:00',
+        'zip_code' => '94043',
+        'latitude' => '37.405992',
+        'longitude' => '-122.078515',
+        'time_zone' => '-07:00',
     ]);
 
     $driver
@@ -48,6 +48,21 @@ it('it can process fluent response', function () {
         'ip' => '66.102.0.0',
         'currencyCode' => null,
         'timezone' => '-07:00',
+        'isp' => null,
+        'asn' => null,
+        'asName' => null,
+        'domain' => null,
+        'netSpeed' => null,
+        'iddCode' => null,
+        'weatherStationCode' => null,
+        'weatherStationName' => null,
+        'mcc' => null,
+        'mnc' => null,
+        'mobileBrand' => null,
+        'elevation' => null,
+        'usageType' => null,
+        'addressType' => null,
+        'isProxy' => null,
         'driver' => get_class($driver),
     ]);
 });
