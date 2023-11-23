@@ -12,8 +12,8 @@ it('it can process fluent response', function () {
     $driver = m::mock(IpApi::class)->makePartial();
 
     $response = new Fluent([
-        'country_name' => 'United States of America',
-        'country_code' => 'US',
+        'countryName' => 'United States of America',
+        'countryCode' => 'US',
         'region_name' => 'California',
         'city_name' => 'Mountain View',
         'zip' => '94043',
@@ -44,7 +44,7 @@ it('it can process fluent response', function () {
         'latitude' => '37.405992',
         'longitude' => '-122.078515',
         'metroCode' => null,
-        'areaCode' => 'CA',
+        'areaCode' => null,
         'ip' => '66.102.0.0',
         'currencyCode' => null,
         'timezone' => '-07:00',
