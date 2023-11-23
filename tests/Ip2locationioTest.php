@@ -14,8 +14,8 @@ it('it can process fluent response', function () {
     $response = new Fluent([
         'countryName' => 'United States of America',
         'countryCode' => 'US',
-        'region_name' => 'California',
-        'city_name' => 'Mountain View',
+        'regionName' => 'California',
+        'cityName' => 'Mountain View',
         'zip' => '94043',
         'lat' => '37.405992',
         'lon' => '-122.078515',
