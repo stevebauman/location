@@ -40,7 +40,7 @@ it('it can process fluent response', function () {
         'cityName' => 'Mountain View',
         'zipCode' => '94043',
         'isoCode' => null,
-        'postalCode' => null,
+        'postalCode' => '94043',
         'latitude' => '37.405992',
         'longitude' => '-122.078515',
         'metroCode' => null,
