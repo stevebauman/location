@@ -4,18 +4,18 @@ namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Fluent;
 use Mockery as m;
-use Stevebauman\Location\Drivers\IpApi;
+use Stevebauman\Location\Drivers\Ip2locationio;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('it can process fluent response', function () {
-    $driver = m::mock(IpApi::class)->makePartial();
+    $driver = m::mock(Ip2locationio::class)->makePartial();
 
     $response = new Fluent([
-        'countryName' => 'United States of America',
-        'countryCode' => 'US',
-        'regionName' => 'California',
-        'cityName' => 'Mountain View',
+        'country_name' => 'United States of America',
+        'country_code' => 'US',
+        'region_name' => 'California',
+        'city_name' => 'Mountain View',
         'zip' => '94043',
         'lat' => '37.405992',
         'lon' => '-122.078515',
