@@ -18,6 +18,10 @@ it('can use CF-injected full headers', function () {
         'CF-IPCity' => 'Boxford',
         'CF-IPLatitude' => '51.75',
         'CF-IPLongitude' => '-1.25',
+        'CF-Region' => 'Plymouth',
+        'CF-Region-Code' => 'PLY',
+        'CF-Postal-Code' => 'PL5',
+        'CF-Timezone' => 'Europe/London',
     ]);
 
     $position = Location::get('2.125.160.216');
@@ -28,17 +32,17 @@ it('can use CF-injected full headers', function () {
         'ip' => '2.125.160.216',
         'countryName' => null,
         'countryCode' => 'GB',
-        'regionCode' => null,
-        'regionName' => null,
+        'regionCode' => 'PLY',
+        'regionName' => 'Plymouth',
         'cityName' => 'Boxford',
         'zipCode' => null,
         'isoCode' => 'GB',
-        'postalCode' => null,
+        'postalCode' => 'PL5',
         'latitude' => '51.75',
         'longitude' => '-1.25',
         'metroCode' => null,
         'areaCode' => null,
-        'timezone' => null,
+        'timezone' => 'Europe/London',
         'driver' => Cloudflare::class,
     ]);
 });
