@@ -28,6 +28,10 @@ class Cloudflare extends Driver
             'cityName' => $request->getHeader('cf-ipcity'),
             'longitude' => $request->getHeader('cf-iplongitude'),
             'latitude' => $request->getHeader('cf-iplatitude'),
+            'region' => $request->getHeader('cf-region'),
+            'regionCode' => $request->getHeader('cf-region-code'),
+            'postalCode' => $request->getHeader('cf-postal-code'),
+            'timezone' => $request->getHeader('cf-timezone'),
         ]);
     }
 
@@ -41,6 +45,10 @@ class Cloudflare extends Driver
         $position->cityName = $location->cityName;
         $position->longitude = $location->longitude;
         $position->latitude = $location->latitude;
+        $position->regionName = $location->region;
+        $position->regionCode = $location->regionCode;
+        $position->postalCode = $location->postalCode;
+        $position->timezone = $location->timezone;
 
         return $position;
     }
