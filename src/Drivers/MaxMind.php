@@ -23,9 +23,9 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
-        $root = Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR);
-
-        @mkdir($root);
+        @mkdir(
+            $root = Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR)
+        );
 
         $storage = Storage::build([
             'driver' => 'local',
