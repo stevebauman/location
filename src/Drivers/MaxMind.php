@@ -23,9 +23,13 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
+        @mkdir(
+            $root = Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR)
+        );
+
         $storage = Storage::build([
             'driver' => 'local',
-            'root' => sys_get_temp_dir(),
+            'root' => $root,
         ]);
 
         $storage->put(
@@ -44,14 +48,12 @@ class MaxMind extends Driver implements Updatable
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
-        @mkdir(
-            Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR)
-        );
-
         file_put_contents(
             $this->getDatabasePath(),
             fopen($storage->path($relativePath), 'r')
         );
+
+        $storage->delete($tar);
     }
 
     /**
