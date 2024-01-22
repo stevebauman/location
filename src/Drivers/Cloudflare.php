@@ -27,7 +27,7 @@ class Cloudflare extends Driver
             'countryCode' => $countryCode,
             'cityName' => $request->getHeader('cf-ipcity'),
             'longitude' => $request->getHeader('cf-iplongitude'),
-            'latitude' =>  $request->getHeader('cf-iplatitude'),
+            'latitude' => $request->getHeader('cf-iplatitude'),
         ]);
     }
 
