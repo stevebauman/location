@@ -24,7 +24,7 @@ it('can process fluent response', function () {
         'metro_code' => '5555',
         'latitude' => '50',
         'longitude' => '50',
-        'time_zone' => 'America/Toronto',
+        'timezone' => 'America/Toronto',
     ];
 
     $driver
@@ -81,7 +81,7 @@ it('can use city database', function () {
         'longitude' => '-1.25',
         'metroCode' => '',
         'areaCode' => null,
-        'timezone' => null,
+        'timezone' => 'Europe/London',
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
     ]);
 });

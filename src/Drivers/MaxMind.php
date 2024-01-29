@@ -92,7 +92,7 @@ class MaxMind extends Driver implements Updatable
         $position->cityName = $location->city;
         $position->postalCode = $location->postal;
         $position->metroCode = $location->metro_code;
-        $position->timezone = $location->time_zone;
+        $position->timezone = $location->timezone;
         $position->latitude = $location->latitude;
         $position->longitude = $location->longitude;
 
