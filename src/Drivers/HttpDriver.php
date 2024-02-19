@@ -49,6 +49,6 @@ abstract class HttpDriver extends Driver
     {
         $callback = static::$httpResolver ?: fn ($http) => $http;
 
-        return value($callback, Http::timeout(2)->connectTimeout(2));
+        return value($callback, Http::timeout(5));
     }
 }
