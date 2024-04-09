@@ -11,6 +11,6 @@ class IpApiPro extends IpApi
     {
         $key = config('location.ip_api.token');
 
-        return "https://pro.ip-api.com/json/$ip?key=$key";
+        return "https://pro.ip-api.com/json/$ip?key=$key&fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,query";
     }
 }
