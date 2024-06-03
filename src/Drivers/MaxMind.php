@@ -210,7 +210,7 @@ class MaxMind extends Driver implements Updatable
     {
         return config(
             'location.maxmind.local.url',
-            sprintf('https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz', $this->getLicenseKey()),
+            sprintf('https://download.maxmind.com/app/geoip_download_by_token?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz', $this->getLicenseKey()),
         );
     }
 
