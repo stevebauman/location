@@ -47,6 +47,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Http driver request timeout
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the HTTP timeouts in seconds.
+    | This will be used in drivers that request IP info through HTTP requests from API services.
+    |
+    */
+
+    'timeout' => 3,
+    'connect_timeout' => 3,
+
+    /*
+    |--------------------------------------------------------------------------
     | Localhost Testing
     |--------------------------------------------------------------------------
     |
