@@ -52,6 +52,8 @@ return [
     |
     | Here you may configure the HTTP timeouts in seconds.
     | This will be used in drivers that request IP info through HTTP requests from API services.
+    | The value can be configured as int or float, allowing for timeout values like 0.5 seconds or 1.5 seconds.
+    | Defaults to 3 seconds
     |
     */
 
