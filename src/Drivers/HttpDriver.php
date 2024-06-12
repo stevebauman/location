@@ -52,7 +52,7 @@ abstract class HttpDriver extends Driver
         return value($callback, Http::withOptions(
             config('location.http', [
                 'timeout' => 3,
-                'connect_timeout' => 3
+                'connect_timeout' => 3,
             ])
         ));
     }
