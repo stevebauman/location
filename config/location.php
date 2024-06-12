@@ -47,18 +47,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Http driver request timeout
+    | Http driver options
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the HTTP timeouts in seconds.
+    | Here you may configure the HTTP options used by the underlying Guzzle implementation of Laravel HTTP client.
     | This will be used in drivers that request IP info through HTTP requests from API services.
-    | The value can be configured as int or float, allowing for timeout values like 0.5 seconds or 1.5 seconds.
+    |
+    | - 'timeout' & 'connect_timeout' can be configured as int or float, allowing for timeout values like 0.5 seconds or 1.5 seconds.
     | Defaults to 3 seconds
     |
     */
 
-    'timeout' => 3,
-    'connect_timeout' => 3,
+    'http' => [
+        'timeout' => 3,
+        'connect_timeout' => 3,
+    ],
 
     /*
     |--------------------------------------------------------------------------

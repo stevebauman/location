@@ -49,11 +49,6 @@ abstract class HttpDriver extends Driver
     {
         $callback = static::$httpResolver ?: fn ($http) => $http;
 
-        $options = [
-            'timeout' => config('location.timeout', 3.0),
-            'connect_timeout' => config('location.connect_timeout', 3.0),
-        ];
-
-        return value($callback, Http::withOptions($options));
+        return value($callback, Http::withOptions(config('location.http',['timeout'=>3,'connect_timeout'=>3])));
     }
 }
