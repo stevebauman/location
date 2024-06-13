@@ -8,6 +8,7 @@ use GeoIp2\Model\City;
 use GeoIp2\Model\Country;
 use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -32,28 +33,26 @@ class MaxMind extends Driver implements Updatable
             'root' => $root,
         ]);
 
-        $storage->put(
-            $tar = 'maxmind.tar.gz',
-            fopen($this->getDatabaseUrl(), 'r')
+        $tarFilePath = $storage->path(
+            $tarFileName = 'maxmind.tar.gz'
+        );
+
+        Http::withOptions(['sink' => $tarFilePath])->throw()->get(
+            $this->getDatabaseUrl()
         );
 
         $file = $this->discoverDatabaseFile(
-            $archive = new PharData($storage->path($tar))
+            $archive = new PharData($tarFilePath)
         );
 
-        $relativePath = implode('/', [
-            Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR),
-            $file->getFilename(),
-        ]);
-
-        $archive->extractTo($storage->path('/'), $relativePath, true);
+        $archive->extractTo($storage->path('/'), $file->getFilename(), true);
 
         file_put_contents(
             $this->getDatabasePath(),
-            fopen($storage->path($relativePath), 'r')
+            fopen($storage->path($file->getFilename()), 'r')
         );
 
-        $storage->delete($tar);
+        $storage->delete($tarFileName);
     }
 
     /**
@@ -184,7 +183,7 @@ class MaxMind extends Driver implements Updatable
      */
     protected function getLicenseKey(): string
     {
-        return config('location.maxmind.web.license_key');
+        return config('location.maxmind.license_key', config('location.maxmind.web.license_key'));
     }
 
     /**

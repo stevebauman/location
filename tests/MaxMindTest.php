@@ -2,6 +2,8 @@
 
 namespace Stevebauman\Location\Tests;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Mockery as m;
 use Stevebauman\Location\Commands\Update;
@@ -10,7 +12,18 @@ use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('can update database', function () {
+    config([
+        'location.maxmind.license_key' => '123',
+        'location.maxmind.local.url' => 'http://example.com',
+    ]);
+
+    Http::fake([
+        'http://example.com' => Http::response(file_get_contents(__DIR__.'/fixtures/maxmind.tar.gz')),
+    ]);
+
     $this->artisan(Update::class)->assertSuccessful();
+
+    expect(database_path('maxmind/GeoLite2-City.mmdb'))->toBeFile();
 });
 
 it('can process fluent response', function () {
