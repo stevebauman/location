@@ -3,7 +3,6 @@
 namespace Stevebauman\Location\Tests;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Mockery as m;
 use Stevebauman\Location\Commands\Update;
