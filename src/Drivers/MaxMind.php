@@ -37,9 +37,9 @@ class MaxMind extends Driver implements Updatable
             $tarFileName = 'maxmind.tar.gz'
         );
 
-        $storage->put($tarFileName, Http::throw()->get(
+        Http::withOptions(['sink' => $tarFilePath])->throw()->get(
             $this->getDatabaseUrl()
-        )->body());
+        );
 
         $file = $this->discoverDatabaseFile(
             $archive = new PharData($tarFilePath)
