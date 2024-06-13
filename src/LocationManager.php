@@ -2,11 +2,14 @@
 
 namespace Stevebauman\Location;
 
+use Illuminate\Support\Traits\Macroable;
 use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Exceptions\DriverDoesNotExistException;
 
 class LocationManager
 {
+    use Macroable;
+
     /**
      * The current driver.
      */
