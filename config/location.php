@@ -93,17 +93,18 @@ return [
     */
 
     'maxmind' => [
+        'license_key' => env('MAXMIND_LICENSE_KEY'),
+
         'web' => [
             'enabled' => false,
             'user_id' => env('MAXMIND_USER_ID'),
-            'license_key' => env('MAXMIND_LICENSE_KEY'),
             'options' => ['host' => 'geoip.maxmind.com'],
         ],
 
         'local' => [
             'type' => 'city',
             'path' => database_path('maxmind/GeoLite2-City.mmdb'),
-            'url' => sprintf('https://download.maxmind.com/app/geoip_download_by_token?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz', env('MAXMIND_LICENSE_KEY')),
+             'url' => sprintf('https://download.maxmind.com/app/geoip_download_by_token?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz', env('MAXMIND_LICENSE_KEY')),
         ],
     ],
 
