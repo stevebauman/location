@@ -14,6 +14,7 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use PharData;
 use PharFileInfo;
+use RecursiveIteratorIterator;
 use Stevebauman\Location\Position;
 use Stevebauman\Location\Request;
 
@@ -41,18 +42,23 @@ class MaxMind extends Driver implements Updatable
             $this->getDatabaseUrl()
         );
 
-        $file = $this->discoverDatabaseFile(
-            $archive = new PharData($tarFilePath)
-        );
+        $archive = new PharData($tarFilePath);
 
-        $archive->extractTo($storage->path('/'), $file->getFilename(), true);
+        $file = $this->discoverDatabaseFile($archive);
+
+        $directory = Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR);
+
+        $relativePath = implode('/', [$directory, $file->getFilename()]);
+
+        $archive->extractTo($storage->path('/'), $relativePath, true);
 
         file_put_contents(
             $this->getDatabasePath(),
-            fopen($storage->path($file->getFilename()), 'r')
+            fopen($storage->path($relativePath), 'r')
         );
 
         $storage->delete($tarFileName);
+        $storage->deleteDirectory($directory);
     }
 
     /**
@@ -62,14 +68,7 @@ class MaxMind extends Driver implements Updatable
      */
     protected function discoverDatabaseFile(PharData $archive): PharFileInfo
     {
-        /** @var \FilesystemIterator $file */
-        foreach ($archive as $file) {
-            if ($file->isDir()) {
-                return $this->discoverDatabaseFile(
-                    new PharData($file->getPathName())
-                );
-            }
-
+        foreach (new RecursiveIteratorIterator($archive) as $file) {
             if (pathinfo($file, PATHINFO_EXTENSION) === 'mmdb') {
                 return $file;
             }
