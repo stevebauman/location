@@ -46,19 +46,19 @@ class MaxMind extends Driver implements Updatable
 
         $file = $this->discoverDatabaseFile($archive);
 
-        $relativePath = implode('/', [
-            Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR),
-            $file->getFilename(),
-        ]);
+        $directory = Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR);
+
+        $relativePath = implode('/', [$directory, $file->getFilename()]);
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
         file_put_contents(
             $this->getDatabasePath(),
-            fopen($storage->path($file->getFilename()), 'r')
+            fopen($storage->path($relativePath), 'r')
         );
 
         $storage->delete($tarFileName);
+        $storage->deleteDirectory($directory);
     }
 
     /**
