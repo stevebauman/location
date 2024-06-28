@@ -26,7 +26,7 @@ class MaxMind extends Driver implements Updatable
     public function update(Command $command): void
     {
         @mkdir(
-            $root = Str::beforeLast($this->getDatabasePath(), DIRECTORY_SEPARATOR)
+            $root = Str::of($this->getDatabasePath())->dirname()
         );
 
         $storage = Storage::build([
@@ -46,7 +46,7 @@ class MaxMind extends Driver implements Updatable
 
         $file = $this->discoverDatabaseFile($archive);
 
-        $directory = Str::afterLast($file->getPath(), DIRECTORY_SEPARATOR);
+        $directory = Str::of($file->getPath())->basename();
 
         $relativePath = implode('/', [$directory, $file->getFilename()]);
 
