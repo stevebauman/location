@@ -124,7 +124,7 @@ class MaxMind extends Driver implements Updatable
                 'country' => $record->country->name,
                 'country_code' => $record->country->isoCode,
             ]);
-        }, false);
+        }, false, false);
     }
 
     /**
