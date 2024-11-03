@@ -12,15 +12,17 @@ it('can fallback to other drivers', function () {
     $fallback = m::mock(Driver::class)
         ->shouldAllowMockingProtectedMethods();
 
-    $fallback
-    ->shouldReceive('get')->once()->andReturn(new Position());
+    $fallback->shouldReceive('get')
+        ->once()
+        ->andReturn(new Position());
 
     $driver = m::mock(Driver::class)
         ->makePartial()
         ->shouldAllowMockingProtectedMethods();
 
-    $driver
-        ->shouldReceive('process')->once()->andReturn(false);
+    $driver->shouldReceive('process')
+        ->once()
+        ->andReturn(false);
 
     $driver->fallback($fallback);
 
