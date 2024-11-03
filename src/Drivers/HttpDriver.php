@@ -35,7 +35,6 @@ abstract class HttpDriver extends Driver
     {
         return rescue(fn () => new Fluent(
             $this->http()
-                ->throw()
                 ->acceptJson()
                 ->get($this->url($request->getIp()))
                 ->json()
