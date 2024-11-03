@@ -3,6 +3,7 @@
 namespace Stevebauman\Location\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Stevebauman\Location\LocationFake;
 use Stevebauman\Location\LocationManager;
 
 /**
@@ -13,6 +14,18 @@ use Stevebauman\Location\LocationManager;
  */
 class Location extends Facade
 {
+    /**
+     * Swap the instance with a fake.
+     */
+    public static function fake(array $responses = []): LocationFake
+    {
+        $instance = new LocationFake(static::getFacadeRoot(), $responses);
+
+        static::swap($instance);
+
+        return $instance;
+    }
+
     /**
      * Get the registered name of the component.
      */

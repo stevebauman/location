@@ -91,7 +91,7 @@ class Position implements Arrayable
     /**
      * Create a new position instance.
      */
-    public static function make(array $attributes): static
+    public static function make(array $attributes = []): static
     {
         $instance = new static;
 
