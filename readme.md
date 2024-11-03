@@ -1,7 +1,7 @@
 <h1 align="center">Location</h1>
 
 <p align="center">
-Retrieve a visitor's location from their IP address using various services.
+Retrieve a visitor's location from their IP address using various services (online & local).
 </p>
 
 <p align="center">
