@@ -4,6 +4,7 @@ namespace Stevebauman\Location;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class Position implements Arrayable
 {
@@ -86,6 +87,24 @@ class Position implements Arrayable
      * The location's timezone.
      */
     public ?string $timezone = null;
+
+    /**
+     * Create a new position instance.
+     */
+    public static function make(array $attributes): static
+    {
+        $instance = new static;
+
+        foreach ($attributes as $key => $value) {
+            $property = Str::camel($key);
+
+            if (property_exists($instance, $property)) {
+                $instance->{$property} = $value;
+            }
+        }
+
+        return $instance;
+    }
 
     /**
      * Determine if the position is empty.
