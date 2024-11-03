@@ -13,6 +13,7 @@ Retrieve a visitor's location from their IP address using various services (onli
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Testing](#testing)
 - [Drivers](#drivers)
 - [Upgrading from v6](#upgrading-from-v6)
 - [Versioning](#versioning)
@@ -61,6 +62,66 @@ if ($position = Location::get()) {
 $position = Location::get('192.168.1.1');
 ```
 
+## Testing
+
+You may call `Location::fake` with an array of IP address patterns and their expected positions to fake the location of an IP address:
+
+```php
+use Stevebauman\Location\Position;
+use Stevebauman\Location\Facades\Location;
+
+Location::fake([
+    '127.0.0.1' => Position::make([
+        'countryName' => 'United States',
+        'countryCode' => 'US',
+        // ...
+    ])
+]);
+
+// Somewhere in your application...
+
+$position = Location::get('127.0.0.1'); // Position
+```
+
+If you prefer, you may use an asterisk to return the same position for any IP address that is given: 
+
+```php
+Location::fake([
+    '*' => Position::make([
+        'countryName' => 'United States',
+        'countryCode' => 'US',
+        // ...
+    ])
+]);
+
+$position = Location::get($anyIpAddress); // Position
+```
+
+If no expectations are given, or an expectation is not matched, `Location::get` will return `false`:
+
+```php
+Location::fake();
+
+Location::get($anyIpAddress); // false
+```
+
+If your application attempts to retrieve the location's of multiple IP addresses, you may provide multiple IP address expectation patterns:
+
+```php
+Location::fake([
+    '127.0.0.1' => Position::make([
+        'countryName' => 'United States',
+        'countryCode' => 'US',
+        // ...
+    ]),
+    '192.168.1.1' => Position::make([
+        'countryName' => 'Canada',
+        'countryCode' => 'CA',
+        // ...
+    ]),
+]);
+```
+
 ## Drivers
 
 ### Available Drivers
@@ -79,8 +140,9 @@ Available drivers:
 
 #### Setting up MaxMind with a self-hosted database (optional)
 
-We encourage setting up MaxMind as a fallback driver using a local database, as it allows
-you to bypass any throttling that could occur from using external web services.
+It is encouraged to set up MaxMind as a fallback driver using a local database 
+so that some location information is returned in the event of hitting
+a rate limit from the external web services.
 
 To set up MaxMind to retrieve the user's location from your own server, you must:
 
