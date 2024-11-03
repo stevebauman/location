@@ -23,7 +23,7 @@ it('can be created with attributes array', function (array $attributes, array $e
             'driver' => 'local',
             'countryName' => 'foo',
             'countryCode' => 'bar',
-        ]
+        ],
     ],
     // Snake casing attributes:
     [
@@ -38,8 +38,8 @@ it('can be created with attributes array', function (array $attributes, array $e
             'driver' => 'local',
             'countryName' => 'foo',
             'countryCode' => 'bar',
-        ]
-    ]
+        ],
+    ],
 ]);
 
 it('returns empty', function () {
