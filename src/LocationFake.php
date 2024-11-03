@@ -33,9 +33,11 @@ class LocationFake
     {
         $ip ??= '127.0.0.1';
 
-        foreach ($this->requests as $request => $response) {
-            if (Str::is($request, $ip)) {
-                return $response;
+        foreach ($this->requests as $ipRequest => $position) {
+            if (Str::is($ipRequest, $ip)) {
+                $position->ip = $ip;
+
+                return $position;
             }
         }
 
