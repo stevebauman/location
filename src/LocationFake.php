@@ -29,7 +29,7 @@ class LocationFake
     /**
      * Get a fake location instance.
      */
-    public function get(string $ip = null): Position|bool
+    public function get(?string $ip = null): Position|bool
     {
         $ip ??= '127.0.0.1';
 

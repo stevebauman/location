@@ -30,7 +30,7 @@ class LocationRequest extends IlluminateRequest implements Request
     /**
      * Set the IP address to resolve.
      */
-    public function setIp(string $ip = null): static
+    public function setIp(?string $ip = null): static
     {
         $this->ip = $ip;
 
@@ -40,7 +40,7 @@ class LocationRequest extends IlluminateRequest implements Request
     /**
      * Get a header from the request.
      */
-    public function getHeader(string $key = null, string|array $default = null): string|array|null
+    public function getHeader(?string $key = null, string|array|null $default = null): string|array|null
     {
         return parent::header($key, $default);
     }
