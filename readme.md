@@ -122,6 +122,23 @@ Location::fake([
 ]);
 ```
 
+You may also use an asterisk to fake several IP patterns:
+
+```php
+Location::fake([
+    '192.123.*.*' => Position::make([
+        'countryName' => 'United States',
+        'countryCode' => 'US',
+        // ...
+    ]),
+    '192.456.*.*' => Position::make([
+        'countryName' => 'Canada',
+        'countryCode' => 'CA',
+        // ...
+    ]),
+]);
+```
+
 ## Drivers
 
 ### Available Drivers
