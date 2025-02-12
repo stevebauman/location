@@ -27,7 +27,6 @@ class Kloudend extends HttpDriver
         $position->regionCode = $location->region_code;
         $position->regionName = $location->region;
         $position->cityName = $location->city;
-        $position->zipCode = $location->postal;
         $position->postalCode = $location->postal;
         $position->latitude = (string) $location->latitude;
         $position->longitude = (string) $location->longitude;
