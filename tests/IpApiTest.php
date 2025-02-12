@@ -46,7 +46,7 @@ it('it can process fluent response', function () {
         'latitude' => '50',
         'longitude' => '50',
         'metroCode' => null,
-        'areaCode' => 'CA',
+        'areaCode' => null,
         'ip' => '66.102.0.0',
         'currencyCode' => 'USD',
         'timezone' => 'America/Toronto',
