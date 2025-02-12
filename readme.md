@@ -10,6 +10,8 @@ Retrieve a visitor's location from their IP address using various services (onli
 <a href="https://packagist.org/packages/stevebauman/location"><img src="https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square"></a>
 </p>
 
+## Index
+
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
