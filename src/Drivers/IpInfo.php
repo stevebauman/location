@@ -29,7 +29,7 @@ class IpInfo extends HttpDriver
         $position->countryCode = $location->country;
         $position->regionName = $location->region;
         $position->cityName = $location->city;
-        $position->zipCode = $location->postal;
+        $position->postalCode = $location->postal;
         $position->timezone = $location->timezone;
 
         if ($location->loc) {
