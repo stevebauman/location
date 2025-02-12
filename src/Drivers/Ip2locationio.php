@@ -34,22 +34,7 @@ class Ip2locationio extends HttpDriver
         $position->timezone = $location->time_zone;
         $position->currencyCode = $location->country['currency']['code'] ?? null;
         $position->metroCode = $location->geotargeting['metro'] ?? null;
-        $position->areaCode = $location->area_code ?? null;
-        $position->isp = $location->isp ?? null;
-        $position->asn = $location->asn ?? null;
-        $position->asName = $location->as ?? null;
-        $position->domain = $location->domain ?? null;
-        $position->netSpeed = $location->net_speed ?? null;
-        $position->iddCode = $location->idd_code ?? null;
-        $position->weatherStationCode = $location->weather_station_code ?? null;
-        $position->weatherStationName = $location->weather_station_name ?? null;
-        $position->mcc = $location->mcc ?? null;
-        $position->mnc = $location->mnc ?? null;
-        $position->mobileBrand = $location->mobile_brand ?? null;
-        $position->elevation = $location->elevation ?? null;
-        $position->usageType = $location->usage_type ?? null;
-        $position->addressType = $location->address_type ?? null;
-        $position->isProxy = $location->is_proxy ?? null;
+        $position->areaCode = $location->area_code;
 
         return $position;
     }
