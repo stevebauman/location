@@ -1,5 +1,6 @@
+/.phpunit.result.cache
+/.phpunit.cache
 /vendor
 composer.lock
 composer.phar
 .DS_Store
-.phpunit.result.cache
