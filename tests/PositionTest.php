@@ -43,7 +43,7 @@ it('can be created with attributes array', function (array $attributes, array $e
 ]);
 
 it('returns empty', function () {
-    $position = new Position();
+    $position = new Position;
 
     $position->ip = '127.0.0.1';
     $position->driver = 'foo';
@@ -52,7 +52,7 @@ it('returns empty', function () {
 });
 
 it('does not return empty', function () {
-    $position = new Position();
+    $position = new Position;
 
     $position->isoCode = 'foo';
 

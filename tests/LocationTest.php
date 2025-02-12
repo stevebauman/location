@@ -14,7 +14,7 @@ it('can fallback to other drivers', function () {
 
     $fallback->shouldReceive('get')
         ->once()
-        ->andReturn(new Position());
+        ->andReturn(new Position);
 
     $driver = m::mock(Driver::class)
         ->makePartial()

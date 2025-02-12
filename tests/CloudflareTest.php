@@ -87,7 +87,7 @@ it('will gracefully fall back if CF header returns falsey value', function () {
         'CF-IPCountry' => 'XX',
     ]);
 
-    $position = new Position();
+    $position = new Position;
     $position->driver = Driver::class;
 
     $fallback = $this->mock(Driver::class);
@@ -113,7 +113,7 @@ it('will gracefully fall back if CF headers are not present', function () {
     config(['location.driver' => Cloudflare::class]);
     config(['location.fallbacks' => [Driver::class]]);
 
-    $position = new Position();
+    $position = new Position;
     $position->driver = Driver::class;
 
     $fallback = $this->mock(Driver::class);
