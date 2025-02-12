@@ -21,7 +21,7 @@
         "php": ">=8.1",
         "ext-json": "*",
         "ext-curl": "*",
-        "geoip2/geoip2": "^2.0",
+        "geoip2/geoip2": "^2.0|^3.0",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/support": "^8.0|^9.0|^10.0|^11.0"
     },
