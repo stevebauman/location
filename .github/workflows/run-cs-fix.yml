@@ -1,34 +1,35 @@
 name: run-cs-fix
 
 on:
-    push:
+  push:
 
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: true
-            matrix:
-                php: [8.3]
+  lint:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['8.2', 8.3, '8.3', '8.4']
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: json, dom, curl, libxml, mbstring
-                  coverage: none
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Install Pint
-              run: composer global require laravel/pint
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
 
-            - name: Run Pint
-              run: pint
+      - name: Install Pint
+        run: composer global require laravel/pint
 
-            - name: Commit linted files
-              uses: stefanzweifel/git-auto-commit-action@v5
-              with:
-                  commit_message: "Fix code style"
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Fix code style
