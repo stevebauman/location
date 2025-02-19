@@ -15,8 +15,7 @@ class LocationFake
     public function __construct(
         protected LocationManager $manager,
         protected array $requests = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Forward missing method calls to the location manager.
