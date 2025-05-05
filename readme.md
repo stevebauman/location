@@ -5,9 +5,9 @@ Retrieve a visitor's location from their IP address using various services (onli
 </p>
 
 <p align="center">
-<a href="https://github.com/stevebauman/location/actions"><img src="https://img.shields.io/github/actions/workflow/status/stevebauman/location/run-tests.yml?branch=master&style=flat-square"></a>
-<a href="https://packagist.org/packages/stevebauman/location"><img src="https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square"></a>
-<a href="https://packagist.org/packages/stevebauman/location"><img src="https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square"></a>
+<a href="https://github.com/stevebauman/location/actions"><img src="https://img.shields.io/github/actions/workflow/status/stevebauman/location/run-tests.yml?branch=master&style=flat-square" alt="Build status"></a>
+<a href="https://packagist.org/packages/stevebauman/location"><img src="https://img.shields.io/packagist/dt/stevebauman/location.svg?style=flat-square" alt="Number of downloads"></a>
+<a href="https://packagist.org/packages/stevebauman/location"><img src="https://img.shields.io/packagist/l/stevebauman/location.svg?style=flat-square" alt="MIT license"></a>
 </p>
 
 ## Index
@@ -151,6 +151,7 @@ Available drivers:
 - [IpApiPro](https://pro.ip-api.com)
 - [IpData](https://ipdata.co)
 - [IpInfo](https://ipinfo.io)
+- [IpInfo Lite](https://ipinfo.io/lite)
 - [Kloudend](https://ipapi.co)
 - [GeoPlugin](http://www.geoplugin.com)
 - [MaxMind](https://www.maxmind.com/en/home)
