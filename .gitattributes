@@ -1,0 +1,9 @@
+#
+# Exclude these files from release archives.
+#
+
+/tests/ export-ignore
+/.github/ export-ignore
+/.gitignore export-ignore
+/phpunit.xml export-ignore
+/readme.md export-ignore
