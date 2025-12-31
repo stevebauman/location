@@ -141,7 +141,7 @@ class MaxMind extends Driver implements Updatable
     protected function fetchLocation(string $ip): City|Country
     {
         $maxmind = $this->isWebServiceEnabled()
-            ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getOptions())
+            ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
             : $this->newReader($this->getDatabasePath());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
@@ -154,9 +154,9 @@ class MaxMind extends Driver implements Updatable
     /**
      * Get a new MaxMind web service client.
      */
-    protected function newClient(string $userId, string $licenseKey, array $options = []): Client
+    protected function newClient(string $userId, string $licenseKey, array $locales, array $options = []): Client
     {
-        return new Client($userId, $licenseKey, $options);
+        return new Client((int) $userId, $licenseKey, $locales, $options);
     }
 
     /**
@@ -197,6 +197,14 @@ class MaxMind extends Driver implements Updatable
     protected function getOptions(): array
     {
         return config('location.maxmind.web.options', []);
+    }
+
+    /**
+     * Returns the configured MaxMind web locales array.
+     */
+    protected function getLocales(): array
+    {
+        return config('location.maxmind.web.locales', ['en']);
     }
 
     /**

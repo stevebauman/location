@@ -98,6 +98,7 @@ return [
         'web' => [
             'enabled' => false,
             'user_id' => env('MAXMIND_USER_ID'),
+            'locales' => ['en'],
             'options' => ['host' => 'geoip.maxmind.com'],
         ],
 
