@@ -168,7 +168,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns true / false if the MaxMind web service is enabled.
+     * Determine if the MaxMind web service is enabled.
      */
     protected function isWebServiceEnabled(): bool
     {
@@ -176,7 +176,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the configured MaxMind web user ID.
+     * Get the configured MaxMind web user ID.
      */
     protected function getUserId(): string|int
     {
@@ -184,7 +184,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the configured MaxMind web license key.
+     * Get the configured MaxMind web license key.
      */
     protected function getLicenseKey(): string
     {
@@ -192,7 +192,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the configured MaxMind web option array.
+     * Get the configured MaxMind web option array.
      */
     protected function getOptions(): array
     {
@@ -200,7 +200,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the configured MaxMind web locales array.
+     * Get the configured MaxMind web locales array.
      */
     protected function getLocales(): array
     {
@@ -208,7 +208,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the MaxMind database file path.
+     * Get the MaxMind database file path.
      */
     protected function getDatabasePath(): string
     {
@@ -227,7 +227,7 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Returns the MaxMind location type.
+     * Get the MaxMind location type.
      */
     protected function getLocationType(): string
     {
