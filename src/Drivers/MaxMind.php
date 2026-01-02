@@ -154,7 +154,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * Get a new MaxMind web service client.
      */
-    protected function newClient(string $userId, string $licenseKey, array $locales, array $options = []): Client
+    protected function newClient(string|int $userId, string $licenseKey, array $locales, array $options = []): Client
     {
         return new Client((int) $userId, $licenseKey, $locales, $options);
     }
@@ -178,7 +178,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * Returns the configured MaxMind web user ID.
      */
-    protected function getUserId(): string
+    protected function getUserId(): string|int
     {
         return config('location.maxmind.web.user_id');
     }
