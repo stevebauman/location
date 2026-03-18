@@ -31,6 +31,7 @@ it('can use CF-injected full headers', function () {
     expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => null,
+        'currencyCode' => null,
         'countryCode' => 'GB',
         'regionCode' => 'PLY',
         'regionName' => 'Plymouth',
@@ -62,6 +63,7 @@ it('can use CF-injected simple header', function () {
     expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => null,
+        'currencyCode' => null,
         'countryCode' => 'GB',
         'regionCode' => null,
         'regionName' => null,

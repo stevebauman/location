@@ -35,6 +35,7 @@ it('it can process fluent response', function () {
 
     expect($position->toArray())->toEqual([
         'countryName' => 'United States',
+        'currencyCode' => null,
         'countryCode' => 'US',
         'regionCode' => 'CA',
         'regionName' => 'California',

@@ -52,6 +52,7 @@ it('can process fluent response', function () {
 
     expect($position->toArray())->toEqual([
         'countryName' => 'United States',
+        'currencyCode' => null,
         'countryCode' => 'US',
         'regionCode' => null,
         'regionName' => null,
@@ -82,6 +83,7 @@ it('can use city database', function () {
     expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => 'United Kingdom',
+        'currencyCode' => null,
         'countryCode' => 'GB',
         'regionCode' => 'WBK',
         'regionName' => 'West Berkshire',
@@ -111,6 +113,7 @@ it('can use country database', function () {
     expect($position->toArray())->toEqual([
         'ip' => '2.125.160.216',
         'countryName' => 'United Kingdom',
+        'currencyCode' => null,
         'countryCode' => 'GB',
         'regionCode' => null,
         'regionName' => null,
