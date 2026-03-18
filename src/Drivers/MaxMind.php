@@ -136,7 +136,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * Attempt to fetch the location model from Maxmind.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function fetchLocation(string $ip): City|Country
     {

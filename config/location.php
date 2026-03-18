@@ -1,5 +1,12 @@
 <?php
 
+use Stevebauman\Location\Drivers\GeoPlugin;
+use Stevebauman\Location\Drivers\Ip2locationio;
+use Stevebauman\Location\Drivers\IpApi;
+use Stevebauman\Location\Drivers\IpInfo;
+use Stevebauman\Location\Drivers\MaxMind;
+use Stevebauman\Location\Position;
+
 return [
 
     /*
@@ -11,7 +18,7 @@ return [
     |
     */
 
-    'driver' => Stevebauman\Location\Drivers\IpApi::class,
+    'driver' => IpApi::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -26,10 +33,10 @@ return [
     */
 
     'fallbacks' => [
-        Stevebauman\Location\Drivers\Ip2locationio::class,
-        Stevebauman\Location\Drivers\IpInfo::class,
-        Stevebauman\Location\Drivers\GeoPlugin::class,
-        Stevebauman\Location\Drivers\MaxMind::class,
+        Ip2locationio::class,
+        IpInfo::class,
+        GeoPlugin::class,
+        MaxMind::class,
     ],
 
     /*
@@ -43,7 +50,7 @@ return [
     |
     */
 
-    'position' => Stevebauman\Location\Position::class,
+    'position' => Position::class,
 
     /*
     |--------------------------------------------------------------------------
