@@ -8,7 +8,7 @@ use Stevebauman\Location\LocationManager;
 
 /**
  * @method static \Stevebauman\Location\Drivers\Driver[] drivers()
- * @method static \Stevebauman\Location\Position|bool get(string $ip = null)
+ * @method static \Stevebauman\Location\Position|false get(string $ip = null)
  * @method static void resolveRequestUsing(callable $callback)
  * @method static void setDriver(\Stevebauman\Location\Drivers\Driver $driver)
  */

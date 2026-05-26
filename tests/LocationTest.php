@@ -31,6 +31,20 @@ it('can fallback to other drivers', function () {
     $this->assertInstanceOf(Position::class, Location::get());
 });
 
+it('returns false when no driver can resolve a location', function () {
+    $driver = m::mock(Driver::class)
+        ->makePartial()
+        ->shouldAllowMockingProtectedMethods();
+
+    $driver->shouldReceive('process')
+        ->once()
+        ->andReturn(false);
+
+    Location::setDriver($driver);
+
+    expect(Location::get())->toBeFalse();
+});
+
 it('throws an exception when the driver does not exist', function () {
     config(['location.driver' => 'Test']);
 
