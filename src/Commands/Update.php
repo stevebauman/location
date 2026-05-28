@@ -46,7 +46,7 @@ class Update extends Command
     /**
      * Get the drivers that should be updated.
      *
-     * @return array<class-string, \Stevebauman\Location\Drivers\Updatable>
+     * @return array<class-string, Updatable>
      */
     protected function drivers(): array
     {
