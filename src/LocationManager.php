@@ -105,7 +105,7 @@ class LocationManager
 
         $ignoreFailed = config('location.cache.ignore_failed', true);
 
-        if (! $ignoreFailed || ($ignoreFailed && $position !== false && ! $position->isEmpty())) {
+        if (! $ignoreFailed || ($position !== false && ! $position->isEmpty())) {
             $cache->put($key, $position, $this->cacheTtl());
         }
 
