@@ -1,25 +1,27 @@
 <?php
 
-namespace Stevebauman\Location\Tests;
+namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Support\Fluent;
 use Mockery as m;
-use Stevebauman\Location\Drivers\Ip2locationio;
+use Stevebauman\Location\Drivers\IpApi;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('it can process fluent response', function () {
-    $driver = m::mock(Ip2locationio::class)->makePartial();
+    $driver = m::mock(IpApi::class)->makePartial();
 
     $response = new Fluent([
-        'country_name' => 'United States of America',
-        'country_code' => 'US',
-        'region_name' => 'California',
-        'city_name' => 'Mountain View',
-        'zip_code' => '94043',
-        'latitude' => '37.405992',
-        'longitude' => '-122.078515',
-        'time_zone' => '-07:00',
+        'country' => 'United States',
+        'countryCode' => 'US',
+        'region' => 'CA',
+        'regionName' => 'California',
+        'city' => 'Long Beach',
+        'zip' => '55555',
+        'lat' => '50',
+        'lon' => '50',
+        'currency' => 'USD',
+        'timezone' => 'America/Toronto',
     ]);
 
     $driver
@@ -33,21 +35,21 @@ it('it can process fluent response', function () {
     expect($position)->toBeInstanceOf(Position::class);
 
     expect($position->toArray())->toEqual([
-        'countryName' => 'United States of America',
+        'countryName' => 'United States',
         'countryCode' => 'US',
-        'regionCode' => null,
+        'regionCode' => 'CA',
         'regionName' => 'California',
-        'cityName' => 'Mountain View',
-        'zipCode' => '94043',
+        'cityName' => 'Long Beach',
+        'zipCode' => '55555',
         'isoCode' => null,
         'postalCode' => null,
-        'latitude' => '37.405992',
-        'longitude' => '-122.078515',
+        'latitude' => '50',
+        'longitude' => '50',
         'metroCode' => null,
         'areaCode' => null,
         'ip' => '66.102.0.0',
-        'currencyCode' => null,
-        'timezone' => '-07:00',
+        'currencyCode' => 'USD',
+        'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);
 });

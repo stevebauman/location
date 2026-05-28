@@ -1,31 +1,26 @@
 <?php
 
-namespace Stevebauman\Location\Tests;
+namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Support\Fluent;
 use Mockery as m;
-use Stevebauman\Location\Drivers\Kloudend;
+use Stevebauman\Location\Drivers\IpInfo;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('it can process fluent response', function () {
-    $driver = m::mock(Kloudend::class);
+    $driver = m::mock(IpInfo::class)->makePartial();
 
     $attributes = [
-        'country_name' => 'United States',
-        'country_code' => 'US',
-        'region_code' => 'CA',
+        'country' => 'US',
         'region' => 'California',
         'city' => 'Long Beach',
-        'postal' => 'W7W5L1',
-        'latitude' => '50',
-        'longitude' => '50',
-        'currency' => 'USD',
+        'postal' => 'M5A',
+        'loc' => '50,50',
         'timezone' => 'America/Toronto',
     ];
 
     $driver
-        ->makePartial()
         ->shouldAllowMockingProtectedMethods()
         ->shouldReceive('process')->once()->andReturn(new Fluent($attributes));
 
@@ -36,37 +31,21 @@ it('it can process fluent response', function () {
     expect($position)->toBeInstanceOf(Position::class);
 
     expect($position->toArray())->toEqual([
-        'countryName' => 'United States',
+        'countryName' => null,
+        'currencyCode' => null,
         'countryCode' => 'US',
-        'regionCode' => 'CA',
+        'regionCode' => null,
         'regionName' => 'California',
         'cityName' => 'Long Beach',
         'zipCode' => null,
         'isoCode' => null,
-        'postalCode' => 'W7W5L1',
+        'postalCode' => 'M5A',
         'latitude' => '50',
         'longitude' => '50',
         'metroCode' => null,
         'areaCode' => null,
         'ip' => '66.102.0.0',
-        'currencyCode' => 'USD',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);
-});
-
-it('it can make requests with a token', function () {
-    config(['location.kloudend.token' => 'ABC1234']);
-
-    $driver = m::mock(Kloudend::class);
-    $driver->makePartial();
-
-    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json?key=ABC1234');
-});
-
-it('it can make requests without a token', function () {
-    $driver = m::mock(Kloudend::class);
-    $driver->makePartial();
-
-    expect($driver->url('1.1.1.1'))->toEqual('https://ipapi.co/1.1.1.1/json');
 });

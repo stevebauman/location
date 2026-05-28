@@ -1,32 +1,31 @@
 <?php
 
-namespace Stevebauman\Location\Tests;
+namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Support\Fluent;
 use Mockery as m;
-use Stevebauman\Location\Drivers\IpApi;
+use Stevebauman\Location\Drivers\GeoPlugin;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
 it('it can process fluent response', function () {
-    $driver = m::mock(IpApi::class)->makePartial();
+    $driver = m::mock(GeoPlugin::class)->makePartial();
 
-    $response = new Fluent([
-        'country' => 'United States',
-        'countryCode' => 'US',
-        'region' => 'CA',
-        'regionName' => 'California',
-        'city' => 'Long Beach',
-        'zip' => '55555',
-        'lat' => '50',
-        'lon' => '50',
-        'currency' => 'USD',
-        'timezone' => 'America/Toronto',
-    ]);
+    $attributes = [
+        'geoplugin_countryCode' => 'US',
+        'geoplugin_countryName' => 'United States',
+        'geoplugin_regionName' => 'California',
+        'geoplugin_regionCode' => 'CA',
+        'geoplugin_city' => 'Long Beach',
+        'geoplugin_latitude' => '50',
+        'geoplugin_longitude' => '50',
+        'geoplugin_areaCode' => '555',
+        'geoplugin_timezone' => 'America/Toronto',
+    ];
 
     $driver
         ->shouldAllowMockingProtectedMethods()
-        ->shouldReceive('process')->once()->andReturn($response);
+        ->shouldReceive('process')->once()->andReturn(new Fluent($attributes));
 
     Location::setDriver($driver);
 
@@ -36,19 +35,19 @@ it('it can process fluent response', function () {
 
     expect($position->toArray())->toEqual([
         'countryName' => 'United States',
+        'currencyCode' => null,
         'countryCode' => 'US',
         'regionCode' => 'CA',
         'regionName' => 'California',
         'cityName' => 'Long Beach',
-        'zipCode' => '55555',
+        'zipCode' => null,
         'isoCode' => null,
         'postalCode' => null,
         'latitude' => '50',
         'longitude' => '50',
         'metroCode' => null,
-        'areaCode' => null,
+        'areaCode' => '555',
         'ip' => '66.102.0.0',
-        'currencyCode' => 'USD',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);

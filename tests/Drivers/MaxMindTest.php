@@ -1,6 +1,6 @@
 <?php
 
-namespace Stevebauman\Location\Tests;
+namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Fluent;
@@ -17,7 +17,7 @@ it('can update database', function () {
     ]);
 
     Http::fake([
-        'http://example.com' => Http::response(file_get_contents(__DIR__.'/fixtures/maxmind.tar.gz')),
+        'http://example.com' => Http::response(file_get_contents(__DIR__.'/../fixtures/maxmind.tar.gz')),
     ]);
 
     $this->artisan(Update::class)->assertSuccessful();
@@ -74,7 +74,7 @@ it('can use city database', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => MaxMind::class]);
     config(['location.maxmind.local.type' => 'city']);
-    config(['location.maxmind.local.path' => __DIR__.'/fixtures/GeoLite2-City-Test.mmdb']);
+    config(['location.maxmind.local.path' => __DIR__.'/../fixtures/GeoLite2-City-Test.mmdb']);
 
     $position = Location::get('2.125.160.216');
 
@@ -104,7 +104,7 @@ it('can use country database', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => MaxMind::class]);
     config(['location.maxmind.local.type' => 'country']);
-    config(['location.maxmind.local.path' => __DIR__.'/fixtures/GeoLite2-Country-Test.mmdb']);
+    config(['location.maxmind.local.path' => __DIR__.'/../fixtures/GeoLite2-Country-Test.mmdb']);
 
     $position = Location::get('2.125.160.216');
 

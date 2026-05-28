@@ -1,6 +1,6 @@
 <?php
 
-namespace Stevebauman\Location\Tests;
+namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Support\Facades\Request;
 use Stevebauman\Location\Drivers\Cloudflare;
