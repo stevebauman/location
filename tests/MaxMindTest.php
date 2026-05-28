@@ -67,6 +67,7 @@ it('can process fluent response', function () {
         'ip' => '66.102.0.0',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
+        'cached' => false,
     ]);
 });
 
@@ -97,6 +98,7 @@ it('can use city database', function () {
         'areaCode' => null,
         'timezone' => 'Europe/London',
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
+        'cached' => false,
     ]);
 });
 
@@ -127,5 +129,6 @@ it('can use country database', function () {
         'areaCode' => null,
         'timezone' => null,
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
+        'cached' => false,
     ]);
 });

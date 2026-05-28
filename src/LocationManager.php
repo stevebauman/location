@@ -72,11 +72,76 @@ class LocationManager
      */
     public function get(?string $ip = null): Position|bool
     {
-        if ($location = $this->driver->get($this->request()->setIp($ip))) {
-            return $location;
+        $request = $this->request()->setIp($ip);
+
+        if (! $this->cacheEnabled()) {
+            return $this->driver->get($request);
         }
 
-        return false;
+        $key = $this->cacheKey($request->getIp());
+
+        $cache = cache()->store($this->cacheStore());
+
+        /**
+         * The value can be:
+         *
+         * - Position instance (cache hit)
+         * - false (cache hit for failed lookup, if ignore_failed is false)
+         * - null (cache miss)
+         *
+         * @var Position|false|null $position
+         */
+        $position = $cache->get($key);
+
+        if (! is_null($position)) {
+            if ($position instanceof Position) {
+                $position->cached = true;
+            }
+
+            return $position;
+        }
+
+        $position = $this->driver->get($request);
+
+        $ignoreFailed = config('location.cache.ignore_failed', true);
+
+        if (! $ignoreFailed || ($ignoreFailed && $position !== false && ! $position->isEmpty())) {
+            $cache->put($key, $position, $this->cacheTtl());
+        }
+
+        return $position;
+    }
+
+    /**
+     * Determine whether the cache is enabled.
+     */
+    protected function cacheEnabled(): bool
+    {
+        return (bool) config('location.cache.enabled', false);
+    }
+
+    /**
+     * Get the cache store to use.
+     */
+    protected function cacheStore(): ?string
+    {
+        return config('location.cache.store');
+    }
+
+    /**
+     * Get the cache TTL.
+     */
+    protected function cacheTtl(): int
+    {
+        return (int) config('location.cache.ttl', 3600);
+    }
+
+    /**
+     * Get the cache key for an IP address.
+     */
+    protected function cacheKey(string $ip): string
+    {
+        return config('location.cache.prefix', 'location') . '_' . $ip;
     }
 
     /**

@@ -49,5 +49,6 @@ it('it can process fluent response', function () {
         'currencyCode' => null,
         'timezone' => '-07:00',
         'driver' => get_class($driver),
+        'cached' => false,
     ]);
 });
