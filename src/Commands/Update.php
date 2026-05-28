@@ -3,6 +3,7 @@
 namespace Stevebauman\Location\Commands;
 
 use Illuminate\Console\Command;
+use Stevebauman\Location\Drivers\Driver;
 use Stevebauman\Location\Drivers\Updatable;
 use Stevebauman\Location\Facades\Location;
 
@@ -27,20 +28,31 @@ class Update extends Command
      */
     public function handle(): int
     {
-        foreach (Location::drivers() as $driver) {
-            if ($driver instanceof Updatable) {
-                $this->line(sprintf('Updating driver [%s]...', $driver::class));
+        foreach ($this->drivers() as $driver) {
+            $this->line(sprintf('Updating driver [%s]...', $driver::class));
 
-                $driver->update($this);
+            $driver->update($this);
 
-                $this->line(sprintf('Successfully updated driver [%s].', $driver::class));
+            $this->line(sprintf('Successfully updated driver [%s].', $driver::class));
 
-                $this->newLine();
-            }
+            $this->newLine();
         }
 
         $this->line('All configured drivers have been updated.');
 
         return static::SUCCESS;
+    }
+
+    /**
+     * Get the drivers that should be updated.
+     *
+     * @return array<class-string, \Stevebauman\Location\Drivers\Updatable>
+     */
+    protected function drivers(): array
+    {
+        return array_filter(
+            Location::drivers(),
+            fn (Driver $driver) => $driver instanceof Updatable
+        );
     }
 }
