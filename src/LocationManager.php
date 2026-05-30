@@ -70,13 +70,9 @@ class LocationManager
     /**
      * Attempt to retrieve the location of the user.
      */
-    public function get(?string $ip = null): Position|bool
+    public function get(?string $ip = null): Position|false
     {
-        if ($location = $this->driver->get($this->request()->setIp($ip))) {
-            return $location;
-        }
-
-        return false;
+        return $this->driver->get($this->request()->setIp($ip));
     }
 
     /**
