@@ -51,5 +51,6 @@ it('it can process fluent response', function () {
         'currencyCode' => 'USD',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
+        'cached' => false,
     ]);
 });

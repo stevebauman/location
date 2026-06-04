@@ -89,6 +89,11 @@ class Position implements Arrayable
     public ?string $timezone = null;
 
     /**
+     * If the location was retrieved from cache.
+     */
+    public bool $cached = false;
+
+    /**
      * Create a new position instance.
      */
     public static function make(array $attributes = []): static

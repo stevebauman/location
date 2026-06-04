@@ -70,6 +70,30 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cache
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the cache settings for geolocated IP results.
+    | When enabled, resolved positions are cached to avoid repeated API
+    | calls for the same IP address.
+    |
+    | ttl: duration in seconds to keep results in the cache (default: 1 hour).
+    | store: the cache store to use, or null to use the default store.
+    | prefix: the prefix used for cache keys.
+    | ignore_failed: whether to ignore failed cache attempts (default: true).
+    |
+    */
+
+    'cache' => [
+        'enabled' => env('LOCATION_CACHE', false),
+        'ttl' => env('LOCATION_CACHE_TTL', 3600),
+        'store' => env('LOCATION_CACHE_STORE', null),
+        'prefix' => env('LOCATION_CACHE_PREFIX', 'location'),
+        'ignore_failed' => env('LOCATION_CACHE_IGNORE_FAILED', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Localhost Testing
     |--------------------------------------------------------------------------
     |

@@ -45,6 +45,7 @@ it('can use CF-injected full headers', function () {
         'areaCode' => null,
         'timezone' => 'Europe/London',
         'driver' => Cloudflare::class,
+        'cached' => false,
     ]);
 });
 
@@ -77,6 +78,7 @@ it('can use CF-injected simple header', function () {
         'areaCode' => null,
         'timezone' => null,
         'driver' => Cloudflare::class,
+        'cached' => false,
     ]);
 });
 

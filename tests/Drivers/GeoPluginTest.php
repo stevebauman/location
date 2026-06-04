@@ -50,5 +50,6 @@ it('it can process fluent response', function () {
         'ip' => '66.102.0.0',
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
+        'cached' => false,
     ]);
 });
