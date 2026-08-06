@@ -26,9 +26,12 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
-        @mkdir(
-            $root = Str::of($this->getDatabasePath())->dirname()
-        );
+        $database = $this->localDatabase();
+        $root = Str::of($this->getDatabasePath())->dirname();
+
+        if (! is_dir($root)) {
+            mkdir($root, 0755, true);
+        }
 
         $storage = Storage::build([
             'driver' => 'local',
@@ -58,10 +61,7 @@ class MaxMind extends Driver implements Updatable
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
-        file_put_contents(
-            $this->getDatabasePath(),
-            fopen($storage->path($relativePath), 'r')
-        );
+        $database->install($storage->path($relativePath));
 
         $storage->delete($tarFileName);
         $storage->deleteDirectory($directory);
@@ -108,7 +108,7 @@ class MaxMind extends Driver implements Updatable
      */
     protected function process(Request $request): Fluent|false
     {
-        return rescue(function () use ($request) {
+        return rescue(function () use ($request): Fluent {
             $location = $this->fetchLocation($request->getIp());
 
             if ($location instanceof City) {
@@ -142,7 +142,7 @@ class MaxMind extends Driver implements Updatable
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
-            : $this->newReader($this->getDatabasePath());
+            : $this->newReader($this->localDatabase()->path());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
@@ -213,6 +213,57 @@ class MaxMind extends Driver implements Updatable
     protected function getDatabasePath(): string
     {
         return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
+    }
+
+    /**
+     * Get the configured MaxMind storage disk.
+     */
+    protected function getDatabaseDisk(): ?string
+    {
+        return config('location.maxmind.storage.disk');
+    }
+
+    /**
+     * Get the configured MaxMind storage path.
+     */
+    protected function getStoragePath(): string
+    {
+        return config('location.maxmind.storage.path', 'maxmind/GeoLite2-City.mmdb');
+    }
+
+    /**
+     * Get the configured MaxMind storage TTL.
+     */
+    protected function getStorageTtl(): int
+    {
+        return (int) config('location.maxmind.storage.ttl', 3600);
+    }
+
+    /**
+     * Get the local MaxMind database.
+     */
+    protected function localDatabase(): LocalMaxMindDatabase
+    {
+        return new LocalMaxMindDatabase(
+            path: $this->getDatabasePath(),
+            shared: $this->sharedDatabase(),
+            ttl: $this->getStorageTtl(),
+        );
+    }
+
+    /**
+     * Get the shared MaxMind database.
+     */
+    protected function sharedDatabase(): ?SharedMaxMindDatabase
+    {
+        if (! $disk = $this->getDatabaseDisk()) {
+            return null;
+        }
+
+        return new SharedMaxMindDatabase(
+            disk: Storage::disk($disk),
+            path: $this->getStoragePath(),
+        );
     }
 
     /**

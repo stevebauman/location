@@ -93,7 +93,8 @@ return [
     | If web service is enabled, you must fill in your user ID and license key.
     |
     | If web service is disabled, it will try and retrieve the user's location
-    | from the MaxMind database file located in the local path below.
+    | from the MaxMind database file located in the local path below. A shared
+    | storage disk may be configured to distribute it across multiple servers.
     |
     | The MaxMind database file can be either City (default) or Country (smaller).
     |
@@ -101,6 +102,12 @@ return [
 
     'maxmind' => [
         'license_key' => env('MAXMIND_LICENSE_KEY'),
+
+        'storage' => [
+            'disk' => env('MAXMIND_STORAGE_DISK'),
+            'path' => env('MAXMIND_STORAGE_PATH', 'maxmind/GeoLite2-City.mmdb'),
+            'ttl' => env('MAXMIND_STORAGE_TTL', 3600),
+        ],
 
         'web' => [
             'enabled' => false,
