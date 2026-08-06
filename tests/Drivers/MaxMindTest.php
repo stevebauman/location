@@ -2,7 +2,9 @@
 
 namespace Stevebauman\Location\Tests\Drivers;
 
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Mockery as m;
 use Stevebauman\Location\Commands\Update;
@@ -23,6 +25,102 @@ it('can update database', function () {
     $this->artisan(Update::class)->assertSuccessful();
 
     expect(database_path('maxmind/GeoLite2-City.mmdb'))->toBeFile();
+});
+
+it('can update database on configured storage disk', function () {
+    Storage::fake('maxmind');
+    Storage::fake('maxmind-cache');
+
+    $localPath = Storage::disk('maxmind-cache')->path('GeoLite2-City.mmdb');
+
+    config([
+        'location.maxmind.license_key' => '123',
+        'location.maxmind.local.path' => $localPath,
+        'location.maxmind.local.url' => 'http://example.com',
+        'location.maxmind.storage.disk' => 'maxmind',
+        'location.maxmind.storage.path' => 'databases/GeoLite2-City.mmdb',
+    ]);
+
+    Http::fake([
+        'http://example.com' => Http::response(file_get_contents(__DIR__.'/../fixtures/maxmind.tar.gz')),
+    ]);
+
+    app(MaxMind::class)->update(m::mock(Command::class));
+
+    Storage::disk('maxmind')->assertExists('databases/GeoLite2-City.mmdb');
+
+    expect($localPath)->toBeFile()
+        ->and($localPath.'.version')->toBeFile();
+});
+
+it('can use database from configured storage disk', function () {
+    Storage::fake('maxmind');
+    Storage::fake('maxmind-cache');
+
+    $localPath = Storage::disk('maxmind-cache')->path('GeoLite2-City.mmdb');
+
+    config([
+        'location.testing.enabled' => false,
+        'location.driver' => MaxMind::class,
+        'location.fallbacks' => [],
+        'location.maxmind.local.path' => $localPath,
+        'location.maxmind.local.type' => 'city',
+        'location.maxmind.storage.disk' => 'maxmind',
+        'location.maxmind.storage.path' => 'databases/GeoLite2-City.mmdb',
+        'location.maxmind.storage.ttl' => 3600,
+    ]);
+
+    Storage::disk('maxmind')->put('databases/GeoLite2-City.mmdb', file_get_contents(
+        __DIR__.'/../fixtures/GeoLite2-City-Test.mmdb'
+    ));
+
+    $position = Location::get('2.125.160.216');
+
+    expect($position)->toBeInstanceOf(Position::class)
+        ->and($position->cityName)->toBe('Boxford')
+        ->and($localPath)->toBeFile()
+        ->and($localPath.'.version')->toBeFile();
+});
+
+it('refreshes database from configured storage disk after ttl expires', function () {
+    Storage::fake('maxmind');
+    Storage::fake('maxmind-cache');
+
+    $storagePath = 'databases/GeoLite2.mmdb';
+    $localPath = Storage::disk('maxmind-cache')->path('GeoLite2.mmdb');
+    $cityDatabase = __DIR__.'/../fixtures/GeoLite2-City-Test.mmdb';
+    $countryDatabase = __DIR__.'/../fixtures/GeoLite2-Country-Test.mmdb';
+
+    config([
+        'location.testing.enabled' => false,
+        'location.driver' => MaxMind::class,
+        'location.fallbacks' => [],
+        'location.maxmind.local.path' => $localPath,
+        'location.maxmind.local.type' => 'city',
+        'location.maxmind.storage.disk' => 'maxmind',
+        'location.maxmind.storage.path' => $storagePath,
+        'location.maxmind.storage.ttl' => 3600,
+    ]);
+
+    Storage::disk('maxmind')->put($storagePath, file_get_contents($cityDatabase));
+
+    Location::get('2.125.160.216');
+
+    expect(md5_file($localPath))->toBe(md5_file($cityDatabase));
+
+    Storage::disk('maxmind')->put($storagePath, file_get_contents($countryDatabase));
+    touch(Storage::disk('maxmind')->path($storagePath), time() + 10);
+
+    Location::get('2.125.160.216');
+
+    expect(md5_file($localPath))->toBe(md5_file($cityDatabase));
+
+    touch($localPath.'.version', time() - 3601);
+    clearstatcache(true, $localPath.'.version');
+
+    Location::get('2.125.160.216');
+
+    expect(md5_file($localPath))->toBe(md5_file($countryDatabase));
 });
 
 it('can process fluent response', function () {
