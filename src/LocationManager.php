@@ -72,7 +72,10 @@ class LocationManager
      */
     public function get(?string $ip = null): Position|false
     {
-        return $this->driver->get($this->request()->setIp($ip));
+        return Deadline::for(
+            config('location.total_timeout'),
+            fn () => $this->driver->get($this->request()->setIp($ip))
+        );
     }
 
     /**
