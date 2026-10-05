@@ -70,6 +70,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Total Timeout
+    |--------------------------------------------------------------------------
+    |
+    | The seconds a lookup may take across the driver above and all of its
+    | fallbacks. Set to null to instead give each driver its own timeout,
+    | which makes a failing lookup take them all added up.
+    |
+    */
+
+    'total_timeout' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Localhost Testing
     |--------------------------------------------------------------------------
     |

@@ -186,6 +186,18 @@ information from the visitor.
 If an exception occurs trying to grab a driver (such as a 400/500 error if the
 providers API changes), it will automatically use the next driver in line.
 
+### Timeouts
+
+The `http` config option times out a single driver's request. Each driver gets
+its own, so with the default configuration an unreachable provider costs you
+that timeout five times over before the lookup gives up.
+
+Set `total_timeout` to give the whole lookup one shared budget instead:
+
+```php
+'total_timeout' => 5,
+```
+
 ### Creating your own drivers
 
 To create your own driver, simply create a class in your application, and extend the abstract Driver:
