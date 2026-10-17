@@ -1,5 +1,5 @@
 <h1 align="center">Location</h1>
-
+composer require stevebauman/location
 <p align="center">
 Retrieve a visitor's location from their IP address using various services (online & local).
 </p>
