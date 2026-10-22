@@ -176,6 +176,34 @@ To set up MaxMind to retrieve the user's location from your own server, you must
 > **Note**: Keep in mind, you'll need to update this file by running `location:update` 
 > on a regular basis to retrieve the most current information from your visitors.
 
+#### Sharing a MaxMind database between servers
+
+To share a database between servers, add the following options to the `maxmind`
+configuration in `config/location.php`:
+
+```php
+'storage' => [
+    'disk' => env('MAXMIND_STORAGE_DISK'),
+    'path' => env('MAXMIND_STORAGE_PATH', 'maxmind/GeoLite2-City.mmdb'),
+    'ttl' => env('MAXMIND_STORAGE_TTL', 3600),
+],
+```
+
+Set `MAXMIND_STORAGE_DISK` to a shared Laravel filesystem disk, such as `s3`, and
+schedule `location:update` on one server. The command downloads the database
+from MaxMind, installs it locally, and streams it to the shared disk.
+
+Other servers download the shared database on their first local lookup. After
+`ttl` seconds, each server checks the shared file's modification time and only
+downloads it again when it has changed. Lookups do not download from MaxMind.
+
+Each server needs a writable `maxmind.local.path` and parent directory. The local
+database and a `.checked` file beside it track the downloaded version and last
+check. If a refresh fails, an existing local database remains available; without
+one, the driver uses the normal fallback behavior. The web service is unaffected.
+
+Leave `MAXMIND_STORAGE_DISK` unset to keep the existing local-only behavior.
+
 ### Fallback Drivers
 
 In the config file, you can specify as many fallback drivers as you wish. It is
