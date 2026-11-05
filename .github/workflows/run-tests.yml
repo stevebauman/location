@@ -59,6 +59,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # Older Laravel versions have security advisories. Don't block them in CI.
+          composer config policy.advisories.block false
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --dev
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
