@@ -27,10 +27,11 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
-        $database = $this->localDatabase();
-        $root = $database->directory();
+        $database = $this->getLocalDatabase();
 
-        File::ensureDirectoryExists($root);
+        File::ensureDirectoryExists(
+            $root = $database->directory()
+        );
 
         $storage = Storage::build([
             'driver' => 'local',
@@ -41,7 +42,9 @@ class MaxMind extends Driver implements Updatable
             $tarFileName = 'maxmind.tar.gz'
         );
 
-        $response = Http::withOptions(['sink' => $tarFilePath])->get(
+        $response = Http::withOptions([
+            'sink' => $tarFilePath,
+        ])->get(
             $this->getDatabaseUrl()
         );
 
@@ -143,7 +146,7 @@ class MaxMind extends Driver implements Updatable
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
-            : $this->newReader($this->localDatabase()->path());
+            : $this->newReader($this->getLocalDatabase()->path());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
@@ -211,7 +214,7 @@ class MaxMind extends Driver implements Updatable
     /**
      * Get the local MaxMind database.
      */
-    protected function localDatabase(): LocalMaxMindDatabase
+    protected function getLocalDatabase(): LocalMaxMindDatabase
     {
         return app(LocalMaxMindDatabase::class);
     }

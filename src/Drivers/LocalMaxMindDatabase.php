@@ -106,6 +106,7 @@ class LocalMaxMindDatabase
 
         try {
             $lock->getExclusiveLock($wait);
+
             $callback();
         } finally {
             $lock->close();
