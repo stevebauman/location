@@ -8,6 +8,7 @@ use GeoIp2\Model\City;
 use GeoIp2\Model\Country;
 use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
@@ -26,9 +27,10 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
-        @mkdir(
-            $root = Str::of($this->getDatabasePath())->dirname()
-        );
+        $database = $this->localDatabase();
+        $root = $database->directory();
+
+        File::ensureDirectoryExists($root);
 
         $storage = Storage::build([
             'driver' => 'local',
@@ -58,106 +60,12 @@ class MaxMind extends Driver implements Updatable
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
-        file_put_contents(
-            $this->getDatabasePath(),
-            fopen($storage->path($relativePath), 'r')
-        );
-
         try {
-            $this->publishDatabase($storage->path($relativePath));
+            $database->install($storage->path($relativePath));
         } finally {
             $storage->delete($tarFileName);
             $storage->deleteDirectory($directory);
         }
-    }
-
-    /**
-     * Publish the database to the configured filesystem disk.
-     */
-    protected function publishDatabase(string $path): void
-    {
-        if (! ($disk = $this->getStorageDisk())) {
-            return;
-        }
-
-        $stream = fopen($path, 'r');
-
-        throw_if(! is_resource($stream), new RuntimeException('Failed to read local MaxMind database.'));
-
-        try {
-            throw_if(
-                ! Storage::disk($disk)->put($this->getStoragePath(), $stream),
-                new RuntimeException('Failed to publish MaxMind database.')
-            );
-        } finally {
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-        }
-    }
-
-    /**
-     * Refresh the local database from the configured filesystem disk.
-     */
-    protected function refreshDatabase(): void
-    {
-        if (! ($disk = $this->getStorageDisk())) {
-            return;
-        }
-
-        $path = $this->getDatabasePath();
-
-        clearstatcache(true, $path);
-        clearstatcache(true, $checked = $path.'.checked');
-
-        if (is_file($path) && is_file($checked) && filemtime($checked) + $this->getStorageTtl() > now()->timestamp) {
-            return;
-        }
-
-        $storage = Storage::disk($disk);
-
-        $modified = $storage->lastModified($this->getStoragePath());
-
-        throw_if($modified === false, new RuntimeException('Failed to read shared MaxMind database timestamp.'));
-
-        if (! is_file($path) || filemtime($path) !== $modified) {
-            @mkdir(dirname($path), 0777, true);
-
-            $temporary = tempnam(dirname($path), 'maxmind-');
-
-            throw_if($temporary === false, new RuntimeException('Failed to create temporary MaxMind database.'));
-
-            $stream = null;
-
-            try {
-                $stream = $storage->readStream($this->getStoragePath());
-
-                throw_if(! is_resource($stream), new RuntimeException('Failed to read shared MaxMind database.'));
-
-                throw_if(
-                    file_put_contents($temporary, $stream) === false,
-                    new RuntimeException('Failed to write local MaxMind database.')
-                );
-
-                // Validate the download before replacing a usable local database.
-                (new Reader($temporary))->close();
-
-                touch($temporary, $modified);
-                chmod($temporary, 0666 & ~umask());
-
-                throw_if(! rename($temporary, $path), new RuntimeException('Failed to replace local MaxMind database.'));
-            } finally {
-                if (is_resource($stream)) {
-                    fclose($stream);
-                }
-
-                if (is_file($temporary)) {
-                    unlink($temporary);
-                }
-            }
-        }
-
-        touch($checked, now()->timestamp);
     }
 
     /**
@@ -235,7 +143,7 @@ class MaxMind extends Driver implements Updatable
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
-            : $this->newReader($this->getDatabasePath());
+            : $this->newReader($this->localDatabase()->path());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
@@ -257,8 +165,6 @@ class MaxMind extends Driver implements Updatable
      */
     protected function newReader(string $path): Reader
     {
-        rescue(fn () => $this->refreshDatabase(), null, false);
-
         return new Reader($path);
     }
 
@@ -303,35 +209,11 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Get the MaxMind database file path.
+     * Get the local MaxMind database.
      */
-    protected function getDatabasePath(): string
+    protected function localDatabase(): LocalMaxMindDatabase
     {
-        return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
-    }
-
-    /**
-     * Get the shared MaxMind filesystem disk.
-     */
-    protected function getStorageDisk(): ?string
-    {
-        return config('location.maxmind.storage.disk');
-    }
-
-    /**
-     * Get the shared MaxMind database path.
-     */
-    protected function getStoragePath(): string
-    {
-        return config('location.maxmind.storage.path', 'maxmind/GeoLite2-City.mmdb');
-    }
-
-    /**
-     * Get the number of seconds between shared database checks.
-     */
-    protected function getStorageTtl(): int
-    {
-        return (int) config('location.maxmind.storage.ttl', 3600);
+        return app(LocalMaxMindDatabase::class);
     }
 
     /**

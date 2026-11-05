@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Mockery as m;
 use RuntimeException;
 use Stevebauman\Location\Commands\Update;
+use Stevebauman\Location\Drivers\LocalMaxMindDatabase;
 use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
@@ -47,24 +48,23 @@ it('publishes the updated database and installs it locally', function () {
     Http::assertSentCount(1);
 });
 
-it('publishes the downloaded database when a lookup replaces the local copy', function () {
-    $expected = null;
+it('publishes the installed database while holding the local lock', function () {
+    $storage = m::mock(Filesystem::class);
+    $storage->shouldNotReceive('readStream');
+    $storage->shouldReceive('lastModified')->once()->with('databases/city.mmdb')->andReturn(1000);
+    $storage->shouldReceive('put')->once()->with('databases/city.mmdb', m::type('resource'))
+        ->andReturnUsing(function ($key, $stream) use ($storage) {
+            $path = config('location.maxmind.local.path');
 
-    $driver = m::mock(MaxMind::class)->makePartial()->shouldAllowMockingProtectedMethods();
-    $driver->shouldReceive('getStorageDisk')->once()->andReturnUsing(function () use (&$expected) {
-        $path = config('location.maxmind.local.path');
+            expect(hash('sha256', stream_get_contents($stream)))->toBe(hash_file('sha256', $path));
+            expect((new LocalMaxMindDatabase($path, $storage, 'databases/city.mmdb', 3600))->path())->toBe($path);
 
-        $expected = hash_file('sha256', $path);
+            return true;
+        });
 
-        copy(__DIR__.'/../fixtures/GeoLite2-City-Test.mmdb', $path.'.replacement');
-        rename($path.'.replacement', $path);
+    Storage::partialMock()->shouldReceive('disk')->with('maxmind')->andReturn($storage);
 
-        return 'maxmind';
-    });
-
-    $driver->update(new Update);
-
-    expect(hash_file('sha256', Storage::disk('maxmind')->path('databases/city.mmdb')))->toBe($expected);
+    app(MaxMind::class)->update(new Update);
 });
 
 it('fails the update when the shared database cannot be published', function () {
@@ -98,7 +98,7 @@ it('keeps the freshness check between driver instances', function () {
     $storage->shouldReceive('readStream')->once()->with('databases/city.mmdb')
         ->andReturn($stream);
 
-    Storage::shouldReceive('disk')->once()->with('maxmind')->andReturn($storage);
+    Storage::shouldReceive('disk')->with('maxmind')->andReturn($storage);
 
     expect(Location::get('2.125.160.216')->cityName)->toBe('Boxford');
 
@@ -117,7 +117,7 @@ it('checks after the ttl without downloading an unchanged database', function ()
     $storage->shouldReceive('readStream')->once()->with('databases/city.mmdb')
         ->andReturn(fopen(__DIR__.'/../fixtures/GeoLite2-City-Test.mmdb', 'r'));
 
-    Storage::shouldReceive('disk')->twice()->with('maxmind')->andReturn($storage);
+    Storage::shouldReceive('disk')->with('maxmind')->andReturn($storage);
 
     expect(Location::get('2.125.160.216')->cityName)->toBe('Boxford');
 
@@ -139,7 +139,7 @@ it('downloads a changed database after the configured ttl', function () {
         fopen(__DIR__.'/../fixtures/GeoLite2-Country-Test.mmdb', 'r')
     );
 
-    Storage::shouldReceive('disk')->twice()->with('maxmind')->andReturn($storage);
+    Storage::shouldReceive('disk')->with('maxmind')->andReturn($storage);
 
     expect(Location::get('2.125.160.216')->countryCode)->toBe('GB');
 
@@ -235,6 +235,8 @@ it('preserves the local database after an invalid download and retries the refre
     $storage->put('databases/city.mmdb', file_get_contents(__DIR__.'/../fixtures/GeoLite2-Country-Test.mmdb'));
     touch($storage->path('databases/city.mmdb'), now()->timestamp);
     config(['location.maxmind.local.type' => 'country']);
+
+    $this->travel(3600)->seconds();
 
     expect(Location::get('2.125.160.216')->countryCode)->toBe('GB');
     expect(file_get_contents(config('location.maxmind.local.path')))

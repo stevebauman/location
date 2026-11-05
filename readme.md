@@ -176,33 +176,63 @@ To set up MaxMind to retrieve the user's location from your own server, you must
 > **Note**: Keep in mind, you'll need to update this file by running `location:update` 
 > on a regular basis to retrieve the most current information from your visitors.
 
-#### Sharing a MaxMind database between servers
+#### Sharing a MaxMind database across servers
 
-To share a database between servers, add the following options to the `maxmind`
-configuration in `config/location.php`:
+When an application runs on multiple servers, the MaxMind database may be stored
+on a shared Laravel filesystem disk. Each server caches the shared database on
+its local filesystem because the MaxMind reader requires a local file path.
 
 ```php
-'storage' => [
-    'disk' => env('MAXMIND_STORAGE_DISK'),
-    'path' => env('MAXMIND_STORAGE_PATH', 'maxmind/GeoLite2-City.mmdb'),
-    'ttl' => env('MAXMIND_STORAGE_TTL', 3600),
+// config/location.php
+
+'maxmind' => [
+    // ...
+
+    'storage' => [
+        'disk' => env('MAXMIND_STORAGE_DISK'),
+        'path' => env('MAXMIND_STORAGE_PATH', 'maxmind/GeoLite2-City.mmdb'),
+        'ttl' => env('MAXMIND_STORAGE_TTL', 3600),
+    ],
+
+    'local' => [
+        'type' => 'city',
+        'path' => storage_path('app/maxmind/GeoLite2-City.mmdb'),
+        // ...
+    ],
 ],
 ```
 
-Set `MAXMIND_STORAGE_DISK` to a shared Laravel filesystem disk, such as `s3`, and
-schedule `location:update` on one server. The command downloads the database
-from MaxMind, installs it locally, and streams it to the shared disk.
+For example, the database may be stored on the application's `s3` disk:
 
-Other servers download the shared database on their first local lookup. After
-`ttl` seconds, each server checks the shared file's modification time and only
-downloads it again when it has changed. Lookups do not download from MaxMind.
+```ini
+MAXMIND_STORAGE_DISK=s3
+MAXMIND_STORAGE_PATH=maxmind/GeoLite2-City.mmdb
+MAXMIND_STORAGE_TTL=3600
+```
 
-Each server needs a writable `maxmind.local.path` and parent directory. The local
-database and a `.checked` file beside it track the downloaded version and last
-check. If a refresh fails, an existing local database remains available; without
-one, the driver uses the normal fallback behavior. The web service is unaffected.
+The `ttl` value is the number of seconds a local database may be used before the
+configured disk is checked for a newer version.
 
-Leave `MAXMIND_STORAGE_DISK` unset to keep the existing local-only behavior.
+Only one server should be scheduled to download and publish the database from
+MaxMind. Laravel's `onOneServer` method may be used when every server uses the
+same lock-capable cache store:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('location:update')
+    ->daily()
+    ->onOneServer();
+```
+
+Other servers will download the database from the shared disk when it is first
+needed and refresh their local copy after its TTL has elapsed.
+
+Each server coordinates refreshes with a lock beside its local database. While
+one worker refreshes the database, other workers continue using the existing
+copy. If a refresh fails, the existing database is retained and another attempt
+is made after the configured TTL. Downloads are validated before replacing the
+local copy.
 
 ### Fallback Drivers
 
