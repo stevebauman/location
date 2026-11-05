@@ -122,6 +122,12 @@ return [
             'options' => ['host' => 'geoip.maxmind.com'],
         ],
 
+        'storage' => [
+            'disk' => env('MAXMIND_STORAGE_DISK'),
+            'path' => env('MAXMIND_STORAGE_PATH', 'maxmind/GeoLite2-City.mmdb'),
+            'ttl' => env('MAXMIND_STORAGE_TTL', 3600),
+        ],
+
         'local' => [
             'type' => 'city',
             'path' => database_path('maxmind/GeoLite2-City.mmdb'),

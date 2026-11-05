@@ -8,6 +8,7 @@ use GeoIp2\Model\City;
 use GeoIp2\Model\Country;
 use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
@@ -26,8 +27,10 @@ class MaxMind extends Driver implements Updatable
      */
     public function update(Command $command): void
     {
-        @mkdir(
-            $root = Str::of($this->getDatabasePath())->dirname()
+        $database = $this->getLocalDatabase();
+
+        File::ensureDirectoryExists(
+            $root = $database->directory()
         );
 
         $storage = Storage::build([
@@ -39,7 +42,9 @@ class MaxMind extends Driver implements Updatable
             $tarFileName = 'maxmind.tar.gz'
         );
 
-        $response = Http::withOptions(['sink' => $tarFilePath])->get(
+        $response = Http::withOptions([
+            'sink' => $tarFilePath,
+        ])->get(
             $this->getDatabaseUrl()
         );
 
@@ -58,13 +63,12 @@ class MaxMind extends Driver implements Updatable
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
-        file_put_contents(
-            $this->getDatabasePath(),
-            fopen($storage->path($relativePath), 'r')
-        );
-
-        $storage->delete($tarFileName);
-        $storage->deleteDirectory($directory);
+        try {
+            $database->install($storage->path($relativePath));
+        } finally {
+            $storage->delete($tarFileName);
+            $storage->deleteDirectory($directory);
+        }
     }
 
     /**
@@ -142,7 +146,7 @@ class MaxMind extends Driver implements Updatable
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
-            : $this->newReader($this->getDatabasePath());
+            : $this->newReader($this->getLocalDatabase()->path());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
@@ -208,11 +212,11 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Get the MaxMind database file path.
+     * Get the local MaxMind database.
      */
-    protected function getDatabasePath(): string
+    protected function getLocalDatabase(): LocalMaxMindDatabase
     {
-        return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
+        return app(LocalMaxMindDatabase::class);
     }
 
     /**
