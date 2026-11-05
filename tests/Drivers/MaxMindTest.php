@@ -224,7 +224,7 @@ it('can process fluent response', function () {
         'regionCode' => null,
         'regionName' => null,
         'cityName' => 'Long Beach',
-        'zipCode' => null,
+        'zipCode' => 'W7W5L1',
         'isoCode' => 'US',
         'postalCode' => 'W7W5L1',
         'latitude' => '50',
@@ -255,16 +255,19 @@ it('can use city database', function () {
         'regionCode' => 'WBK',
         'regionName' => 'West Berkshire',
         'cityName' => 'Boxford',
-        'zipCode' => null,
+        'zipCode' => 'OX1',
         'isoCode' => 'GB',
         'postalCode' => 'OX1',
         'latitude' => '51.75',
         'longitude' => '-1.25',
-        'metroCode' => '',
+        'metroCode' => null,
         'areaCode' => null,
         'timezone' => 'Europe/London',
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
     ]);
+
+    // toEqual() treats '' and null as equal.
+    expect($position->metroCode)->toBeNull();
 });
 
 it('can use country database', function () {

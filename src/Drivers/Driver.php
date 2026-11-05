@@ -76,4 +76,12 @@ abstract class Driver
     {
         return empty(array_filter($data->getAttributes()));
     }
+
+    /**
+     * Cast the given value to a string, keeping null as null.
+     */
+    protected function toNullableString(mixed $value): ?string
+    {
+        return is_null($value) ? null : (string) $value;
+    }
 }

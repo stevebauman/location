@@ -47,6 +47,7 @@ class Cloudflare extends Driver
         $position->latitude = $location->latitude;
         $position->regionName = $location->region;
         $position->regionCode = $location->regionCode;
+        $position->zipCode = $location->postalCode;
         $position->postalCode = $location->postalCode;
         $position->timezone = $location->timezone;
 

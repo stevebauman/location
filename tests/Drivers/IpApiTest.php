@@ -42,7 +42,7 @@ it('it can process fluent response', function () {
         'cityName' => 'Long Beach',
         'zipCode' => '55555',
         'isoCode' => null,
-        'postalCode' => null,
+        'postalCode' => '55555',
         'latitude' => '50',
         'longitude' => '50',
         'metroCode' => null,
@@ -52,4 +52,22 @@ it('it can process fluent response', function () {
         'timezone' => 'America/Toronto',
         'driver' => get_class($driver),
     ]);
+});
+
+it('returns null coordinates when the response has none', function () {
+    $driver = m::mock(IpApi::class)->makePartial();
+
+    $driver
+        ->shouldAllowMockingProtectedMethods()
+        ->shouldReceive('process')->once()->andReturn(new Fluent([
+            'country' => 'United States',
+            'countryCode' => 'US',
+        ]));
+
+    Location::setDriver($driver);
+
+    $position = Location::get();
+
+    expect($position->latitude)->toBeNull();
+    expect($position->longitude)->toBeNull();
 });
