@@ -8,6 +8,7 @@ use GeoIp2\Model\City;
 use GeoIp2\Model\Country;
 use GeoIp2\WebService\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
@@ -27,11 +28,9 @@ class MaxMind extends Driver implements Updatable
     public function update(Command $command): void
     {
         $database = $this->localDatabase();
-        $root = Str::of($this->getDatabasePath())->dirname();
+        $root = $database->directory();
 
-        if (! is_dir($root)) {
-            mkdir($root, 0755, true);
-        }
+        File::ensureDirectoryExists($root);
 
         $storage = Storage::build([
             'driver' => 'local',
@@ -61,10 +60,12 @@ class MaxMind extends Driver implements Updatable
 
         $archive->extractTo($storage->path('/'), $relativePath, true);
 
-        $database->install($storage->path($relativePath));
-
-        $storage->delete($tarFileName);
-        $storage->deleteDirectory($directory);
+        try {
+            $database->install($storage->path($relativePath));
+        } finally {
+            $storage->delete($tarFileName);
+            $storage->deleteDirectory($directory);
+        }
     }
 
     /**
@@ -208,62 +209,11 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Get the MaxMind database file path.
-     */
-    protected function getDatabasePath(): string
-    {
-        return config('location.maxmind.local.path', database_path('maxmind/GeoLite2-City.mmdb'));
-    }
-
-    /**
-     * Get the configured MaxMind storage disk.
-     */
-    protected function getDatabaseDisk(): ?string
-    {
-        return config('location.maxmind.storage.disk');
-    }
-
-    /**
-     * Get the configured MaxMind storage path.
-     */
-    protected function getStoragePath(): string
-    {
-        return config('location.maxmind.storage.path', 'maxmind/GeoLite2-City.mmdb');
-    }
-
-    /**
-     * Get the configured MaxMind storage TTL.
-     */
-    protected function getStorageTtl(): int
-    {
-        return (int) config('location.maxmind.storage.ttl', 3600);
-    }
-
-    /**
      * Get the local MaxMind database.
      */
     protected function localDatabase(): LocalMaxMindDatabase
     {
-        return new LocalMaxMindDatabase(
-            path: $this->getDatabasePath(),
-            shared: $this->sharedDatabase(),
-            ttl: $this->getStorageTtl(),
-        );
-    }
-
-    /**
-     * Get the shared MaxMind database.
-     */
-    protected function sharedDatabase(): ?SharedMaxMindDatabase
-    {
-        if (! $disk = $this->getDatabaseDisk()) {
-            return null;
-        }
-
-        return new SharedMaxMindDatabase(
-            disk: Storage::disk($disk),
-            path: $this->getStoragePath(),
-        );
+        return app(LocalMaxMindDatabase::class);
     }
 
     /**

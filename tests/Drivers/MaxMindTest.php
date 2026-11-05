@@ -3,11 +3,14 @@
 namespace Stevebauman\Location\Tests\Drivers;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
 use Mockery as m;
+use RuntimeException;
 use Stevebauman\Location\Commands\Update;
+use Stevebauman\Location\Drivers\IpApi;
 use Stevebauman\Location\Drivers\MaxMind;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
@@ -115,12 +118,78 @@ it('refreshes database from configured storage disk after ttl expires', function
 
     expect(md5_file($localPath))->toBe(md5_file($cityDatabase));
 
-    touch($localPath.'.version', time() - 3601);
-    clearstatcache(true, $localPath.'.version');
+    touch($localPath.'.checked', time() - 3601);
 
     Location::get('2.125.160.216');
 
     expect(md5_file($localPath))->toBe(md5_file($countryDatabase));
+});
+
+it('uses the local database when shared storage is unavailable', function () {
+    $local = Storage::fake('maxmind-cache');
+    $path = $local->path('database.mmdb');
+    copy(__DIR__.'/../fixtures/GeoLite2-City-Test.mmdb', $path);
+
+    config([
+        'location.testing.enabled' => false,
+        'location.driver' => MaxMind::class,
+        'location.fallbacks' => [],
+        'location.maxmind.local.path' => $path,
+        'location.maxmind.storage.disk' => 'maxmind',
+    ]);
+
+    $storage = m::mock(Filesystem::class);
+    $storage->shouldReceive('lastModified')->once()->andThrow(new RuntimeException('Unavailable'));
+    Storage::shouldReceive('disk')->with('maxmind')->andReturn($storage);
+    Http::fake();
+
+    expect(Location::get('2.125.160.216')->cityName)->toBe('Boxford');
+    expect(Location::get('2.125.160.216')->cityName)->toBe('Boxford');
+
+    Http::assertNothingSent();
+});
+
+it('uses a fallback driver when neither a local nor shared database is available', function () {
+    $local = Storage::fake('maxmind-cache');
+    Storage::fake('maxmind');
+
+    config([
+        'location.testing.enabled' => false,
+        'location.driver' => MaxMind::class,
+        'location.fallbacks' => [IpApi::class],
+        'location.maxmind.local.path' => $local->path('database.mmdb'),
+        'location.maxmind.storage.disk' => 'maxmind',
+    ]);
+
+    Http::fake([
+        'http://ip-api.com/*' => Http::response(['city' => 'Fallback city']),
+    ]);
+
+    $position = Location::get('2.125.160.216');
+
+    expect($position->cityName)->toBe('Fallback city')
+        ->and($position->driver)->toBe(IpApi::class);
+
+    Http::assertSentCount(1);
+});
+
+it('returns false when no database or fallback is available', function () {
+    $local = Storage::fake('maxmind-cache');
+    Storage::fake('maxmind');
+
+    config([
+        'location.testing.enabled' => false,
+        'location.driver' => MaxMind::class,
+        'location.fallbacks' => [],
+        'location.maxmind.local.path' => $local->path('database.mmdb'),
+        'location.maxmind.storage.disk' => 'maxmind',
+    ]);
+
+    Http::fake();
+
+    expect(Location::get('2.125.160.216'))->toBeFalse();
+
+    Http::assertNothingSent();
 });
 
 it('can process fluent response', function () {
