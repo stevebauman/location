@@ -17,7 +17,6 @@ Retrieve a visitor's location from their IP address using various services (onli
 - [Usage](#usage)
 - [Testing](#testing)
 - [Drivers](#drivers)
-- [Upgrading from v6](#upgrading-from-v6)
 - [Versioning](#versioning)
 
 ## Requirements
@@ -353,10 +352,6 @@ Then, insert your driver class name into the configuration file:
 
 'driver' => App\Location\Drivers\MyDriver::class,
 ```
-
-## Upgrading from v6
-
-See the [v7.0.0 upgrade guide](https://github.com/stevebauman/location/releases/tag/v7.0.0#upgrading-from-v6).
 
 ## Versioning
 
