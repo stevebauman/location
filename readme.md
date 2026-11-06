@@ -203,7 +203,7 @@ Every position has `ip` and `driver`. The other fields depend on the driver:
 | `regionCode` | ✓ | ✓ | | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ¹ |
 | `regionName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
 | `cityName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
-| `zipCode`, `postalCode` | ✓ | ✓ | ✓ | | ✓ | | ✓ | | ✓ ² | ✓ |
+| `postalCode` | ✓ | ✓ | ✓ | | ✓ | | ✓ | | ✓ ² | ✓ |
 | `latitude`, `longitude` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
 | `timezone` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ³ |
 | `metroCode` | | | | | | | ✓ ⁴ | | | ✓ ¹ |
@@ -214,7 +214,7 @@ Every position has `ip` and `driver`. The other fields depend on the driver:
 3. A UTC offset such as `-07:00`, not a timezone name like the other drivers.
 4. Deprecated by MaxMind.
 
-`zipCode` and `postalCode` always hold the same value.
+`zipCode` is deprecated. It holds the same value as `postalCode`.
 
 #### Setting up MaxMind with a self-hosted database (optional)
 

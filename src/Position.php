@@ -50,6 +50,8 @@ class Position implements Arrayable
 
     /**
      * The location's zip code.
+     *
+     * @deprecated Use $postalCode instead.
      */
     public ?string $zipCode = null;
 
