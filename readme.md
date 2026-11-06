@@ -157,6 +157,7 @@ Available drivers:
 - [MaxMind](https://www.maxmind.com/en/home)
 - [Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200168236-Configuring-IP-geolocation)
 - [IP2Location.io](https://www.ip2location.io/)
+- [IPGeolocation.io](https://ipgeolocation.io)
 
 #### Setting up MaxMind with a self-hosted database (optional)
 
