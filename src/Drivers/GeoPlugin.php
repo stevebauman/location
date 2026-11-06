@@ -25,8 +25,8 @@ class GeoPlugin extends HttpDriver
         $position->regionName = $location->geoplugin_regionName;
         $position->regionCode = $location->geoplugin_regionCode;
         $position->cityName = $location->geoplugin_city;
-        $position->latitude = $location->geoplugin_latitude;
-        $position->longitude = $location->geoplugin_longitude;
+        $position->latitude = $this->toNullableString($location->geoplugin_latitude);
+        $position->longitude = $this->toNullableString($location->geoplugin_longitude);
         $position->areaCode = $location->geoplugin_areaCode;
         $position->timezone = $location->geoplugin_timezone;
 

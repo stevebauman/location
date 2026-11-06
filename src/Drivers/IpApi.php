@@ -26,8 +26,9 @@ class IpApi extends HttpDriver
         $position->regionName = $location->regionName;
         $position->cityName = $location->city;
         $position->zipCode = $location->zip;
-        $position->latitude = (string) $location->lat;
-        $position->longitude = (string) $location->lon;
+        $position->postalCode = $location->zip;
+        $position->latitude = $this->toNullableString($location->lat);
+        $position->longitude = $this->toNullableString($location->lon);
         $position->timezone = $location->timezone;
         $position->currencyCode = $location->currency;
 

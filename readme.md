@@ -58,10 +58,43 @@ if ($position = Location::get()) {
 > - This method retrieves the user's IP address via `request()->ip()`.
 > - In the default configuration, `testing.enabled` is active, the returned IP address is in the USA. Disable it to get the client's real IP address.
 
+`Location::get()` returns a `Stevebauman\Location\Position` instance, or `false` when no driver could
+locate the IP address. With the default `IpApi` driver, the position looks like this:
+
+```php
+$position = Location::get('8.8.8.8');
+
+$position->toArray();
+```
+
+```php
+[
+    'ip' => '8.8.8.8',
+    'driver' => 'Stevebauman\Location\Drivers\IpApi',
+    'countryName' => 'United States',
+    'currencyCode' => 'USD',
+    'countryCode' => 'US',
+    'regionCode' => 'VA',
+    'regionName' => 'Virginia',
+    'cityName' => 'Ashburn',
+    'zipCode' => '20149',
+    'isoCode' => null,
+    'postalCode' => '20149',
+    'latitude' => '39.03',
+    'longitude' => '-77.5',
+    'metroCode' => null,
+    'areaCode' => null,
+    'timezone' => 'America/New_York',
+]
+```
+
+All values are strings, including `latitude` and `longitude`. A field the driver
+doesn't provide is `null`. See [Available Fields](#available-fields) for what each driver returns.
+
 ### Retrieve the location of a specific IP address
 
 ```php
-$position = Location::get('192.168.1.1');
+$position = Location::get('8.8.8.8');
 ```
 
 ## Testing
@@ -145,18 +178,44 @@ Location::fake([
 
 ### Available Drivers
 
-Available drivers:
+| Driver | Token (`.env`) | HTTPS | Notes |
+|---|---|---|---|
+| [IpApi](https://ip-api.com) | - | No | Default driver. The free API is for non-commercial use and is rate limited. |
+| [IpApiPro](https://pro.ip-api.com) | `IP_API_TOKEN` | Yes | Paid version of IpApi, same fields. |
+| [IpData](https://ipdata.co) | `IPDATA_TOKEN` | Yes | Token required. |
+| [IpInfo](https://ipinfo.io) | `IPINFO_TOKEN` (optional) | No | Doesn't return the country name. |
+| [IpInfo Lite](https://ipinfo.io/lite) | `IPINFO_TOKEN` | Yes | Country only. |
+| [Kloudend](https://ipapi.co) | `KLOUDEND_TOKEN` (optional) | Yes | |
+| [GeoPlugin](https://www.geoplugin.com) | - | No | The free API has been discontinued, requests without a paid plan return `403`. |
+| [MaxMind](https://www.maxmind.com/en/home) | `MAXMIND_LICENSE_KEY` | - | Reads a local database, no request per lookup. The web service also needs `MAXMIND_USER_ID`. |
+| [Cloudflare](https://developers.cloudflare.com/network/ip-geolocation/) | - | - | Reads the headers Cloudflare adds to the request, so the app must be behind Cloudflare and the IP passed to `Location::get()` is ignored. |
+| [IP2Location.io](https://www.ip2location.io/) | `IP2LOCATIONIO_TOKEN` | Yes | |
 
-- [IpApi](http://ip-api.com) - Default
-- [IpApiPro](https://pro.ip-api.com)
-- [IpData](https://ipdata.co)
-- [IpInfo](https://ipinfo.io)
-- [IpInfo Lite](https://ipinfo.io/lite)
-- [Kloudend](https://ipapi.co)
-- [GeoPlugin](http://www.geoplugin.com)
-- [MaxMind](https://www.maxmind.com/en/home)
-- [Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200168236-Configuring-IP-geolocation)
-- [IP2Location.io](https://www.ip2location.io/)
+#### Available Fields
+
+Every position has `ip` and `driver`. The other fields depend on the driver:
+
+| Field | IpApi / Pro | IpData | IpInfo | IpInfo Lite | Kloudend | GeoPlugin | MaxMind City | MaxMind Country | Cloudflare | IP2Location.io |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `countryName` | ✓ | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ |
+| `countryCode` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `isoCode` | | | | | | | ✓ | ✓ | ✓ | |
+| `currencyCode` | ✓ | ✓ | | | ✓ | | | | | ✓ ¹ |
+| `regionCode` | ✓ | ✓ | | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ¹ |
+| `regionName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
+| `cityName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
+| `zipCode`, `postalCode` | ✓ | ✓ | ✓ | | ✓ | | ✓ | | ✓ ² | ✓ |
+| `latitude`, `longitude` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
+| `timezone` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ³ |
+| `metroCode` | | | | | | | ✓ ⁴ | | | ✓ ¹ |
+| `areaCode` | | | | | | ✓ | | | | ✓ ¹ |
+
+1. Only on paid IP2Location.io plans, `null` on the free plan.
+2. Only when the "Add visitor location headers" Managed Transform is enabled in Cloudflare. Without it, only the country is available.
+3. A UTC offset such as `-07:00`, not a timezone name like the other drivers.
+4. Deprecated by MaxMind.
+
+`zipCode` and `postalCode` always hold the same value.
 
 #### Setting up MaxMind with a self-hosted database (optional)
 

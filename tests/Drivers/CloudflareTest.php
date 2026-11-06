@@ -36,7 +36,7 @@ it('can use CF-injected full headers', function () {
         'regionCode' => 'PLY',
         'regionName' => 'Plymouth',
         'cityName' => 'Boxford',
-        'zipCode' => null,
+        'zipCode' => 'PL5',
         'isoCode' => 'GB',
         'postalCode' => 'PL5',
         'latitude' => '51.75',

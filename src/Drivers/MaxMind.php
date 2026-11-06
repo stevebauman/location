@@ -98,6 +98,7 @@ class MaxMind extends Driver implements Updatable
         $position->regionCode = $location->regionCode;
         $position->regionName = $location->regionName;
         $position->cityName = $location->city;
+        $position->zipCode = $location->postal;
         $position->postalCode = $location->postal;
         $position->metroCode = $location->metro_code;
         $position->timezone = $location->timezone;
@@ -124,9 +125,9 @@ class MaxMind extends Driver implements Updatable
                     'regionName' => $location->mostSpecificSubdivision->name,
                     'postal' => $location->postal->code,
                     'timezone' => $location->location->timeZone,
-                    'latitude' => (string) $location->location->latitude,
-                    'longitude' => (string) $location->location->longitude,
-                    'metro_code' => (string) $location->location->metroCode,
+                    'latitude' => $this->toNullableString($location->location->latitude),
+                    'longitude' => $this->toNullableString($location->location->longitude),
+                    'metro_code' => $this->toNullableString($location->location->metroCode),
                 ]);
             }
 

@@ -29,8 +29,8 @@ class IpData extends HttpDriver
         $position->cityName = $location->city;
         $position->zipCode = $location->postal;
         $position->postalCode = $location->postal;
-        $position->latitude = (string) $location->latitude;
-        $position->longitude = (string) $location->longitude;
+        $position->latitude = $this->toNullableString($location->latitude);
+        $position->longitude = $this->toNullableString($location->longitude);
         $position->timezone = $location->time_zone['name'] ?? null;
         $position->currencyCode = $location->currency['code'] ?? null;
 

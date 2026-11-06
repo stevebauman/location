@@ -41,7 +41,7 @@ it('it can process fluent response', function () {
         'regionCode' => 'CA',
         'regionName' => 'California',
         'cityName' => 'Long Beach',
-        'zipCode' => null,
+        'zipCode' => 'W7W5L1',
         'isoCode' => null,
         'postalCode' => 'W7W5L1',
         'latitude' => '50',

@@ -28,8 +28,9 @@ class Ip2locationio extends HttpDriver
         $position->regionName = $location->region_name;
         $position->cityName = $location->city_name;
         $position->zipCode = $location->zip_code;
-        $position->latitude = (string) $location->latitude;
-        $position->longitude = (string) $location->longitude;
+        $position->postalCode = $location->zip_code;
+        $position->latitude = $this->toNullableString($location->latitude);
+        $position->longitude = $this->toNullableString($location->longitude);
         $position->timezone = $location->time_zone;
         $position->currencyCode = $location->country['currency']['code'] ?? null;
         $position->metroCode = $location->geotargeting['metro'] ?? null;
