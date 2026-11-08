@@ -343,7 +343,7 @@ it('returns localized names from the country database using configured locales',
         ->and($position->countryCode)->toBe('SE');
 });
 
-it('passes configured locales to the web service client with english appended', function (array $configured, array $expected) {
+it('passes configured locales to the web service client with english appended', function (mixed $configured, array $expected) {
     config(['location.testing.enabled' => false]);
     config(['location.fallbacks' => []]);
     config(['location.maxmind.license_key' => 'key']);
@@ -366,4 +366,6 @@ it('passes configured locales to the web service client with english appended', 
     'english already last' => [['de', 'en'], ['de', 'en']],
     'english already first' => [['en', 'de'], ['en', 'de']],
     'empty list' => [[], ['en']],
+    'string' => ['de', ['de', 'en']],
+    'null' => [null, ['en']],
 ]);

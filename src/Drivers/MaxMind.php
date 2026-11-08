@@ -147,7 +147,7 @@ class MaxMind extends Driver implements Updatable
     {
         $maxmind = $this->isWebServiceEnabled()
             ? $this->newClient($this->getUserId(), $this->getLicenseKey(), $this->getLocales(), $this->getOptions())
-            : $this->newReader($this->getLocalDatabase()->path(), $this->getLocales());
+            : $this->newReader($this->getLocalDatabase()->path());
 
         if ($this->isWebServiceEnabled() || $this->getLocationType() === 'city') {
             return $maxmind->city($ip);
@@ -167,9 +167,9 @@ class MaxMind extends Driver implements Updatable
     /**
      * Get a new MaxMind reader client.
      */
-    protected function newReader(string $path, array $locales = ['en']): Reader
+    protected function newReader(string $path): Reader
     {
-        return new Reader($path, $locales);
+        return new Reader($path, $this->getLocales());
     }
 
     /**
