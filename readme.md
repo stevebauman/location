@@ -292,6 +292,35 @@ copy. If a refresh fails, the existing database is retained and another attempt
 is made after the configured TTL. Downloads are validated before replacing the
 local copy.
 
+#### Localized MaxMind names
+
+MaxMind returns `countryName`, `regionName` and `cityName` in English by default.
+To get them in another language, set the `locales` list. It applies to both the
+local database and the web service:
+
+```php
+// config/location.php
+
+'maxmind' => [
+    'web' => [
+        // ...
+        'locales' => ['de'],
+    ],
+],
+```
+
+MaxMind supports `de`, `en`, `es`, `fr`, `ja`, `pt-BR`, `ru` and `zh-CN`. The
+first locale with a name is used. English is appended to the list when it is
+missing, so a name that has no translation falls back to English instead of
+`null`. Codes, coordinates, timezone and postal code are not affected.
+
+The list is read on every lookup, so it may be changed per request, for example
+`config(['location.maxmind.web.locales' => [app()->getLocale()]])`. If you cache
+`Location::get()` results yourself, include the locale in the cache key.
+
+Only the MaxMind driver uses this setting. Other drivers return names in the
+language of their API.
+
 ### Fallback Drivers
 
 In the config file, you can specify as many fallback drivers as you wish. It is
