@@ -316,7 +316,7 @@ it('returns localized names from the city database using configured locales', fu
     expect(Location::get('81.2.69.142')->countryName)->toBe('Vereinigtes Königreich');
 });
 
-it('falls back to english names when the configured locale has no name', function () {
+it('falls back to English names when the configured locale has no name', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => MaxMind::class]);
     config(['location.maxmind.local.type' => 'city']);
@@ -343,7 +343,7 @@ it('returns localized names from the country database using configured locales',
         ->and($position->countryCode)->toBe('SE');
 });
 
-it('passes configured locales to the web service client with english appended', function (mixed $configured, array $expected) {
+it('passes configured locales to the web service client with English appended', function (mixed $configured, array $expected) {
     config(['location.testing.enabled' => false]);
     config(['location.fallbacks' => []]);
     config(['location.maxmind.license_key' => 'key']);
@@ -363,8 +363,8 @@ it('passes configured locales to the web service client with english appended', 
     expect(Location::get('81.2.69.142'))->toBeFalse();
 })->with([
     'single locale' => [['de'], ['de', 'en']],
-    'english already last' => [['de', 'en'], ['de', 'en']],
-    'english already first' => [['en', 'de'], ['en', 'de']],
+    'English already last' => [['de', 'en'], ['de', 'en']],
+    'English already first' => [['en', 'de'], ['en', 'de']],
     'empty list' => [[], ['en']],
     'string' => ['de', ['de', 'en']],
     'null' => [null, ['en']],

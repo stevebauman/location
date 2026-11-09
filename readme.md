@@ -309,15 +309,10 @@ local database and the web service:
 ],
 ```
 
-MaxMind supports `de`, `en`, `es`, `fr`, `ja`, `pt-BR`, `ru` and `zh-CN`. The
-first locale with a name is used. English is appended to the list when it is
-missing, so a name that has no translation falls back to English instead of
-`null`. Codes, coordinates, timezone and postal code are not affected.
-
-The list is read on every lookup, so it may be changed per request with
-`config(['location.maxmind.web.locales' => [...]])`. Use MaxMind's codes
-(`pt-BR`, not `pt_BR`): an unknown code never matches and English is used. If you
-cache `Location::get()` results yourself, include the locale in the cache key.
+Supported codes: `de`, `en`, `es`, `fr`, `ja`, `pt-BR`, `ru`, `zh-CN` (use
+`pt-BR`, not `pt_BR`). English is appended when missing, so an untranslated name
+falls back to English instead of `null`. If you cache results, include the
+locale in the cache key.
 
 Only the MaxMind driver uses this setting. Other drivers return names in the
 language of their API.
