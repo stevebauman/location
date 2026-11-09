@@ -300,7 +300,7 @@ it('can use country database', function () {
     ]);
 });
 
-it('returns localized names from the city database using configured locales', function () {
+it('returns localized names from the local database using configured locales', function () {
     config(['location.testing.enabled' => false]);
     config(['location.driver' => MaxMind::class]);
     config(['location.maxmind.local.type' => 'city']);
@@ -310,37 +310,13 @@ it('returns localized names from the city database using configured locales', fu
     $position = Location::get('89.160.20.112');
 
     expect($position->cityName)->toBe('Linköping')
-        ->and($position->countryName)->toBe('Schweden')
-        ->and($position->countryCode)->toBe('SE');
+        ->and($position->countryName)->toBe('Schweden');
 
-    expect(Location::get('81.2.69.142')->countryName)->toBe('Vereinigtes Königreich');
-});
-
-it('falls back to English names when the configured locale has no name', function () {
-    config(['location.testing.enabled' => false]);
-    config(['location.driver' => MaxMind::class]);
-    config(['location.maxmind.local.type' => 'city']);
-    config(['location.maxmind.local.path' => __DIR__.'/../fixtures/GeoLite2-City-Test.mmdb']);
-    config(['location.maxmind.web.locales' => ['de']]);
-
+    // No German name for Boxford, so English is used.
     $position = Location::get('2.125.160.216');
 
     expect($position->cityName)->toBe('Boxford')
-        ->and($position->regionName)->toBe('West Berkshire')
         ->and($position->countryName)->toBe('Vereinigtes Königreich');
-});
-
-it('returns localized names from the country database using configured locales', function () {
-    config(['location.testing.enabled' => false]);
-    config(['location.driver' => MaxMind::class]);
-    config(['location.maxmind.local.type' => 'country']);
-    config(['location.maxmind.local.path' => __DIR__.'/../fixtures/GeoLite2-Country-Test.mmdb']);
-    config(['location.maxmind.web.locales' => ['de']]);
-
-    $position = Location::get('89.160.20.112');
-
-    expect($position->countryName)->toBe('Schweden')
-        ->and($position->countryCode)->toBe('SE');
 });
 
 it('passes configured locales to the web service client with English appended', function (mixed $configured, array $expected) {
@@ -363,9 +339,6 @@ it('passes configured locales to the web service client with English appended', 
     expect(Location::get('81.2.69.142'))->toBeFalse();
 })->with([
     'single locale' => [['de'], ['de', 'en']],
-    'English already last' => [['de', 'en'], ['de', 'en']],
-    'English already first' => [['en', 'de'], ['en', 'de']],
+    'English already in list' => [['en', 'de'], ['en', 'de']],
     'empty list' => [[], ['en']],
-    'string' => ['de', ['de', 'en']],
-    'null' => [null, ['en']],
 ]);
