@@ -110,6 +110,8 @@ return [
     |
     | The MaxMind database file can be either City (default) or Country (smaller).
     |
+    | The web "locales" list also sets the name language for the local database.
+    |
     */
 
     'maxmind' => [

@@ -169,7 +169,7 @@ class MaxMind extends Driver implements Updatable
      */
     protected function newReader(string $path): Reader
     {
-        return new Reader($path);
+        return new Reader($path, $this->getLocales());
     }
 
     /**
@@ -205,11 +205,20 @@ class MaxMind extends Driver implements Updatable
     }
 
     /**
-     * Get the configured MaxMind web locales array.
+     * Get the configured MaxMind locales array.
+     *
+     * English is appended when missing, since it is the only
+     * locale MaxMind guarantees a name for.
      */
     protected function getLocales(): array
     {
-        return config('location.maxmind.web.locales', ['en']);
+        $locales = array_values((array) config('location.maxmind.web.locales', ['en']));
+
+        if (! in_array('en', $locales, true)) {
+            $locales[] = 'en';
+        }
+
+        return $locales;
     }
 
     /**

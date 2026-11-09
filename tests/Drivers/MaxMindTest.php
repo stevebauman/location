@@ -299,3 +299,46 @@ it('can use country database', function () {
         'driver' => "Stevebauman\Location\Drivers\MaxMind",
     ]);
 });
+
+it('returns localized names from the local database using configured locales', function () {
+    config(['location.testing.enabled' => false]);
+    config(['location.driver' => MaxMind::class]);
+    config(['location.maxmind.local.type' => 'city']);
+    config(['location.maxmind.local.path' => __DIR__.'/../fixtures/GeoLite2-City-Test.mmdb']);
+    config(['location.maxmind.web.locales' => ['de']]);
+
+    $position = Location::get('89.160.20.112');
+
+    expect($position->cityName)->toBe('Linköping')
+        ->and($position->countryName)->toBe('Schweden');
+
+    // No German name for Boxford, so English is used.
+    $position = Location::get('2.125.160.216');
+
+    expect($position->cityName)->toBe('Boxford')
+        ->and($position->countryName)->toBe('Vereinigtes Königreich');
+});
+
+it('passes configured locales to the web service client with English appended', function (mixed $configured, array $expected) {
+    config(['location.testing.enabled' => false]);
+    config(['location.fallbacks' => []]);
+    config(['location.maxmind.license_key' => 'key']);
+    config(['location.maxmind.web.enabled' => true]);
+    config(['location.maxmind.web.user_id' => 123]);
+    config(['location.maxmind.web.locales' => $configured]);
+
+    $driver = m::mock(MaxMind::class)->makePartial()->shouldAllowMockingProtectedMethods();
+
+    $driver->shouldReceive('newClient')
+        ->once()
+        ->with(123, 'key', $expected, m::any())
+        ->andThrow(new RuntimeException('No web service in tests'));
+
+    Location::setDriver($driver);
+
+    expect(Location::get('81.2.69.142'))->toBeFalse();
+})->with([
+    'single locale' => [['de'], ['de', 'en']],
+    'English already in list' => [['en', 'de'], ['en', 'de']],
+    'empty list' => [[], ['en']],
+]);
