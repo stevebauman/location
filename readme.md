@@ -189,30 +189,32 @@ Location::fake([
 | [MaxMind](https://www.maxmind.com/en/home) | `MAXMIND_LICENSE_KEY` | - | Reads a local database, no request per lookup. The web service also needs `MAXMIND_USER_ID`. |
 | [Cloudflare](https://developers.cloudflare.com/network/ip-geolocation/) | - | - | Reads the headers Cloudflare adds to the request, so the app must be behind Cloudflare and the IP passed to `Location::get()` is ignored. |
 | [IP2Location.io](https://www.ip2location.io/) | `IP2LOCATIONIO_TOKEN` | Yes | |
+| [InternetData](https://internetdata.io) | `INTERNETDATA_TOKEN` (optional) | Yes | Free with no token. |
 
 #### Available Fields
 
 Every position has `ip` and `driver`. The other fields depend on the driver:
 
-| Field | IpApi / Pro | IpData | IpInfo | IpInfo Lite | Kloudend | GeoPlugin | MaxMind City | MaxMind Country | Cloudflare | IP2Location.io |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `countryName` | ✓ | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ |
-| `countryCode` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `isoCode` | | | | | | | ✓ | ✓ | ✓ | |
-| `currencyCode` | ✓ | ✓ | | | ✓ | | | | | ✓ ¹ |
-| `regionCode` | ✓ | ✓ | | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ¹ |
-| `regionName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
-| `cityName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
-| `postalCode` | ✓ | ✓ | ✓ | | ✓ | | ✓ | | ✓ ² | ✓ |
-| `latitude`, `longitude` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ |
-| `timezone` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ³ |
-| `metroCode` | | | | | | | ✓ ⁴ | | | ✓ ¹ |
-| `areaCode` | | | | | | ✓ | | | | ✓ ¹ |
+| Field | IpApi / Pro | IpData | IpInfo | IpInfo Lite | Kloudend | GeoPlugin | MaxMind City | MaxMind Country | Cloudflare | IP2Location.io | InternetData |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `countryName` | ✓ | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | | ✓ | ✓ |
+| `countryCode` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `isoCode` | | | | | | | ✓ | ✓ | ✓ | | |
+| `currencyCode` | ✓ | ✓ | | | ✓ | | | | | ✓ ¹ | ✓ |
+| `regionCode` | ✓ | ✓ | | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ¹ | ✓ ⁵ |
+| `regionName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ | ✓ ⁵ |
+| `cityName` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ | ✓ ⁵ |
+| `postalCode` | ✓ | ✓ | ✓ | | ✓ | | ✓ | | ✓ ² | ✓ | ✓ ⁵ |
+| `latitude`, `longitude` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ | ✓ ⁵ |
+| `timezone` | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ | | ✓ ² | ✓ ³ | ✓ |
+| `metroCode` | | | | | | | ✓ ⁴ | | | ✓ ¹ | |
+| `areaCode` | | | | | | ✓ | | | | ✓ ¹ | |
 
 1. Only on paid IP2Location.io plans, `null` on the free plan.
 2. Only when the "Add visitor location headers" Managed Transform is enabled in Cloudflare. Without it, only the country is available.
 3. A UTC offset such as `-07:00`, not a timezone name like the other drivers.
 4. Deprecated by MaxMind.
+5. Only with a token on a paid InternetData plan.
 
 `zipCode` is deprecated. It holds the same value as `postalCode`.
 

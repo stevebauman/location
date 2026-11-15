@@ -153,6 +153,10 @@ return [
         'token' => env('IP2LOCATIONIO_TOKEN'),
     ],
 
+    'internetdata' => [
+        'token' => env('INTERNETDATA_TOKEN'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Kloudend ~ ipapi.co Configuration
